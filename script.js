@@ -147,7 +147,7 @@ $(document).ready(function () {
         
         if (pourcentageWeekly < 50) {
             colorProgressBarWeekly = 'bg-danger';
-        } else if (pourcentageDaily < 90) {
+        } else if (pourcentageWeekly < 90) {
             colorProgressBarWeekly = 'bg-warning';
         } else {
             colorProgressBarWeekly = 'bg-success';

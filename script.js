@@ -138,9 +138,30 @@ var checkboxWeekly = [
     //'t1hppaladin',
     //'t1hpbard',
     //'t1hpsharpshooter'
+    't3naodeathblade',
+    't3haodeathblade',
+    't3naoshadowhunter',
+    't3haoshadowhunter',
+    't3nopdeathblade',
+    't3hopdeathblade',
+    't3nopshadowhunter',
+    't3hopshadowhunter',
+    't2rlsorceress',
+    't2rlsharpshooter',
+    't2ffpsorceress',
+    't2ffpsharpshooter',
+    't2sisorceress',
+    't2sipaladin',
     't2sibard',
+    't2sisharpshooter',
+    't2tksorceress',
+    't2tkpaladin',
     't2tkbard',
-    't2asbard'
+    't2tksharpshooter',
+    't2assorceress',
+    't2aspaladin',
+    't2asbard',
+    't2assharpshooter',
 ];
 
 $(document).ready(function () {

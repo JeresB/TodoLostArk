@@ -166,6 +166,7 @@ var checkboxWeekly = [
 
 $(document).ready(function () {
     $('#resetdaily').html('Reset le ' + localStorage.getItem('resetdaily'));
+    $('#resetweekly').html('Reset le ' + localStorage.getItem('resetweekly'));
     
     setProgressBarDaily();
     setProgressBarWeekly();

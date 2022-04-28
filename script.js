@@ -61,6 +61,27 @@ var checkboxs = [
     'guilddeathblade'
 ];
 
+var checkboxWeekly = [
+    'unaw1deathblade',
+    'unaw2deathblade',
+    'unaw3deathblade', 
+    'unaw1shadowhunter',
+    'unaw2shadowhunter',
+    'unaw3shadowhunter', 
+    'unaw1sorceress',
+    'unaw2sorceress',
+    'unaw3sorceress',
+    'unaw1paladin',
+    'unaw2paladin',
+    'unaw3paladin',
+    'unaw1bard',
+    'unaw2bard',
+    'unaw3bard',
+    'unaw1sharpshooter',
+    'unaw2sharpshooter',
+    'unaw3sharpshooter',
+];
+
 $(document).ready(function () {
     $('#resetdaily').html('Reset le ' + localStorage.getItem('resetdaily'));
 
@@ -71,15 +92,23 @@ $(document).ready(function () {
             checkboxs.forEach(checkbox => localStorage.setItem(checkbox, false));
             localStorage.setItem('resetdaily', moment().format("DD/MM/YYYY"));
         }
+        
+        if (moment().format("DD/MM/YYYY") != localStorage.getItem('resetweekly') && moment().format("dd") == 'TH') {
+            checkboxWeekly.forEach(checkbox => localStorage.setItem(checkbox, false));
+            localStorage.setItem('resetweekly', moment().format("DD/MM/YYYY"));
+        }
 
         checkboxs.forEach(checkbox => localStorage.getItem(checkbox) == true ? $('#' + checkbox).attr('checked', true) : null);
+        checkboxWeekly.forEach(checkbox => localStorage.getItem(checkbox) == true ? $('#' + checkbox).attr('checked', true) : null);
     } else {
         console.log('Données non initialisées')
 
         localStorage.setItem('initialisation', true);
         localStorage.setItem('resetdaily', moment().format("DD/MM/YYYY"));
+        localStorage.setItem('resetweekly', moment().format("DD/MM/YYYY"));
 
         checkboxs.forEach(checkbox => localStorage.setItem(checkbox, false));
+        checkboxWeekly.forEach(checkbox => localStorage.setItem(checkbox, false));
     }
 
     $('.form-check-input').on('click', function () {
@@ -107,6 +136,25 @@ $(document).ready(function () {
         
         $('#progressBarDaily').attr('style', `width: ${pourcentageDaily}%`)
         $('#progressBarDaily').attr('class', `progress-bar ${colorProgressBarDaily}`);
+        
+        
+        let nbCheckboxWeekly = checkboxWeekly.length;
+        let nbCheckedWeekly = 0
+
+        checkboxWeekly.forEach(checkbox => localStorage.getItem(checkbox) == 1 ? nbCheckedWeekly++ : '');
+
+        let pourcentageWeekly = (nbCheckedWeekly / nbCheckboxWeekly) * 100;
+        
+        if (pourcentageWeekly < 50) {
+            colorProgressBarWeekly = 'bg-danger';
+        } else if (pourcentageDaily < 90) {
+            colorProgressBarWeekly = 'bg-warning';
+        } else {
+            colorProgressBarWeekly = 'bg-success';
+        }
+        
+        $('#progressBarWeekly').attr('style', `width: ${pourcentageWeekly}%`)
+        $('#progressBarWeekly').attr('class', `progress-bar ${colorProgressBarWeekly}`);
         
         console.log(nbCheckboxDaily);
         console.log(nbCheckedDaily);

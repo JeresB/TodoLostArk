@@ -113,7 +113,31 @@ var checkboxWeekly = [
     'cubesorceress',
     'cubepaladin',
     'cubebard',
-    'cubesharpshooter'
+    'cubesharpshooter',
+    't1dbcdeathblade',
+    't1dbcshadowhunter',
+    't1dbcsorceress',
+    't1dbcpaladin',
+    't1dbcbard',
+    't1dbcsharpshooter',
+    't1nodeathblade',
+    't1noshadowhunter',
+    't1nosorceress',
+    't1nopaladin',
+    't1nobard',
+    't1nosharpshooter',
+    't1htwdeathblade',
+    't1htwshadowhunter',
+    't1htwsorceress',
+    't1htwpaladin',
+    't1htwbard',
+    't1htwsharpshooter',
+    't1hpdeathblade',
+    't1hpshadowhunter',
+    't1hpsorceress',
+    't1hppaladin',
+    't1hpbard',
+    't1hpsharpshooter'
 ];
 
 $(document).ready(function () {

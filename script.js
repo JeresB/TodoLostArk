@@ -58,7 +58,13 @@ var checkboxs = [
     'song5',
     'song6',
     'lifeskill',
-    'guilddeathblade'
+    'guilddeathblade',
+    'raidedeathblade'
+    'raideshadowhunter',
+    'raidesorceress',
+    'raidepaladin',
+    'raidebard',
+    'raidesharpshooter'
 ];
 
 var checkboxWeekly = [

@@ -84,6 +84,9 @@ var checkboxWeekly = [
 
 $(document).ready(function () {
     $('#resetdaily').html('Reset le ' + localStorage.getItem('resetdaily'));
+    
+    setProgressBarDaily();
+    setProgressBarWeekly();
 
     if (localStorage.getItem('initialisation')) {
         console.log('Données initialisées')
@@ -118,49 +121,53 @@ $(document).ready(function () {
         let id = $(this).attr('id');
 
         localStorage.setItem(id, val ? 1 : 0);
-
-        let nbCheckboxDaily = checkboxs.length;
-        let nbCheckedDaily = 0
-
-        checkboxs.forEach(checkbox => localStorage.getItem(checkbox) == 1 ? nbCheckedDaily++ : '');
-
-        let pourcentageDaily = (nbCheckedDaily / nbCheckboxDaily) * 100;
         
-        if (pourcentageDaily < 50) {
-            colorProgressBarDaily = 'bg-danger';
-        } else if (pourcentageDaily < 90) {
-            colorProgressBarDaily = 'bg-warning';
-        } else {
-            colorProgressBarDaily = 'bg-success';
-        }
-        
-        $('#progressBarDaily').attr('style', `width: ${pourcentageDaily}%`)
-        $('#progressBarDaily').attr('class', `progress-bar ${colorProgressBarDaily}`);
-        
-        
-        let nbCheckboxWeekly = checkboxWeekly.length;
-        let nbCheckedWeekly = 0
-
-        checkboxWeekly.forEach(checkbox => localStorage.getItem(checkbox) == 1 ? nbCheckedWeekly++ : '');
-
-        let pourcentageWeekly = (nbCheckedWeekly / nbCheckboxWeekly) * 100;
-        
-        if (pourcentageWeekly < 50) {
-            colorProgressBarWeekly = 'bg-danger';
-        } else if (pourcentageWeekly < 90) {
-            colorProgressBarWeekly = 'bg-warning';
-        } else {
-            colorProgressBarWeekly = 'bg-success';
-        }
-        
-        $('#progressBarWeekly').attr('style', `width: ${pourcentageWeekly}%`)
-        $('#progressBarWeekly').attr('class', `progress-bar ${colorProgressBarWeekly}`);
-        
-        console.log(nbCheckboxDaily);
-        console.log(nbCheckedDaily);
-        console.log(pourcentageDaily);
+        setProgressBarDaily();
+        setProgressBarWeekly();
     });
 });
+
+function setProgressBarDaily() {
+    let nbCheckboxDaily = checkboxs.length;
+    let nbCheckedDaily = 0;
+    let colorProgressBarDaily = '';
+
+    checkboxs.forEach(checkbox => localStorage.getItem(checkbox) == 1 ? nbCheckedDaily++ : '');
+
+    let pourcentageDaily = (nbCheckedDaily / nbCheckboxDaily) * 100;
+        
+    if (pourcentageDaily < 50) {
+        colorProgressBarDaily = 'bg-danger';
+    } else if (pourcentageDaily < 90) {
+        colorProgressBarDaily = 'bg-warning';
+    } else {
+        colorProgressBarDaily = 'bg-success';
+    }
+        
+    $('#progressBarDaily').attr('style', `width: ${pourcentageDaily}%`)
+    $('#progressBarDaily').attr('class', `progress-bar ${colorProgressBarDaily}`);
+}
+
+function setProgressBarWeekly() {
+    let nbCheckboxWeekly = checkboxWeekly.length;
+    let nbCheckedWeekly = 0;
+    let colorProgressBarWeekly = '';
+
+    checkboxWeekly.forEach(checkbox => localStorage.getItem(checkbox) == 1 ? nbCheckedWeekly++ : '');
+
+    let pourcentageWeekly = (nbCheckedWeekly / nbCheckboxWeekly) * 100;
+        
+    if (pourcentageWeekly < 50) {
+        colorProgressBarWeekly = 'bg-danger';
+    } else if (pourcentageWeekly < 90) {
+        colorProgressBarWeekly = 'bg-warning';
+    } else {
+        colorProgressBarWeekly = 'bg-success';
+    }
+        
+    $('#progressBarWeekly').attr('style', `width: ${pourcentageWeekly}%`)
+    $('#progressBarWeekly').attr('class', `progress-bar ${colorProgressBarWeekly}`);
+}
 
 
 document.addEventListener('DOMContentLoaded', () =>

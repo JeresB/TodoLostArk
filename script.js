@@ -163,7 +163,7 @@ var checkboxWeekly = [
     't2asbard',
     't2assharpshooter',
     'argosp1deathblade',
-    'argosp1shadowhunter'
+    // 'argosp1shadowhunter'
 ];
 
 $(document).ready(function () {

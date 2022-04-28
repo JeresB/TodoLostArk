@@ -138,6 +138,9 @@ var checkboxWeekly = [
     //'t1hppaladin',
     //'t1hpbard',
     //'t1hpsharpshooter'
+    't2sibard',
+    't2tkbard',
+    't2asbard'
 ];
 
 $(document).ready(function () {

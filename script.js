@@ -166,6 +166,10 @@ var checkboxWeekly = [
     // 'argosp1shadowhunter'
 ];
 
+var othercheckbox = [
+    'feitonsorceress'
+];
+
 $(document).ready(function () {
     $('#resetdaily').html('Reset le ' + localStorage.getItem('resetdaily'));
     $('#resetweekly').html('Reset le ' + localStorage.getItem('resetweekly'));
@@ -188,6 +192,7 @@ $(document).ready(function () {
 
         checkboxs.forEach(checkbox => localStorage.getItem(checkbox) == true ? $('#' + checkbox).attr('checked', true) : null);
         checkboxWeekly.forEach(checkbox => localStorage.getItem(checkbox) == true ? $('#' + checkbox).attr('checked', true) : null);
+        othercheckbox.forEach(checkbox => localStorage.getItem(checkbox) == true ? $('#' + checkbox).attr('checked', true) : null);
     } else {
         console.log('Données non initialisées')
 
@@ -197,6 +202,7 @@ $(document).ready(function () {
 
         checkboxs.forEach(checkbox => localStorage.setItem(checkbox, false));
         checkboxWeekly.forEach(checkbox => localStorage.setItem(checkbox, false));
+        othercheckbox.forEach(checkbox => localStorage.setItem(checkbox, false));
     }
 
     $('.form-check-input').on('click', function () {

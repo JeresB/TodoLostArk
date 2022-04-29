@@ -169,7 +169,9 @@ var checkboxWeekly = [
 var othercheckbox = [
     'feitonsorceress',
     'papunikapaladin',
-    'papunikabard'
+    'papunikabard',
+    'feitonsharpshooter',
+    'southverndeathblade'
 ];
 
 $(document).ready(function () {

@@ -138,14 +138,10 @@ var checkboxWeekly = [
     //'t1hppaladin',
     //'t1hpbard',
     //'t1hpsharpshooter'
-    't3naodeathblade',
     't3haodeathblade',
     't3naoshadowhunter',
-    't3haoshadowhunter',
-    't3nopdeathblade',
     't3hopdeathblade',
     't3nopshadowhunter',
-    't3hopshadowhunter',
     't2rlsorceress',
     't2rlsharpshooter',
     't2ffpsorceress',
@@ -184,7 +180,7 @@ $(document).ready(function () {
     if (localStorage.getItem('initialisation')) {
         console.log('Données initialisées')
 
-        if (moment().format("DD/MM/YYYY") != localStorage.getItem('resetdaily') && moment().format("HH") > 10) {
+        if (moment().format("DD/MM/YYYY") != localStorage.getItem('resetdaily') && moment().format("HH") > 11) {
             checkboxs.forEach(checkbox => localStorage.setItem(checkbox, false));
             localStorage.setItem('resetdaily', moment().format("DD/MM/YYYY"));
         }

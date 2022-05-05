@@ -184,8 +184,10 @@ $(document).ready(function () {
             checkboxs.forEach(checkbox => localStorage.setItem(checkbox, false));
             localStorage.setItem('resetdaily', moment().format("DD/MM/YYYY"));
         }
+       
+        console.log(moment().format("dd"));
         
-        if (moment().format("DD/MM/YYYY") != localStorage.getItem('resetweekly') && moment().format("dd") == 'TH') {
+        if (moment().format("DD/MM/YYYY") != localStorage.getItem('resetweekly') && moment().format("dd") == 'Th') {
             checkboxWeekly.forEach(checkbox => localStorage.setItem(checkbox, false));
             localStorage.setItem('resetweekly', moment().format("DD/MM/YYYY"));
         }

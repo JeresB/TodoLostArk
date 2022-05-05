@@ -103,7 +103,7 @@ body {
 }
 
 .input-important {
-  background-color: #b47500!important;
+  background-color: #FFAC1C!important;
 }
 
 .input-important:checked {
@@ -111,9 +111,17 @@ body {
 }
 
 .input-secondaire {
-  background-color: #fffc33!important;
+  background-color: #FFEA00!important;
 }
 
 .input-secondaire:checked {
   background-color: #198754!important;
+}
+
+.form-check-input {
+  margin-top: 0px!important;
+}
+
+.form-check-input[type=checkbox] {
+  font-size: 24px;
 }

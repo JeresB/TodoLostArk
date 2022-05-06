@@ -170,18 +170,33 @@ var othercheckbox = [
     'southverndeathblade'
 ];
 
+var progressRepos = [
+    'reposraidsharpshooter',
+    'reposraidbard',
+    'reposraidpaladin',
+    'reposraidsorceress',
+    'reposraidshadowhunter',
+    'reposraiddeathblade'
+];
+
 $(document).ready(function () {
     $('#resetdaily').html('Reset le ' + localStorage.getItem('resetdaily'));
     $('#resetweekly').html('Reset le ' + localStorage.getItem('resetweekly'));
     
     setProgressBarDaily();
     setProgressBarWeekly();
+    setProgressRepos();
+
+    $('#forceResetDaily').on('click', function() {
+        resetDaily();
+    });
 
     if (localStorage.getItem('initialisation')) {
         console.log('Données initialisées')
 
         if (moment().format("DD/MM/YYYY") != localStorage.getItem('resetdaily') && moment().format("HH") > 11) {
-            checkboxs.forEach(checkbox => localStorage.setItem(checkbox, false));
+            resetDaily();
+
             localStorage.setItem('resetdaily', moment().format("DD/MM/YYYY"));
         }
        
@@ -217,8 +232,77 @@ $(document).ready(function () {
         
         setProgressBarDaily();
         setProgressBarWeekly();
+
+        let progress = $(this).data('progress');
+
+        let value = $(`#${progress}`).attr('aria-valuenow');
+
+        if(val && parseInt(value) >= 20) {
+            value = parseInt(value) - 20;
+        } else if (!val) {
+            value = parseInt(value) + 20;
+        }
+
+        if (value > 100) {
+            value = 100;
+        }
+
+        $(`#${progress}`).attr('aria-valuenow', value);
+        $(`#${progress}`).html(value);
+        $(`#${progress}`).attr('style', `width: ${value}%`);
     });
 });
+
+function resetDaily() {
+    checkboxs.forEach(function(checkbox) {
+        let progress = $(`#${checkbox}`).data('progress');
+
+        if(progress) {
+            let checked = $(`#${checkbox}`).prop('checked');
+            let value = 0;
+            value = localStorage.getItem(progress);
+
+            console.log(checkbox, checked);
+            console.log(progress, value);
+
+            if(checked && parseInt(value) >= 20) {
+                value = parseInt(value) - 20;
+            } else if (!checked) {
+                value = parseInt(value) + 10;
+            }
+
+            if (value > 100) {
+                value = 100;
+            }
+
+            console.log(progress, value);
+
+            localStorage.setItem(progress, value);
+        }
+
+        localStorage.setItem(checkbox, false);
+    });
+}
+
+function setProgressRepos() {
+    console.log('progressRepos');
+
+    progressRepos.forEach(function(repos) {
+        let value = localStorage.getItem(repos);
+        console.log(repos, value);
+
+        if (value == null) {
+            value = 0;
+            localStorage.setItem(repos, value);
+        }
+
+        console.log(repos, value);
+
+        $(`#${repos}`).attr('aria-valuenow', value);
+        $(`#${repos}`).html(value);
+        $(`#${repos}`).attr('style', `width: ${value}%`);
+    });
+}
 
 function setProgressBarDaily() {
     let nbCheckboxDaily = checkboxs.length;

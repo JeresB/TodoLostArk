@@ -43,6 +43,8 @@
         </div>
     </div>
 
+    <div><button id="forceResetDaily" class="btn btn-danger">RESET DAILY</button></div>
+
     <section class="d-flex p-2 bd-highlight justify-content-center gap-3">
         <!-- <table class="table table-bordered table-responsive" style="max-width: 0px!important;white-space: nowrap;">
             <tbody>
@@ -56,12 +58,30 @@
             <thead style="background-color: #6AA84F;">
                 <tr style="text-align: center!important;">
                     <th></th>
-                    <th style="background-color: #6AA84F;position: sticky;position: -webkit-sticky;top: 0px;z-index: 2;"><img src="images/deathblade.png" alt=""><br><span style="color: white;">1370</span></th>
-                    <th style="background-color: #6AA84F;position: sticky;position: -webkit-sticky;top: 0px;z-index: 2;"><img src="images/shadowhunter.png" alt=""><br><span style="color: white;">1325</span></th>
-                    <th style="background-color: #6AA84F;position: sticky;position: -webkit-sticky;top: 0px;z-index: 2;"><img src="images/summoner.png" alt=""><br><span style="color: white;">1070</span></th>
-                    <th style="background-color: #6AA84F;position: sticky;position: -webkit-sticky;top: 0px;z-index: 2;"><img src="images/paladin.png" alt=""><br><span style="color: white;">1100</span></th>
-                    <th style="background-color: #6AA84F;position: sticky;position: -webkit-sticky;top: 0px;z-index: 2;"><img src="images/bard.png" alt=""><br><span style="color: white;">1100</span></th>
-                    <th style="background-color: #6AA84F;position: sticky;position: -webkit-sticky;top: 0px;z-index: 2;"><img src="images/sharpshooter.png" alt=""><br><span style="color: white;">920</span></th>
+                    <th
+                        style="background-color: #6AA84F;position: sticky;position: -webkit-sticky;top: 0px;z-index: 2;">
+                        <img src="images/deathblade.png" alt=""><br><span style="color: white;">1377.50</span>
+                    </th>
+                    <th
+                        style="background-color: #6AA84F;position: sticky;position: -webkit-sticky;top: 0px;z-index: 2;">
+                        <img src="images/shadowhunter.png" alt=""><br><span style="color: white;">1325</span>
+                    </th>
+                    <th
+                        style="background-color: #6AA84F;position: sticky;position: -webkit-sticky;top: 0px;z-index: 2;">
+                        <img src="images/summoner.png" alt=""><br><span style="color: white;">1310</span>
+                    </th>
+                    <th
+                        style="background-color: #6AA84F;position: sticky;position: -webkit-sticky;top: 0px;z-index: 2;">
+                        <img src="images/paladin.png" alt=""><br><span style="color: white;">1310</span>
+                    </th>
+                    <th
+                        style="background-color: #6AA84F;position: sticky;position: -webkit-sticky;top: 0px;z-index: 2;">
+                        <img src="images/bard.png" alt=""><br><span style="color: white;">1310</span>
+                    </th>
+                    <th
+                        style="background-color: #6AA84F;position: sticky;position: -webkit-sticky;top: 0px;z-index: 2;">
+                        <img src="images/sharpshooter.png" alt=""><br><span style="color: white;">945</span>
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -72,8 +92,8 @@
                     <th colspan="6">
                         DAILY<br>
                         <div class="progress">
-                            <div id="progressBarDaily" class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25"
-                                aria-valuemin="0" aria-valuemax="100"></div>
+                            <div id="progressBarDaily" class="progress-bar" role="progressbar" style="width: 25%"
+                                aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                     </th>
                 </tr>
@@ -119,8 +139,10 @@
                         <input class="form-check-input input-important" type="checkbox" value="" id="choas2deathblade">
                     </td>
                     <td style="background-color: #D9EAD3;">
-                        <input class="form-check-input input-important" type="checkbox" value="" id="chaos1shadowhunter">
-                        <input class="form-check-input input-important" type="checkbox" value="" id="chaos2shadowhunter">
+                        <input class="form-check-input input-important" type="checkbox" value=""
+                            id="chaos1shadowhunter">
+                        <input class="form-check-input input-important" type="checkbox" value=""
+                            id="chaos2shadowhunter">
                     </td>
                     <td style="background-color: #D9EAD3;">
                         <input class="form-check-input input-important" type="checkbox" value="" id="chaos1sorceress">
@@ -135,41 +157,77 @@
                         <input class="form-check-input input-important" type="checkbox" value="" id="chaos2bard">
                     </td>
                     <td style="background-color: #D9EAD3;">
-                        <input class="form-check-input input-important" type="checkbox" value="" id="chaos1sharpshooter">
-                        <input class="form-check-input input-important" type="checkbox" value="" id="chaos2sharpshooter">
+                        <input class="form-check-input input-important" type="checkbox" value=""
+                            id="chaos1sharpshooter">
+                        <input class="form-check-input input-important" type="checkbox" value=""
+                            id="chaos2sharpshooter">
                     </td>
                 </tr>
                 <tr>
                     <td style="background-color: #93C47D;"><img src="images/guardian raids.png"
                             alt="">&nbsp;&nbsp;&nbsp;Raid</td>
                     <td style="background-color: #D9EAD3;">
-                        <input class="form-check-input input-secondaire" type="checkbox" value="" id="raid1deathblade">
-                        <input class="form-check-input input-secondaire" type="checkbox" value="" id="raid2deathblade">
+                        <input class="form-check-input input-secondaire" type="checkbox" value="" id="raid1deathblade" data-progress="reposraiddeathblade">
+                        <input class="form-check-input input-secondaire" type="checkbox" value="" id="raid2deathblade" data-progress="reposraiddeathblade">
+                        <br>
+                        <div class="progress" style="margin-top: 5px;">
+                            <div id="reposraiddeathblade" class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25"
+                                aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
                     </td>
                     <td style="background-color: #D9EAD3;">
-                        <input class="form-check-input input-secondaire" type="checkbox" value="" id="raid1shadowhunter">
-                        <input class="form-check-input input-secondaire" type="checkbox" value="" id="raid2shadowhunter">
+                        <input class="form-check-input input-secondaire" type="checkbox" value=""
+                            id="raid1shadowhunter" data-progress="reposraidshadowhunter">
+                        <input class="form-check-input input-secondaire" type="checkbox" value=""
+                            id="raid2shadowhunter" data-progress="reposraidshadowhunter">
+                            <br>
+                        <div class="progress" style="margin-top: 5px;">
+                            <div id="reposraidshadowhunter" class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25"
+                                aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
                     </td>
                     <td style="background-color: #D9EAD3;">
-                        <input class="form-check-input input-secondaire" type="checkbox" value="" id="raid1sorceress">
-                        <input class="form-check-input input-secondaire" type="checkbox" value="" id="raid2sorceress">
+                        <input class="form-check-input input-secondaire" type="checkbox" value="" id="raid1sorceress" data-progress="reposraidsorceress">
+                        <input class="form-check-input input-secondaire" type="checkbox" value="" id="raid2sorceress" data-progress="reposraidsorceress">
+                        <br>
+                        <div class="progress" style="margin-top: 5px;">
+                            <div id="reposraidsorceress" class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25"
+                                aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
                     </td>
                     <td style="background-color: #D9EAD3;">
-                        <input class="form-check-input input-secondaire" type="checkbox" value="" id="raid1paladin">
-                        <input class="form-check-input input-secondaire" type="checkbox" value="" id="raid2paladin">
+                        <input class="form-check-input input-secondaire" type="checkbox" value="" id="raid1paladin" data-progress="reposraidpaladin">
+                        <input class="form-check-input input-secondaire" type="checkbox" value="" id="raid2paladin" data-progress="reposraidpaladin">
+                        <br>
+                        <div class="progress" style="margin-top: 5px;">
+                            <div id="reposraidpaladin" class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25"
+                                aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
                     </td>
                     <td style="background-color: #D9EAD3;">
-                        <input class="form-check-input input-secondaire" type="checkbox" value="" id="raid1bard">
-                        <input class="form-check-input input-secondaire" type="checkbox" value="" id="raid2bard">
+                        <input class="form-check-input input-secondaire" type="checkbox" value="" id="raid1bard" data-progress="reposraidbard">
+                        <input class="form-check-input input-secondaire" type="checkbox" value="" id="raid2bard" data-progress="reposraidbard">
+                        <br>
+                        <div class="progress" style="margin-top: 5px;">
+                            <div id="reposraidbard" class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25"
+                                aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
                     </td>
                     <td style="background-color: #D9EAD3;">
-                        <input class="form-check-input input-secondaire" type="checkbox" value="" id="raid1sharpshooter">
-                        <input class="form-check-input input-secondaire" type="checkbox" value="" id="raid2sharpshooter">
+                        <input class="form-check-input input-secondaire" type="checkbox" value=""
+                            id="raid1sharpshooter" data-progress="reposraidsharpshooter">
+                        <input class="form-check-input input-secondaire" type="checkbox" value=""
+                            id="raid2sharpshooter" data-progress="reposraidsharpshooter">
+                        <br>
+                        <div class="progress" style="margin-top: 5px;">
+                            <div id="reposraidsharpshooter" class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25"
+                                aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
                     </td>
                 </tr>
                 <tr>
                     <td style="background-color: #93C47D;"><img src="images/winter.png" style="width: 24px;"
-                            alt="">&nbsp;&nbsp;&nbsp;Raid Event</td>
+                            alt="">&nbsp;&nbsp;&nbsp;Raid Event 1 465</td>
                     <td style="background-color: #D9EAD3;">
                         <input class="form-check-input" type="checkbox" value="" id="raidedeathblade">
                     </td>
@@ -191,7 +249,7 @@
                 </tr>
                 <tr>
                     <td style="background-color: #93C47D;"><img src="images/guild.png" style="width: 24px;"
-                        alt="">&nbsp;&nbsp;&nbsp;Guild</td>
+                            alt="">&nbsp;&nbsp;&nbsp;Guild</td>
                     <td style="background-color: #D9EAD3;">
                         <input class="form-check-input input-important" type="checkbox" value="" id="guilddeathblade">
                     </td>
@@ -305,8 +363,8 @@
                     </th>
                     <th colspan="6">WEEKLY<br>
                         <div class="progress">
-                            <div id="progressBarWeekly" class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0"
-                                aria-valuemin="0" aria-valuemax="100"></div>
+                            <div id="progressBarWeekly" class="progress-bar" role="progressbar" style="width: 0%"
+                                aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                     </th>
                 </tr>
@@ -328,7 +386,8 @@
                     </td>
                 </tr>
                 <tr>
-                    <td style="background-color: #84A3FF;"><img src="images/una_weekly.png" alt="">&nbsp;&nbsp;&nbsp;Récupération Una Weekly
+                    <td style="background-color: #84A3FF;"><img src="images/una_weekly.png"
+                            alt="">&nbsp;&nbsp;&nbsp;Récupération Una Weekly
                     </td>
                     <td style="background-color: #A7BDFF;">
                         <input class="form-check-input" type="checkbox" value="" id="unawg1deathblade">
@@ -362,7 +421,8 @@
                     </td>
                 </tr>
                 <tr>
-                    <td style="background-color: #84A3FF;"><img src="images/una_weekly.png" alt="">&nbsp;&nbsp;&nbsp;Una Weekly
+                    <td style="background-color: #84A3FF;"><img src="images/una_weekly.png" alt="">&nbsp;&nbsp;&nbsp;Una
+                        Weekly
                     </td>
                     <td style="background-color: #A7BDFF;">
                         <input class="form-check-input" type="checkbox" value="" id="unaw1deathblade">
@@ -396,7 +456,8 @@
                     </td>
                 </tr>
                 <tr>
-                    <td style="background-color: #84A3FF;"><img src="images/merchant.png" alt="" style="width: 24px;">&nbsp;&nbsp;&nbsp;Tri inventaire complet
+                    <td style="background-color: #84A3FF;"><img src="images/merchant.png" alt=""
+                            style="width: 24px;">&nbsp;&nbsp;&nbsp;Tri inventaire complet
                     </td>
                     <td style="background-color: #A7BDFF;">
                         <input class="form-check-input" type="checkbox" value="" id="cubedeathblade">
@@ -421,7 +482,8 @@
                     <th colspan="7">Raid Abyssal</th>
                 </tr>
                 <tr>
-                    <td style="background-color: #84A3FF;"><img src="images/abyssal.png" alt="" style="width: 24px;">&nbsp;&nbsp;&nbsp;Argos
+                    <td style="background-color: #84A3FF;"><img src="images/abyssal.png" alt=""
+                            style="width: 24px;">&nbsp;&nbsp;&nbsp;Argos
                     </td>
                     <td style="background-color: #A7BDFF;">
                         P1&nbsp;<input class="form-check-input" type="checkbox" value="" id="argosp1deathblade">
@@ -446,7 +508,8 @@
                     <th colspan="7">Abyssal Dungeons</th>
                 </tr>
                 <tr>
-                    <td style="background-color: #84A3FF;"><img src="images/abyss_dungeon.png" alt="" style="width: 24px;">&nbsp;&nbsp;&nbsp;T3 Aira's Oculus
+                    <td style="background-color: #84A3FF;"><img src="images/abyss_dungeon.png" alt=""
+                            style="width: 24px;">&nbsp;&nbsp;&nbsp;T3 Aira's Oculus
                     </td>
                     <td style="background-color: #A7BDFF;">
                         <input class="form-check-input" type="checkbox" value="" id="t3haodeathblade">
@@ -464,7 +527,8 @@
                     </td>
                 </tr>
                 <tr>
-                    <td style="background-color: #84A3FF;"><img src="images/abyss_dungeon.png" alt="" style="width: 24px;">&nbsp;&nbsp;&nbsp;T3 Oreha Preveza
+                    <td style="background-color: #84A3FF;"><img src="images/abyss_dungeon.png" alt=""
+                            style="width: 24px;">&nbsp;&nbsp;&nbsp;T3 Oreha Preveza
                     </td>
                     <td style="background-color: #A7BDFF;">
                         <input class="form-check-input" type="checkbox" value="" id="t3hopdeathblade">
@@ -482,7 +546,8 @@
                     </td>
                 </tr>
                 <tr>
-                    <td style="background-color: #84A3FF;"><img src="images/abyss_dungeon.png" alt="" style="width: 24px;">&nbsp;&nbsp;&nbsp;T2 Road of Lament
+                    <td style="background-color: #84A3FF;"><img src="images/abyss_dungeon.png" alt=""
+                            style="width: 24px;">&nbsp;&nbsp;&nbsp;T2 Road of Lament
                     </td>
                     <td style="background-color: #A7BDFF;">
                     </td>
@@ -500,7 +565,8 @@
                     </td>
                 </tr>
                 <tr>
-                    <td style="background-color: #84A3FF;"><img src="images/abyss_dungeon.png" alt="" style="width: 24px;">&nbsp;&nbsp;&nbsp;T2 Forge of Fallen Pride
+                    <td style="background-color: #84A3FF;"><img src="images/abyss_dungeon.png" alt=""
+                            style="width: 24px;">&nbsp;&nbsp;&nbsp;T2 Forge of Fallen Pride
                     </td>
                     <td style="background-color: #A7BDFF;">
                     </td>
@@ -518,7 +584,8 @@
                     </td>
                 </tr>
                 <tr>
-                    <td style="background-color: #84A3FF;"><img src="images/abyss_dungeon.png" alt="" style="width: 24px;">&nbsp;&nbsp;&nbsp;T2 Sea of Indolence
+                    <td style="background-color: #84A3FF;"><img src="images/abyss_dungeon.png" alt=""
+                            style="width: 24px;">&nbsp;&nbsp;&nbsp;T2 Sea of Indolence
                     </td>
                     <td style="background-color: #A7BDFF;">
                     </td>
@@ -538,7 +605,8 @@
                     </td>
                 </tr>
                 <tr>
-                    <td style="background-color: #84A3FF;"><img src="images/abyss_dungeon.png" alt="" style="width: 24px;">&nbsp;&nbsp;&nbsp;T2 Tranquil Karkosa
+                    <td style="background-color: #84A3FF;"><img src="images/abyss_dungeon.png" alt=""
+                            style="width: 24px;">&nbsp;&nbsp;&nbsp;T2 Tranquil Karkosa
                     </td>
                     <td style="background-color: #A7BDFF;">
                     </td>
@@ -558,7 +626,8 @@
                     </td>
                 </tr>
                 <tr>
-                    <td style="background-color: #84A3FF;"><img src="images/abyss_dungeon.png" alt="" style="width: 24px;">&nbsp;&nbsp;&nbsp;T2 Alaric's Santuary
+                    <td style="background-color: #84A3FF;"><img src="images/abyss_dungeon.png" alt=""
+                            style="width: 24px;">&nbsp;&nbsp;&nbsp;T2 Alaric's Santuary
                     </td>
                     <td style="background-color: #A7BDFF;">
                     </td>
@@ -578,7 +647,8 @@
                     </td>
                 </tr>
                 <tr>
-                    <td style="background-color: #84A3FF;"><img src="images/abyss_dungeon.png" alt="" style="width: 24px;">&nbsp;&nbsp;&nbsp;T1 Demon Beast Canyon
+                    <td style="background-color: #84A3FF;"><img src="images/abyss_dungeon.png" alt=""
+                            style="width: 24px;">&nbsp;&nbsp;&nbsp;T1 Demon Beast Canyon
                     </td>
                     <td style="background-color: #A7BDFF;">
                     </td>
@@ -594,7 +664,8 @@
                     </td>
                 </tr>
                 <tr>
-                    <td style="background-color: #84A3FF;"><img src="images/abyss_dungeon.png" alt="" style="width: 24px;">&nbsp;&nbsp;&nbsp;T1 Necromancer's Origin
+                    <td style="background-color: #84A3FF;"><img src="images/abyss_dungeon.png" alt=""
+                            style="width: 24px;">&nbsp;&nbsp;&nbsp;T1 Necromancer's Origin
                     </td>
                     <td style="background-color: #A7BDFF;">
                     </td>
@@ -610,7 +681,8 @@
                     </td>
                 </tr>
                 <tr>
-                    <td style="background-color: #84A3FF;"><img src="images/abyss_dungeon.png" alt="" style="width: 24px;">&nbsp;&nbsp;&nbsp;T1 Hall of the Twisted Warlord
+                    <td style="background-color: #84A3FF;"><img src="images/abyss_dungeon.png" alt=""
+                            style="width: 24px;">&nbsp;&nbsp;&nbsp;T1 Hall of the Twisted Warlord
                     </td>
                     <td style="background-color: #A7BDFF;">
                     </td>
@@ -626,7 +698,8 @@
                     </td>
                 </tr>
                 <tr>
-                    <td style="background-color: #84A3FF;"><img src="images/abyss_dungeon.png" alt="" style="width: 24px;">&nbsp;&nbsp;&nbsp;T1 Hildebrandt Palace
+                    <td style="background-color: #84A3FF;"><img src="images/abyss_dungeon.png" alt=""
+                            style="width: 24px;">&nbsp;&nbsp;&nbsp;T1 Hildebrandt Palace
                     </td>
                     <td style="background-color: #A7BDFF;">
                     </td>
@@ -659,4 +732,3 @@
 <script src="script.js"></script>
 
 </html>
-

@@ -95,33 +95,40 @@ body {
 }
 
 .input-prio {
-  background-color: #dc3545!important;
+  background-color: #dc3545 !important;
 }
 
 .input-prio:checked {
-  background-color: #198754!important;
+  background-color: #198754 !important;
 }
 
 .input-important {
-  background-color: #FFAC1C!important;
+  background-color: #FFAC1C !important;
 }
 
 .input-important:checked {
-  background-color: #198754!important;
+  background-color: #198754 !important;
 }
 
 .input-secondaire {
-  background-color: #FFEA00!important;
+  background-color: #FFEA00 !important;
 }
 
 .input-secondaire:checked {
-  background-color: #198754!important;
+  background-color: #198754 !important;
 }
 
 .form-check-input {
-  margin-top: 0px!important;
+  margin-top: 0px !important;
 }
 
 .form-check-input[type=checkbox] {
   font-size: 24px;
+}
+
+.btn-group-sm>.btn,
+.btn-sm {
+  padding: .1rem .2rem!important;
+  font-size: .475rem!important;
+  border-radius: .2rem!important;
 }

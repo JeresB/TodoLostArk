@@ -179,6 +179,15 @@ var progressRepos = [
     'reposraiddeathblade'
 ];
 
+var igears = [
+    'igeardeathblade',
+    'igearshadowhunter',
+    'igearsorceress',
+    'igearpaladin',
+    'igearbard',
+    'igearsharpshooter',
+];
+
 $(document).ready(function () {
     $('#resetdaily').html('Reset le ' + localStorage.getItem('resetdaily'));
     $('#resetweekly').html('Reset le ' + localStorage.getItem('resetweekly'));
@@ -250,6 +259,29 @@ $(document).ready(function () {
         $(`#${progress}`).attr('aria-valuenow', value);
         $(`#${progress}`).html(value);
         $(`#${progress}`).attr('style', `width: ${value}%`);
+    });
+
+    igears.forEach(function(igear) {
+        let value = localStorage.getItem(igear);
+
+        if (!value) {
+            value = 0;
+            localStorage.setItem(igear, value);
+        }
+
+        $(`#${igear}`).html(value);
+    });
+
+    $('.plusigear').on('click', function() {
+        let igear = $(this).data('igear');
+        let value = localStorage.getItem(igear);
+        value = parseInt(value) + 1;
+
+        console.log(igear, value)
+
+        localStorage.setItem(igear, value);
+
+        $(`#${igear}`).html(value);
     });
 });
 

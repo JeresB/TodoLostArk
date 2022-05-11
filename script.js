@@ -59,6 +59,7 @@ var checkboxs = [
     'song6',
     'lifeskill',
     'guilddeathblade',
+    'guildpaladin',
     'guildbard',
     'raidedeathblade',
     'raideshadowhunter',

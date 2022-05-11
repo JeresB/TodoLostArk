@@ -71,10 +71,10 @@ var checkboxs = [
 var checkboxWeekly = [
     'unaw1deathblade',
     'unaw2deathblade',
-    'unaw3deathblade', 
+    'unaw3deathblade',
     'unaw1shadowhunter',
     'unaw2shadowhunter',
-    'unaw3shadowhunter', 
+    'unaw3shadowhunter',
     'unaw1sorceress',
     'unaw2sorceress',
     'unaw3sorceress',
@@ -87,13 +87,13 @@ var checkboxWeekly = [
     'unaw1sharpshooter',
     'unaw2sharpshooter',
     'unaw3sharpshooter',
-    
+
     'unawg1deathblade',
     'unawg2deathblade',
-    'unawg3deathblade', 
+    'unawg3deathblade',
     'unawg1shadowhunter',
     'unawg2shadowhunter',
-    'unawg3shadowhunter', 
+    'unawg3shadowhunter',
     'unawg1sorceress',
     'unawg2sorceress',
     'unawg3sorceress',
@@ -195,12 +195,12 @@ var igears = [
 $(document).ready(function () {
     $('#resetdaily').html('Reset le ' + localStorage.getItem('resetdaily'));
     $('#resetweekly').html('Reset le ' + localStorage.getItem('resetweekly'));
-    
+
     setProgressBarDaily();
     setProgressBarWeekly();
     setProgressRepos();
 
-    $('#forceResetDaily').on('click', function() {
+    $('#forceResetDaily').on('click', function () {
         resetDaily();
     });
 
@@ -212,9 +212,9 @@ $(document).ready(function () {
 
             localStorage.setItem('resetdaily', moment().format("DD/MM/YYYY"));
         }
-       
+
         console.log(moment().format("dd"));
-        
+
         if (moment().format("DD/MM/YYYY") != localStorage.getItem('resetweekly') && moment().format("dd") == 'Th') {
             checkboxWeekly.forEach(checkbox => localStorage.setItem(checkbox, false));
             localStorage.setItem('resetweekly', moment().format("DD/MM/YYYY"));
@@ -235,14 +235,34 @@ $(document).ready(function () {
         othercheckbox.forEach(checkbox => localStorage.setItem(checkbox, false));
     }
 
-    $('.form-check-input').on('click', function () {
+    $('.checkbox-span').on('click', function (event) {
+        if (event.altKey) {
+            console.log($(this).children().attr('disabled'))
+
+            let disabled = $(this).children().attr('disabled');
+            if (disabled) {
+                $(this).children().removeAttr('disabled');
+            } else {
+
+                setTimeout(() => {
+                    let id = $(this).children().attr('id');
+
+                    localStorage.setItem(id, 0);
+                    $(this).children().prop('checked', false);
+                    $(this).children().attr('disabled', true);
+                }, 10);
+            }
+        }
+    });
+
+    $('.form-check-input').on('click', function (event) {
         console.log($(this).attr('id'));
 
         let val = $(this).prop('checked');
         let id = $(this).attr('id');
 
         localStorage.setItem(id, val ? 1 : 0);
-        
+
         setProgressBarDaily();
         setProgressBarWeekly();
 
@@ -250,7 +270,7 @@ $(document).ready(function () {
 
         let value = $(`#${progress}`).attr('aria-valuenow');
 
-        if(val && parseInt(value) >= 20) {
+        if (val && parseInt(value) >= 20) {
             value = parseInt(value) - 20;
         } else if (!val) {
             value = parseInt(value) + 20;
@@ -265,7 +285,7 @@ $(document).ready(function () {
         $(`#${progress}`).attr('style', `width: ${value}%`);
     });
 
-    igears.forEach(function(igear) {
+    igears.forEach(function (igear) {
         let value = localStorage.getItem(igear);
 
         if (!value) {
@@ -276,7 +296,7 @@ $(document).ready(function () {
         $(`#${igear}`).html(value);
     });
 
-    $('.plusigear').on('click', function() {
+    $('.plusigear').on('click', function () {
         let igear = $(this).data('igear');
         let value = localStorage.getItem(igear);
         value = parseInt(value) + 1;
@@ -290,10 +310,10 @@ $(document).ready(function () {
 });
 
 function resetDaily() {
-    checkboxs.forEach(function(checkbox) {
+    checkboxs.forEach(function (checkbox) {
         let progress = $(`#${checkbox}`).data('progress');
 
-        if(progress) {
+        if (progress) {
             let checked = $(`#${checkbox}`).prop('checked');
             let value = 0;
             value = localStorage.getItem(progress);
@@ -301,7 +321,7 @@ function resetDaily() {
             console.log(checkbox, checked);
             console.log(progress, value);
 
-            if(checked && parseInt(value) >= 20) {
+            if (checked && parseInt(value) >= 20) {
                 value = parseInt(value) - 20;
             } else if (!checked) {
                 value = parseInt(value) + 10;
@@ -323,7 +343,7 @@ function resetDaily() {
 function setProgressRepos() {
     console.log('progressRepos');
 
-    progressRepos.forEach(function(repos) {
+    progressRepos.forEach(function (repos) {
         let value = localStorage.getItem(repos);
         console.log(repos, value);
 
@@ -341,14 +361,29 @@ function setProgressRepos() {
 }
 
 function setProgressBarDaily() {
-    let nbCheckboxDaily = checkboxs.length;
+    // let nbCheckboxDaily = checkboxs.length;
+    let nbCheckboxDaily = 0;
     let nbCheckedDaily = 0;
     let colorProgressBarDaily = '';
 
+    $(".daily").each(function (index) {
+        let disabled = $(this).attr('disabled');
+
+        if (disabled) {
+            // nbCheckboxDaily++;
+        } else {
+            nbCheckboxDaily++;
+        }
+    });
+
+    
     checkboxs.forEach(checkbox => localStorage.getItem(checkbox) == 1 ? nbCheckedDaily++ : '');
+    
+    console.log(nbCheckboxDaily)
+    console.log(nbCheckedDaily)
 
     let pourcentageDaily = (nbCheckedDaily / nbCheckboxDaily) * 100;
-        
+
     if (pourcentageDaily < 50) {
         colorProgressBarDaily = 'bg-danger';
     } else if (pourcentageDaily < 90) {
@@ -356,7 +391,7 @@ function setProgressBarDaily() {
     } else {
         colorProgressBarDaily = 'bg-success';
     }
-        
+
     $('#progressBarDaily').attr('style', `width: ${pourcentageDaily}%`)
     $('#progressBarDaily').attr('class', `progress-bar ${colorProgressBarDaily}`);
 }
@@ -369,7 +404,7 @@ function setProgressBarWeekly() {
     checkboxWeekly.forEach(checkbox => localStorage.getItem(checkbox) == 1 ? nbCheckedWeekly++ : '');
 
     let pourcentageWeekly = (nbCheckedWeekly / nbCheckboxWeekly) * 100;
-        
+
     if (pourcentageWeekly < 50) {
         colorProgressBarWeekly = 'bg-danger';
     } else if (pourcentageWeekly < 90) {
@@ -377,22 +412,22 @@ function setProgressBarWeekly() {
     } else {
         colorProgressBarWeekly = 'bg-success';
     }
-        
+
     $('#progressBarWeekly').attr('style', `width: ${pourcentageWeekly}%`)
     $('#progressBarWeekly').attr('class', `progress-bar ${colorProgressBarWeekly}`);
 }
 
 
 document.addEventListener('DOMContentLoaded', () =>
-  requestAnimationFrame(updateTime)
+    requestAnimationFrame(updateTime)
 )
 
 function updateTime() {
-  document.documentElement.style.setProperty('--timer-day', "'" + moment().format("dd") + "'");
-  document.documentElement.style.setProperty('--timer-hours', "'" + moment().format("k") + "'");
-  document.documentElement.style.setProperty('--timer-minutes', "'" + moment().format("mm") + "'");
-  document.documentElement.style.setProperty('--timer-seconds', "'" + moment().format("ss") + "'");
-  requestAnimationFrame(updateTime);
+    document.documentElement.style.setProperty('--timer-day', "'" + moment().format("dd") + "'");
+    document.documentElement.style.setProperty('--timer-hours', "'" + moment().format("k") + "'");
+    document.documentElement.style.setProperty('--timer-minutes', "'" + moment().format("mm") + "'");
+    document.documentElement.style.setProperty('--timer-seconds', "'" + moment().format("ss") + "'");
+    requestAnimationFrame(updateTime);
 }
 
 // document.getElementById('testaffichage').innerHTML = localStorage.getItem('info', 1);

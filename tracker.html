@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>TODO Lost Ark</title>
+    <link rel="stylesheet" href="styleTracker.css">
+    <link rel="stylesheet" href="fontawesome/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+
+<body class="container">
+
+    <div><br></div>
+
+    <div class="float-end">
+        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addCaractereModal">Add
+            Caractère</button>
+        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addTaskModal">Add Task</button>
+        <button id="btnNextTask" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#nextTaskModal">Next Task</button>
+    </div>
+
+    <div><br><br></div>
+
+    <section id="sectionPersonnage"></section>
+
+    <div><br></div>
+
+    <section id="sectionTasks"></section>
+
+    <div><br></div>
+
+    <section>
+        <ul>
+            <li>Donner un nom aux tâches</li>
+            <li>Ajouter une variable "Reset" aux tâches (daily, weekly, unique)</li>
+            <li>Si tâche unique -> suppression à la validation</li>
+        </ul>
+        <ul>
+            <li>Modal next task -> afficher l'etat des 6 persos (nb tache fait/total)</li>
+            <li>Modal next task -> grisé l'état des persos si jour suivant</li>
+            <li>Afficher la prochaine tache weekly</li>
+            <li>Afficher le tache la plus courte</li>
+            <li>Possibilite de changer le statut de la tache depuis la modal</li>
+        </ul>
+    </section>
+
+    <div id="addCaractereModal" class="modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Ajout d'un personnage</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="typePerso" class="form-label">Type Personnage</label>
+                        <input class="form-control" list="persoOptions" id="typePerso" placeholder="Deathblade">
+                        <datalist id="persoOptions">
+                            <option value="Deathblade">
+                            <option value="Bard">
+                            <option value="Paladin">
+                            <option value="Shadowhunter">
+                            <option value="Sorceress">
+                            <option value="Sharpshooter">
+                        </datalist>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="nom" class="form-label">Nom du personnage</label>
+                        <input type="text" class="form-control" id="nom" placeholder="Nom">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="prioPerso" class="form-label">Priorité du personnage</label>
+                        <input type="number" class="form-control" id="prioPerso" placeholder="1">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="level" class="form-label">Niveau du personnage</label>
+                        <input type="number" class="form-control" id="level" placeholder="50">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="gearlevel" class="form-label">Niveau de l'équipement</label>
+                        <input type="number" class="form-control" id="gearlevel" placeholder="1302">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="imagePerso" class="form-label">Image du personnage</label>
+                        <input type="text" class="form-control" id="imagePerso" placeholder="image.png">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i
+                            class="fa-solid fa-xmark"></i></button>
+                    <button id="savePerso" type="button" class="btn btn-success"><i
+                            class="fa-solid fa-check"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="addTaskModal" class="modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Ajout d'une tache</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="persoTask" class="form-label">Personnage</label>
+                        <input class="form-control" list="persoOptions" id="persoTask" placeholder="Deathblade">
+                        <datalist id="persoOptions">
+                            <option value="Deathblade">
+                            <option value="Bard">
+                            <option value="Paladin">
+                            <option value="Shadowhunter">
+                            <option value="Sorceress">
+                            <option value="Sharpshooter">
+                        </datalist>
+                    </div>
+                    <div class="mb-3">
+                        <label for="typeTask" class="form-label">Type</label>
+                        <input class="form-control" list="typeTaskOptions" id="typeTask" placeholder="Chaos Dungeon">
+                        <datalist id="typeTaskOptions">
+                            <option data-image="chaos dungeon.png" value="Chaos Dungeon">
+                            <option data-image="" value="Guardian Raid">
+                            <option data-image="" value="Daily Una Task">
+                            <option data-image="" value="Weekly Una Task">
+                            <option data-image="" value="Récupération Weekly Una Task">
+                        </datalist>
+                    </div>
+                    <div class="mb-3">
+                        <label for="prioTask" class="form-label">Priorité</label>
+                        <input type="number" class="form-control" id="prioTask" placeholder="1">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="dureeTask" class="form-label">Durée</label>
+                        <input type="number" class="form-control" id="dureeTask" placeholder="20 min">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i
+                            class="fa-solid fa-xmark"></i></button>
+                    <button id="saveTask" type="button" class="btn btn-success"><i
+                            class="fa-solid fa-check"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="nextTaskModal" class="modal" tabindex="-1">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body" style="padding: 0px;">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img id="nextTaskPersoImg" src="" class="img-fluid rounded-start" alt="">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <div class="card mb-3">
+                                    <div class="d-flex">
+                                      <!-- <div class="col-md-4"> -->
+                                        <img id="nextTaskImg" src="" class="img-fluid rounded-start" alt="..." style="min-width: 56px;">
+                                      <!-- </div> -->
+                                      <!-- <div class="col-md-8"> -->
+                                        <div id="nextTaskName" class="card-body">
+                                            
+                                          </div>
+                                      <!-- </div> -->
+                                    </div>
+                                  </div>
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script src="jquery.min.js"></script>
+<script src="moment.js"></script>
+<script src="https://unpkg.com/stormdb/dist/StormDB.min.js"></script>
+<script src="https://unpkg.com/stormdb/dist/BrowserEngine.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+<script src="scriptTracker.js"></script>
+
+</html>

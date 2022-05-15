@@ -1,0 +1,9 @@
+body {
+    background-image: url("images/wallpaper.jfif");
+    background-color: #cccccc;
+}
+
+section {
+    background-color: #cccccc;
+    opacity: 0.7;
+}

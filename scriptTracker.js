@@ -54,11 +54,13 @@ function nextEvent() {
 
     let persoEnPrio = null;
     let taskEnPrio = null;
+    let i = 0;
+    let j = 0;
 
     while (taskEnPrio == null && prioPerso < prioMax) {
 
-        for(let i = 0; i < persos.length; i++) {
-            if(persos[i].prioPerso == prioPerso) {
+        for (i = 0; i < persos.length; i++) {
+            if (persos[i].prioPerso == prioPerso) {
                 // __FOUND is set to the index of the element
                 persoEnPrio = persos[i];
                 break;
@@ -72,18 +74,18 @@ function nextEvent() {
 
         // console.log(tasks)
         prioTask = 1;
-        
+
         while (taskEnPrio == null && prioTask < prioMax) {
-            
-            for(let i = 0; i < tasks.length; i++) {
-                if(tasks[i].prioTask == prioTask && persoEnPrio.typePerso == tasks[i].persoTask && !tasks[i].statutTask) {
+
+            for (j = 0; j < tasks.length; j++) {
+                if (tasks[j].prioTask == prioTask && persoEnPrio.typePerso == tasks[j].persoTask && !tasks[j].statutTask) {
                     // __FOUND is set to the index of the element
-                    taskEnPrio = tasks[i];
+                    taskEnPrio = tasks[j];
                     break;
                 }
             }
 
-            
+
             // console.log(prioPerso, prioTask)
 
             prioTask++;
@@ -94,10 +96,23 @@ function nextEvent() {
 
     console.log(persoEnPrio)
     console.log(taskEnPrio)
+    console.log(i)
+    console.log(j)
 
-    $('#nextTaskPersoImg').attr('src', `images/${persoEnPrio.imagePerso}`);
-    $('#nextTaskImg').attr('src', `images/${taskEnPrio.imageTask}`);
-    $('#nextTaskName').html(`${taskEnPrio.typeTask}`);
+    if (taskEnPrio) {
+        $('#nextTaskPersoImg').attr('src', `images/${persoEnPrio.imagePerso}`);
+        $('#nextTaskImg').attr('src', `images/${taskEnPrio.imageTask}`);
+        $('#nextTaskName').html(`
+            ${taskEnPrio.nomTask}<br>
+            <i class="color-gray">${taskEnPrio.typeTask} - ${taskEnPrio.dureeTask} min</i>
+            <div class="form-check form-switch float-end">
+                <input class="form-check-input switchMajTask" data-index="${j}" data-champs="statutTask" type="checkbox" id="statutTask${j}">
+            </div>
+        `);
+    } else {
+        $('#nextTaskImg').attr('src', `images/success.avif`);
+        $('#nextTaskName').html(`DONE`);
+    }
 }
 
 function showPerso() {
@@ -155,8 +170,9 @@ function addPerso() {
     dbPerso.get("personnages").push(perso).save();
     dbPerso.save();
 
-    location.reload();
-    return false;
+    showPerso();
+    // location.reload();
+    // return false;
 }
 
 function updatePerso(data) {
@@ -170,8 +186,9 @@ function updatePerso(data) {
         .set(value);
     dbPerso.save();
 
-    location.reload();
-    return false;
+    showPerso();
+    // location.reload();
+    // return false;
 }
 
 function deletePerso(data) {
@@ -180,8 +197,9 @@ function deletePerso(data) {
     dbPerso.get("personnages").get(index).delete(true);
     dbPerso.save();
 
-    location.reload();
-    return false;
+    showPerso();
+    // location.reload();
+    // return false;
 }
 
 function showTask() {
@@ -191,6 +209,8 @@ function showTask() {
             <tr>
                 <th scope="col">Personnage</th>
                 <th scope="col">Type</th>
+                <th scope="col">Reset Type</th>
+                <th scope="col">Nom</th>
                 <th scope="col">Priorité</th>
                 <th scope="col">Durée</th>
                 <th scope="col">Image</th>
@@ -206,6 +226,8 @@ function showTask() {
         <tr>
             <th scope="row">${task.persoTask}</th>
             <td>${task.typeTask}</td>
+            <td><input list="resetTypeOptions" class="form-control inputMajTask" data-index="${index}" data-champs="resetTask" value="${task.resetTask}"/></td>
+            <td><input type="text" class="form-control inputMajTask" data-index="${index}" data-champs="nomTask" value="${task.nomTask}"/></td>
             <td><input type="number" class="form-control inputMajTask" data-index="${index}" data-champs="prioTask" value="${task.prioTask}"/></td>
             <td><input type="number" class="form-control inputMajTask" data-index="${index}" data-champs="dureeTask" value="${task.dureeTask}"/></td>
             <td><input type="text" class="form-control inputMajTask" data-index="${index}" data-champs="imageTask" value="${task.imageTask}"/></td>
@@ -226,6 +248,8 @@ function showTask() {
 function addTask() {
     let persoTask = $('#persoTask').val();
     let typeTask = $('#typeTask').val();
+    let resetTask = $('#resetTask').val();
+    let nomTask = $('#nomTask').val();
     let prioTask = $('#prioTask').val();
     let dureeTask = $('#dureeTask').val();
     let imageTask = $(`option[value="${typeTask}"]`).data('image');
@@ -233,6 +257,8 @@ function addTask() {
     let task = {
         'persoTask': persoTask,
         'typeTask': typeTask,
+        'resetTask': resetTask,
+        'nomTask': nomTask,
         'prioTask': prioTask,
         'dureeTask': dureeTask,
         'imageTask': imageTask,
@@ -242,8 +268,9 @@ function addTask() {
     dbTask.get("tasks").push(task).save();
     dbTask.save();
 
-    location.reload();
-    return false;
+    showTask();
+    // location.reload();
+    // return false;
 }
 
 function updateTask(data) {
@@ -255,10 +282,11 @@ function updateTask(data) {
         .get(index)
         .get(champs)
         .set(value);
-        dbTask.save();
+    dbTask.save();
 
-    location.reload();
-    return false;
+    showTask();
+    // location.reload();
+    // return false;
 }
 
 function updateSwitchTask(data) {
@@ -272,8 +300,9 @@ function updateSwitchTask(data) {
         .get(index)
         .get(champs)
         .set(value);
-        dbTask.save();
+    dbTask.save();
 
+    nextEvent();
     // location.reload();
     // return false;
 }
@@ -284,6 +313,7 @@ function deleteTask(data) {
     dbTask.get("tasks").get(index).delete(true);
     dbTask.save();
 
-    location.reload();
-    return false;
+    showTask();
+    // location.reload();
+    // return false;
 }

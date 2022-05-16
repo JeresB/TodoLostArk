@@ -1,6 +1,8 @@
 body {
     background-image: url("images/wallpaper.jfif");
     background-color: #cccccc;
+    background-size: cover;
+    background-attachment: fixed;
 }
 
 section {

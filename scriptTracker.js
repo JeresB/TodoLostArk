@@ -247,6 +247,12 @@ function loaded(evt) {
     
     dbPerso.get("personnages").set(fileJSON.personnage);
     dbTask.get("tasks").set(fileJSON.tasks);
+    
+    dbPerso.save();
+    dbTask.save();
+    
+    showPerso();
+    showTask();
 }
 
 function getOpening(type) {

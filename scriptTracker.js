@@ -122,6 +122,8 @@ $(document).on('click', '#saveTask', function () { addTask() });
 
 $(document).on('click', '#btnNextTask', function () { nextEvent() });
 
+$(document).on('click', '#btnExportJson', function () { exportToJsonFile(dbPerso.get("personnages").value()) });
+
 $(document).ready(function () {
     var nextTaskModal = new bootstrap.Modal(document.getElementById('nextTaskModal'), {});
     nextTaskModal.show();
@@ -208,6 +210,18 @@ function resetWeekly() {
 
         showTask();
     }
+}
+
+function exportToJsonFile(jsonData) {
+    let dataStr = JSON.stringify(jsonData);
+    let dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+
+    let exportFileDefaultName = 'data.json';
+
+    let linkElement = document.createElement('a');
+    linkElement.setAttribute('href', dataUri);
+    linkElement.setAttribute('download', exportFileDefaultName);
+    linkElement.click();
 }
 
 function getOpening(type) {

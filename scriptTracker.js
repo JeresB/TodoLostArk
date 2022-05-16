@@ -243,7 +243,7 @@ function loaded(evt) {
     var fileString = evt.target.result;
     console.log(fileString)
     
-    fileJSON = parse.JSON(fileString);
+    fileJSON = JSON.parse(fileString);
     
     dbPerso.get("personnages").set(fileJSON.personnage);
     dbTask.get("tasks").set(fileJSON.tasks);

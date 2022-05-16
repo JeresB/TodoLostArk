@@ -106,7 +106,271 @@ const CHAOS_GATE_OPENING = [
     }
 ];
 
+const WORLD_BOSS_OPENING = [
+    {
+        'day': '2',
+        'hour': '05',
+        'min': '00'
+    }
+]
+
+const ALAKKIR_OPENING = [
+    {
+        'day': '1',
+        'hour': '18',
+        'min': '50'
+    },
+    {
+        'day': '1',
+        'hour': '21',
+        'min': '50'
+    },
+    {
+        'day': '2',
+        'hour': '18',
+        'min': '50'
+    },
+    {
+        'day': '2',
+        'hour': '21',
+        'min': '50'
+    },
+    {
+        'day': '3',
+        'hour': '18',
+        'min': '50'
+    },
+    {
+        'day': '3',
+        'hour': '21',
+        'min': '50'
+    },
+    {
+        'day': '4',
+        'hour': '18',
+        'min': '50'
+    },
+    {
+        'day': '4',
+        'hour': '21',
+        'min': '50'
+    },
+    {
+        'day': '5',
+        'hour': '18',
+        'min': '50'
+    },
+    {
+        'day': '5',
+        'hour': '21',
+        'min': '50'
+    },
+    {
+        'day': '6',
+        'hour': '18',
+        'min': '50'
+    },
+    {
+        'day': '6',
+        'hour': '21',
+        'min': '50'
+    },
+    {
+        'day': '7',
+        'hour': '18',
+        'min': '50'
+    },
+    {
+        'day': '7',
+        'hour': '21',
+        'min': '50'
+    },
+];
+
+const ADVENTURE_ISLAND_OPENING = [
+    {
+        'day': '1',
+        'hour': '21',
+        'min': '00'
+    },
+    {
+        'day': '1',
+        'hour': '23',
+        'min': '00'
+    },
+    {
+        'day': '2',
+        'hour': '21',
+        'min': '00'
+    },
+    {
+        'day': '2',
+        'hour': '23',
+        'min': '00'
+    },
+    {
+        'day': '3',
+        'hour': '21',
+        'min': '00'
+    },
+    {
+        'day': '3',
+        'hour': '23',
+        'min': '00'
+    },
+    {
+        'day': '4',
+        'hour': '21',
+        'min': '00'
+    },
+    {
+        'day': '4',
+        'hour': '23',
+        'min': '00'
+    },
+    {
+        'day': '5',
+        'hour': '21',
+        'min': '00'
+    },
+    {
+        'day': '5',
+        'hour': '23',
+        'min': '00'
+    },
+    {
+        'day': '6',
+        'hour': '21',
+        'min': '00'
+    },
+    {
+        'day': '6',
+        'hour': '23',
+        'min': '00'
+    },
+    {
+        'day': '7',
+        'hour': '21',
+        'min': '00'
+    },
+    {
+        'day': '7',
+        'hour': '23',
+        'min': '00'
+    },
+];
+
+const GESBROY_OPENING = [
+    {
+        'day': '1',
+        'hour': '18',
+        'min': '20'
+    },
+    {
+        'day': '1',
+        'hour': '19',
+        'min': '20'
+    },
+    {
+        'day': '1',
+        'hour': '20',
+        'min': '20'
+    },
+    {
+        'day': '2',
+        'hour': '18',
+        'min': '20'
+    },
+    {
+        'day': '2',
+        'hour': '19',
+        'min': '20'
+    },
+    {
+        'day': '2',
+        'hour': '20',
+        'min': '20'
+    },
+    {
+        'day': '3',
+        'hour': '18',
+        'min': '20'
+    },
+    {
+        'day': '3',
+        'hour': '19',
+        'min': '20'
+    },
+    {
+        'day': '3',
+        'hour': '20',
+        'min': '20'
+    },
+    {
+        'day': '4',
+        'hour': '18',
+        'min': '20'
+    },
+    {
+        'day': '4',
+        'hour': '19',
+        'min': '20'
+    },
+    {
+        'day': '4',
+        'hour': '20',
+        'min': '20'
+    },
+    {
+        'day': '5',
+        'hour': '18',
+        'min': '20'
+    },
+    {
+        'day': '5',
+        'hour': '19',
+        'min': '20'
+    },
+    {
+        'day': '5',
+        'hour': '20',
+        'min': '20'
+    },
+    {
+        'day': '6',
+        'hour': '18',
+        'min': '20'
+    },
+    {
+        'day': '6',
+        'hour': '19',
+        'min': '20'
+    },
+    {
+        'day': '6',
+        'hour': '20',
+        'min': '20'
+    },
+    {
+        'day': '7',
+        'hour': '18',
+        'min': '20'
+    },
+    {
+        'day': '7',
+        'hour': '19',
+        'min': '20'
+    },
+    {
+        'day': '7',
+        'hour': '20',
+        'min': '20'
+    },
+]
+
+
 var minutesBeforeNextEvent = 9999;
+var persoPrio = null;
 
 // AJOUT, MAJ, SUPPRESSION D'UN PERSONNAGE
 $(document).on('change', '.inputMajPerso', function () { updatePerso($(this)) });
@@ -160,6 +424,7 @@ $(document).ready(function () {
 });
 
 function nextEvent() {
+    minutesBeforeNextEvent = 9999;
     nextTypeEvent('Daily');
     nextTypeEvent('Weekly');
     nextTypeEvent('Unique');
@@ -256,11 +521,107 @@ function loaded(evt) {
 }
 
 function getOpening(type) {
-    minutesBeforeNextEvent = 9999;
+    
 
     switch (type) {
         case 'Chaos Gate':
             return CHAOS_GATE_OPENING.filter(
+                function (data) {
+                    // console.log(data.day)
+                    // console.log(moment().isoWeekday(parseInt(data.day)).set('hour', 12).set('minute', 00).set('second', 00))
+                    let now = moment();
+                    let end = moment().isoWeekday(parseInt(data.day)).set('hour', parseInt(data.hour)).set('minute', parseInt(data.min)).set('second', 00)
+
+                    // console.log(now)
+                    // console.log(end)
+
+                    let diff = moment.duration(end.diff(now));
+
+                    let minutesBeforeEvent = Math.round(diff.as('minutes'));
+
+                    if (minutesBeforeNextEvent > minutesBeforeEvent && minutesBeforeEvent > 0) {
+                        minutesBeforeNextEvent = minutesBeforeEvent;
+                    }
+
+                    // console.log(minutesBeforeEvent)
+                    return minutesBeforeEvent >= 0 && minutesBeforeEvent <= 50
+                }
+            );
+
+        case 'Alakkir':
+            return ALAKKIR_OPENING.filter(
+                function (data) {
+                    // console.log(data.day)
+                    // console.log(moment().isoWeekday(parseInt(data.day)).set('hour', 12).set('minute', 00).set('second', 00))
+                    let now = moment();
+                    let end = moment().isoWeekday(parseInt(data.day)).set('hour', parseInt(data.hour)).set('minute', parseInt(data.min)).set('second', 00)
+
+                    // console.log(now)
+                    // console.log(end)
+
+                    let diff = moment.duration(end.diff(now));
+
+                    let minutesBeforeEvent = Math.round(diff.as('minutes'));
+
+                    if (minutesBeforeNextEvent > minutesBeforeEvent && minutesBeforeEvent > 0) {
+                        minutesBeforeNextEvent = minutesBeforeEvent;
+                    }
+
+                    // console.log(minutesBeforeEvent)
+                    return minutesBeforeEvent >= 0 && minutesBeforeEvent <= 50
+                }
+            );
+
+        case 'Adventure Island Daily':
+            return ADVENTURE_ISLAND_OPENING.filter(
+                function (data) {
+                    // console.log(data.day)
+                    // console.log(moment().isoWeekday(parseInt(data.day)).set('hour', 12).set('minute', 00).set('second', 00))
+                    let now = moment();
+                    let end = moment().isoWeekday(parseInt(data.day)).set('hour', parseInt(data.hour)).set('minute', parseInt(data.min)).set('second', 00)
+
+                    // console.log(now)
+                    // console.log(end)
+
+                    let diff = moment.duration(end.diff(now));
+
+                    let minutesBeforeEvent = Math.round(diff.as('minutes'));
+
+                    if (minutesBeforeNextEvent > minutesBeforeEvent && minutesBeforeEvent > 0) {
+                        minutesBeforeNextEvent = minutesBeforeEvent;
+                    }
+
+                    // console.log(minutesBeforeEvent)
+                    return minutesBeforeEvent >= 0 && minutesBeforeEvent <= 50
+                }
+            );
+
+        case 'World Boss':
+            return WORLD_BOSS_OPENING.filter(
+                function (data) {
+                    // console.log(data.day)
+                    // console.log(moment().isoWeekday(parseInt(data.day)).set('hour', 12).set('minute', 00).set('second', 00))
+                    let now = moment();
+                    let end = moment().isoWeekday(parseInt(data.day)).set('hour', parseInt(data.hour)).set('minute', parseInt(data.min)).set('second', 00)
+
+                    // console.log(now)
+                    // console.log(end)
+
+                    let diff = moment.duration(end.diff(now));
+
+                    let minutesBeforeEvent = Math.round(diff.as('minutes'));
+
+                    if (minutesBeforeNextEvent > minutesBeforeEvent && minutesBeforeEvent > 0) {
+                        minutesBeforeNextEvent = minutesBeforeEvent;
+                    }
+
+                    // console.log(minutesBeforeEvent)
+                    return minutesBeforeEvent >= 0 && minutesBeforeEvent <= 50
+                }
+            );
+
+        case 'Gesbroy':
+            return GESBROY_OPENING.filter(
                 function (data) {
                     // console.log(data.day)
                     // console.log(moment().isoWeekday(parseInt(data.day)).set('hour', 12).set('minute', 00).set('second', 00))
@@ -303,33 +664,56 @@ function nextTypeEvent(resetType) {
     let k = 0;
 
     let taskEventPrio = null;
+    let persoEventPrio = null;
 
 
     if (resetType == 'Daily') {
         for (k = 0; k < tasks.length; k++) {
+            // console.log(tasks[k])
+
             if (!tasks[k].statutTask && tasks[k].openingTask.length > 0 && getOpening(tasks[k].openingTask).length > 0) {
                 // console.log('EVENT')
+                // console.log(tasks[k])
                 // console.log(minutesBeforeNextEvent)
                 findEventPrio = getOpening(tasks[k].openingTask);
 
                 if (findEventPrio.length > 0) {
+                    console.log(findEventPrio)
+
                     taskEventPrio = tasks[k];
+                    // break;
                 }
                 // console.log(taskEventPrio)
+            }
+        }
+    }
+
+    console.log(taskEventPrio)
+    console.log(minutesBeforeNextEvent)
+
+    if (taskEventPrio) {
+        for (i = 0; i < persos.length; i++) {
+            if (persos[i].typePerso == taskEventPrio.persoTask) {
+                persoEventPrio = persos[i];
                 break;
             }
         }
     }
 
+
     while (taskEnPrio == null && prioPerso < prioMax) {
 
-        for (i = 0; i < persos.length; i++) {
-            if (persos[i].prioPerso == prioPerso) {
-                persoEnPrio = persos[i];
-                break;
+        if (persoPrio == null || resetType == 'Daily') {
+            for (i = 0; i < persos.length; i++) {
+                if (persos[i].prioPerso == prioPerso) {
+                    persoEnPrio = persos[i];
+                    persoPrio = persoEnPrio;
+                    break;
+                }
             }
+        } else {
+            persoEnPrio = persoPrio;
         }
-
 
 
         prioTask = 1;
@@ -339,9 +723,9 @@ function nextTypeEvent(resetType) {
             for (j = 0; j < tasks.length; j++) {
                 // console.log(tasks[j].nomTask, tasks[j].prioTask, prioTask, tasks[j].resetTask, resetType, persoEnPrio.typePerso, tasks[j].persoTask, tasks[j].statutTask)
                 
-                if (parseInt(tasks[j].prioTask) == prioTask && tasks[j].resetTask == resetType && persoEnPrio.typePerso == tasks[j].persoTask && !tasks[j].statutTask) {
+                if (parseInt(tasks[j].prioTask) == prioTask && tasks[j].resetTask == resetType && persoEnPrio.typePerso == tasks[j].persoTask && !tasks[j].statutTask && tasks[j].openingTask.length == 0) {
                     // console.log(tasks[j].nomTask)
-                    // console.log(tasks[j].nomTask, tasks[j].resetTask, (parseInt(tasks[j].dureeTask) + 5), minutesBeforeNextEvent, (parseInt(tasks[j].dureeTask) + 5) < minutesBeforeNextEvent)
+                    console.log(tasks[j].nomTask, tasks[j].resetTask, (parseInt(tasks[j].dureeTask) + 5), minutesBeforeNextEvent, (parseInt(tasks[j].dureeTask) + 5) < minutesBeforeNextEvent)
                     
                     if (tasks[j].resetTask == 'Daily' && (parseInt(tasks[j].dureeTask) + 5) < minutesBeforeNextEvent) {
                         taskEnPrio = tasks[j];
@@ -378,8 +762,8 @@ function nextTypeEvent(resetType) {
             </div>
         `);
     } else if (taskEventPrio) {
-        $('#nextTaskPersoImg').attr('src', `images/${persoEnPrio.imagePerso}`);
-        $('#badge-gearlevel-nextTaskModal').html(persoEnPrio.gearlevel);
+        $('#nextTaskPersoImg').attr('src', `images/${persoEventPrio.imagePerso}`);
+        $('#badge-gearlevel-nextTaskModal').html(persoEventPrio.gearlevel);
         $(`#next${resetType}TaskImg`).attr('src', `images/${taskEventPrio.imageTask}`);
         $(`#next${resetType}TaskName`).html(`
             ${taskEventPrio.nomTask}<br>

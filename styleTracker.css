@@ -21,8 +21,8 @@ section {
 
 .badge-gearlevel {
     position: absolute;
-    left: 222px;
-    top: 683px;
+    left: 418px;
+    top: 10px;
     z-index: 99;
     background-color: cornflowerblue;
     color: white;

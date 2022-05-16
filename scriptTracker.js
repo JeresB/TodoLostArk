@@ -235,7 +235,7 @@ function startRead(evt) {
 
 function getAsText(readFile) {
     var reader = new FileReader();
-    reader.readAsText(readFile, "UTF-8″);
+    reader.readAsText(readFile, "UTF-8");
     reader.onload = loaded;
 }
 function loaded(evt) {

@@ -226,7 +226,7 @@ function exportToJsonFile(jsonData) {
 }
 
 function startRead(evt) {
-    var file = document.getElementById(‘file‘).files[0];
+    var file = document.getElementById('file').files[0];
     if (file) {
         //  getAsText(file);
         alert("Name: " + file.name + "\n" + "Last Modified Date :" + file.lastModifiedDate);

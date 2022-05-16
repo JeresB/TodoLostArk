@@ -226,21 +226,21 @@ function exportToJsonFile(jsonData) {
 }
 
 function startRead(evt) {
-    var file = document.getElementById('importFile').files[0];
+    let file = document.getElementById('importFile').files[0];
     if (file) {
         getAsText(file);
-        alert("Name: " + file.name + "\n" + "Last Modified Date :" + file.lastModifiedDate);
+        console.log("Name: " + file.name + "\n" + "Last Modified Date :" + file.lastModifiedDate);
     }
 }
 
 function getAsText(readFile) {
-    var reader = new FileReader();
+    let reader = new FileReader();
     reader.readAsText(readFile, "UTF-8");
     reader.onload = loaded;
 }
 function loaded(evt) {
-    alert("File Loaded Successfully");
-    var fileString = evt.target.result;
+    console.log("File Loaded Successfully");
+    let fileString = evt.target.result;
     console.log(fileString)
     
     fileJSON = JSON.parse(fileString);

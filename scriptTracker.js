@@ -122,7 +122,7 @@ $(document).on('click', '#saveTask', function () { addTask() });
 
 $(document).on('click', '#btnNextTask', function () { nextEvent() });
 
-$(document).on('click', '#btnExportJson', function () { exportToJsonFile(dbPerso.get("personnages").value()) });
+$(document).on('click', '#btnExportJson', function () { exportToJsonFile({ personnage: dbPerso.get("personnages").value(), tasks: dbTask.get("tasks").value() }) });
 
 $(document).ready(function () {
     var nextTaskModal = new bootstrap.Modal(document.getElementById('nextTaskModal'), {});

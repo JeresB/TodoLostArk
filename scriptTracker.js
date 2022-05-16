@@ -242,6 +242,11 @@ function loaded(evt) {
     alert("File Loaded Successfully");
     var fileString = evt.target.result;
     console.log(fileString)
+    
+    fileJSON = parse.JSON(fileString);
+    
+    dbPerso.get("personnages").set(fileJSON.personnage);
+    dbTask.get("tasks").set(fileJSON.tasks);
 }
 
 function getOpening(type) {

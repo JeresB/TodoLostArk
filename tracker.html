@@ -18,7 +18,8 @@
         <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addCaractereModal">Add
             Caractère</button>
         <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addTaskModal">Add Task</button>
-        <button id="btnNextTask" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#nextTaskModal">Next Task</button>
+        <button id="btnNextTask" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#nextTaskModal">Next
+            Task</button>
     </div>
 
     <div><br><br></div>
@@ -33,8 +34,6 @@
 
     <section>
         <ul>
-            <li>Donner un nom aux tâches</li>
-            <li>Ajouter une variable "Reset" aux tâches (daily, weekly, unique)</li>
             <li>Si tâche unique -> suppression à la validation</li>
         </ul>
         <ul>
@@ -42,7 +41,6 @@
             <li>Modal next task -> grisé l'état des persos si jour suivant</li>
             <li>Afficher la prochaine tache weekly</li>
             <li>Afficher le tache la plus courte</li>
-            <li>Possibilite de changer le statut de la tache depuis la modal</li>
             <li>boussole event</li>
             <li>Rapport</li>
         </ul>
@@ -132,11 +130,15 @@
                         <label for="typeTask" class="form-label">Type</label>
                         <input class="form-control" list="typeTaskOptions" id="typeTask" placeholder="Chaos Dungeon">
                         <datalist id="typeTaskOptions">
-                            <option data-image="punika-icon-chaos-dungeons-lostark-wiki-guide.jpg" value="Chaos Dungeon">
-                            <option data-image="night_fox_yoho_icon_guardian_raids_lost_ark_wiki_guide.jpg" value="Guardian Raid">
+                            <option data-image="punika-icon-chaos-dungeons-lostark-wiki-guide.jpg"
+                                value="Chaos Dungeon">
+                            <option data-image="night_fox_yoho_icon_guardian_raids_lost_ark_wiki_guide.jpg"
+                                value="Guardian Raid">
                             <option data-image="una.png" value="Daily Una Task">
+                            <option data-image="5d430330-lost-ark-procyons-compass.jpg" value="Procyon's compass">
                             <option data-image="una.png" value="Weekly Una Task">
                             <option data-image="una.png" value="Récupération Weekly Una Task">
+                            <option data-image="storyline.jpg" value="StoryLine">
                         </datalist>
                     </div>
 
@@ -165,6 +167,14 @@
                         <label for="dureeTask" class="form-label">Durée</label>
                         <input type="number" class="form-control" id="dureeTask" placeholder="20 min">
                     </div>
+
+                    <div class="mb-3">
+                        <label for="openingTask" class="form-label">Ouverture</label>
+                        <input class="form-control" list="openingOptions" id="openingTask" placeholder="Daily">
+                        <datalist id="openingOptions">
+                            <option value="Chaos Gate">
+                        </datalist>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i
@@ -177,30 +187,58 @@
     </div>
 
     <div id="nextTaskModal" class="modal" tabindex="-1">
-        <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered" style="max-width: 1440px;">
             <div class="modal-content">
-                <div class="modal-body" style="padding: 0px;">
+                <div class="modal-body" style="padding: 0px;">                   
                     <div class="row g-0">
                         <div class="col-md-4">
-                            <img id="nextTaskPersoImg" src="" class="img-fluid rounded-start" alt="">
+                            <img id="nextTaskPersoImg" src="" class="img-fluid rounded-start" alt=""><span id="badge-gearlevel-nextTaskModal" class="badge-gearlevel"></span>
                         </div>
                         <div class="col-md-8">
-                            <div class="card-body">
+                            <div id="MyClockDisplay" class="clock float-end" onload="showTime()"></div>
+                            <br>
+                            <br>
+
+                            <h4 class="mt-1 text-center">Daily</h4>
+                            <div class="card-body" style="padding: 0rem 1rem;">
                                 <div class="card mb-3">
                                     <div class="d-flex">
-                                      <!-- <div class="col-md-4"> -->
-                                        <img id="nextTaskImg" src="" class="img-fluid rounded-start" alt="..." style="min-width: 80px; max-width:180px;">
-                                      <!-- </div> -->
-                                      <!-- <div class="col-md-8"> -->
-                                        <div id="nextTaskName" class="card-body">
-                                            
-                                          </div>
-                                      <!-- </div> -->
+                                        <img id="nextDailyTaskImg" src="" class="img-fluid rounded-start" alt=""
+                                            style="max-height: 120px; min-width: 80px; max-width:180px;">
+                                        <div id="nextDailyTaskName" class="card-body"></div>
                                     </div>
-                                  </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h4 class="text-center">Weekly</h4>
+                                    <div class="card-body" style="padding: 0rem 1rem;">
+                                        <div class="card mb-3">
+                                            <div class="d-flex">
+                                                <img id="nextWeeklyTaskImg" src="" class="img-fluid rounded-start"
+                                                    alt="" style="height: 100px; min-width: 80px; max-width:180px;">
+                                                <div id="nextWeeklyTaskName" class="card-body"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <h4 class="text-center">Contenu additionnel</h4>
+                                    <div class="card-body" style="padding: 0rem 1rem;">
+                                        <div class="card mb-3">
+                                            <div class="d-flex">
+                                                <img id="nextUniqueTaskImg" src="" class="img-fluid rounded-start"
+                                                    alt="" style="height: 100px; min-width: 80px; max-width:180px;">
+                                                <div id="nextUniqueTaskName" class="card-body"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div> 
+                    </div>
                 </div>
             </div>
         </div>

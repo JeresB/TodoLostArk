@@ -11,3 +11,19 @@ section {
 .color-gray {
     color: gray;
 }
+
+.clock {
+    font-size: 30px;
+    letter-spacing: 7px;
+}
+
+.badge-gearlevel {
+    position: absolute;
+    left: 222px;
+    top: 683px;
+    z-index: 99;
+    background-color: cornflowerblue;
+    color: white;
+    padding: 3px 9px;
+    border-radius: 5px;
+}

@@ -8,6 +8,106 @@ const dbPerso = new StormDB(enginePerso);
 const engineTask = new BrowserEngine("dbtask");
 const dbTask = new StormDB(engineTask);
 
+const CHAOS_GATE_OPENING = [
+    {
+        'day': '1',
+        'hour': '05',
+        'min': '00'
+    },
+    {
+        'day': '1',
+        'hour': '06',
+        'min': '00'
+    },
+    {
+        'day': '1',
+        'hour': '07',
+        'min': '00'
+    },
+    {
+        'day': '1',
+        'hour': '08',
+        'min': '00'
+    },
+    {
+        'day': '1',
+        'hour': '09',
+        'min': '00'
+    },
+    {
+        'day': '1',
+        'hour': '10',
+        'min': '00'
+    },
+    {
+        'day': '1',
+        'hour': '11',
+        'min': '00'
+    },
+    {
+        'day': '1',
+        'hour': '12',
+        'min': '00'
+    },
+    {
+        'day': '1',
+        'hour': '13',
+        'min': '00'
+    },
+    {
+        'day': '1',
+        'hour': '14',
+        'min': '00'
+    },
+    {
+        'day': '1',
+        'hour': '15',
+        'min': '00'
+    },
+    {
+        'day': '1',
+        'hour': '16',
+        'min': '00'
+    },
+    {
+        'day': '1',
+        'hour': '17',
+        'min': '00'
+    },
+    {
+        'day': '1',
+        'hour': '18',
+        'min': '00'
+    },
+    {
+        'day': '1',
+        'hour': '19',
+        'min': '00'
+    },
+    {
+        'day': '1',
+        'hour': '20',
+        'min': '00'
+    },
+    {
+        'day': '1',
+        'hour': '21',
+        'min': '00'
+    },
+    {
+        'day': '1',
+        'hour': '22',
+        'min': '00'
+    },
+    {
+        'day': '1',
+        'hour': '23',
+        'min': '00'
+    }
+];
+
+var minutesBeforeNextEvent = 9999;
+
 // AJOUT, MAJ, SUPPRESSION D'UN PERSONNAGE
 $(document).on('change', '.inputMajPerso', function () { updatePerso($(this)) });
 $(document).on('click', '.deletePerso', function () { deletePerso($(this)) });
@@ -26,6 +126,18 @@ $(document).ready(function () {
     var nextTaskModal = new bootstrap.Modal(document.getElementById('nextTaskModal'), {});
     nextTaskModal.show();
 
+    if (dbTask.get("resetDaily").value() === undefined) {
+        dbTask.set("resetDaily", "").save();
+    } else {
+        resetDaily();
+    }
+
+    if (dbTask.get("resetWeekly").value() === undefined) {
+        dbTask.set("resetWeekly", "").save();
+    } else {
+        resetWeekly();
+    }
+    
     if (dbPerso.get("personnages").value() === undefined) {
         dbPerso.set("personnages", []).save();
     } else if (dbPerso.get("personnages").value().length > 0) {
@@ -39,54 +151,163 @@ $(document).ready(function () {
     }
 
     nextEvent();
+    showTime();
+
+    // console.log(dbTask.get("tasks").value()) 
 });
 
 function nextEvent() {
+    nextTypeEvent('Daily');
+    nextTypeEvent('Weekly');
+    nextTypeEvent('Unique');
+}
+
+function resetDaily(resetVar, resetType) {
+    if (dbTask.get('resetDaily').value() != moment().format('DD/MM/YYYY')) {
+        dbTask.get('resetDaily').set(moment().format('DD/MM/YYYY'));
+        dbTask.save();
+
+        console.log(dbTask.get('resetDaily').value())
+
+        let tasks = dbTask.get("tasks").value();
+        
+        for (let j = 0; j < tasks.length; j++) {
+            if (tasks[j].resetTask == 'Daily') {
+                dbTask.get("tasks")
+                    .get(j)
+                    .get('statutTask')
+                    .set(false);
+                
+                dbTask.save();
+            }
+        }
+
+        showTask();
+    }
+}
+
+function resetWeekly() {
+    if (dbTask.get('resetWeekly').value() != moment().format('DD/MM/YYYY') && moment().format('E') == 4) {
+        dbTask.get('resetWeekly').set(moment().format('DD/MM/YYYY'));
+        dbTask.save();
+
+        console.log(dbTask.get('resetWeekly').value())
+
+        let tasks = dbTask.get("tasks").value();
+        
+        for (let j = 0; j < tasks.length; j++) {
+            if (tasks[j].resetTask == 'Weekly') {
+                dbTask.get("tasks")
+                    .get(j)
+                    .get('statutTask')
+                    .set(false);
+                
+                dbTask.save();
+            }
+        }
+
+        showTask();
+    }
+}
+
+function getOpening(type) {
+    minutesBeforeNextEvent = 9999;
+
+    switch (type) {
+        case 'Chaos Gate':
+            return CHAOS_GATE_OPENING.filter(
+                function (data) {
+                    // console.log(data.day)
+                    // console.log(moment().isoWeekday(parseInt(data.day)).set('hour', 12).set('minute', 00).set('second', 00))
+                    let now = moment();
+                    let end = moment().isoWeekday(parseInt(data.day)).set('hour', parseInt(data.hour)).set('minute', parseInt(data.min)).set('second', 00)
+
+                    // console.log(now)
+                    // console.log(end)
+
+                    let diff = moment.duration(end.diff(now));
+
+                    let minutesBeforeEvent = Math.round(diff.as('minutes'));
+
+                    if (minutesBeforeNextEvent > minutesBeforeEvent && minutesBeforeEvent > 0) {
+                        minutesBeforeNextEvent = minutesBeforeEvent;
+                    }
+
+                    // console.log(minutesBeforeEvent)
+                    return minutesBeforeEvent >= 0 && minutesBeforeEvent <= 50
+                }
+            );
+
+        default:
+            break;
+    }
+}
+
+function nextTypeEvent(resetType) {
     let prioPerso = 1;
     let prioTask = 1;
     let prioMax = 10;
 
-    let task = null;
-
     let persos = dbPerso.get("personnages").value();
-
-    // console.log(persos)
+    let tasks = dbTask.get("tasks").value();
 
     let persoEnPrio = null;
     let taskEnPrio = null;
     let i = 0;
     let j = 0;
+    let k = 0;
+
+    let taskEventPrio = null;
+
+
+    if (resetType == 'Daily') {
+        for (k = 0; k < tasks.length; k++) {
+            if (!tasks[k].statutTask && tasks[k].openingTask.length > 0 && getOpening(tasks[k].openingTask).length > 0) {
+                // console.log('EVENT')
+                // console.log(minutesBeforeNextEvent)
+                findEventPrio = getOpening(tasks[k].openingTask);
+
+                if (findEventPrio.length > 0) {
+                    taskEventPrio = tasks[k];
+                }
+                // console.log(taskEventPrio)
+                break;
+            }
+        }
+    }
 
     while (taskEnPrio == null && prioPerso < prioMax) {
 
         for (i = 0; i < persos.length; i++) {
             if (persos[i].prioPerso == prioPerso) {
-                // __FOUND is set to the index of the element
                 persoEnPrio = persos[i];
                 break;
             }
         }
 
-        // console.log(persoEnPrio)
 
 
-        let tasks = dbTask.get("tasks").value();
-
-        // console.log(tasks)
         prioTask = 1;
 
         while (taskEnPrio == null && prioTask < prioMax) {
 
             for (j = 0; j < tasks.length; j++) {
-                if (tasks[j].prioTask == prioTask && persoEnPrio.typePerso == tasks[j].persoTask && !tasks[j].statutTask) {
-                    // __FOUND is set to the index of the element
-                    taskEnPrio = tasks[j];
-                    break;
+                // console.log(tasks[j].nomTask, tasks[j].prioTask, prioTask, tasks[j].resetTask, resetType, persoEnPrio.typePerso, tasks[j].persoTask, tasks[j].statutTask)
+                
+                if (parseInt(tasks[j].prioTask) == prioTask && tasks[j].resetTask == resetType && persoEnPrio.typePerso == tasks[j].persoTask && !tasks[j].statutTask) {
+                    // console.log(tasks[j].nomTask)
+                    // console.log(tasks[j].nomTask, tasks[j].resetTask, (parseInt(tasks[j].dureeTask) + 5), minutesBeforeNextEvent, (parseInt(tasks[j].dureeTask) + 5) < minutesBeforeNextEvent)
+                    
+                    if (tasks[j].resetTask == 'Daily' && (parseInt(tasks[j].dureeTask) + 5) < minutesBeforeNextEvent) {
+                        taskEnPrio = tasks[j];
+                        break;
+                    } else if (tasks[j].resetTask != 'Daily') {
+                        taskEnPrio = tasks[j];
+                        break;
+                    }
+                    // break;
                 }
             }
-
-
-            // console.log(prioPerso, prioTask)
 
             prioTask++;
         }
@@ -94,24 +315,37 @@ function nextEvent() {
         prioPerso++;
     }
 
-    console.log(persoEnPrio)
-    console.log(taskEnPrio)
-    console.log(i)
-    console.log(j)
+    // console.log(persoEnPrio)
+    // console.log(taskEventPrio)
+    // console.log(taskEnPrio)
+    // console.log(i)
+    // console.log(j)
 
     if (taskEnPrio) {
         $('#nextTaskPersoImg').attr('src', `images/${persoEnPrio.imagePerso}`);
-        $('#nextTaskImg').attr('src', `images/${taskEnPrio.imageTask}`);
-        $('#nextTaskName').html(`
+        $('#badge-gearlevel-nextTaskModal').html(persoEnPrio.gearlevel);
+        $(`#next${resetType}TaskImg`).attr('src', `images/${taskEnPrio.imageTask}`);
+        $(`#next${resetType}TaskName`).html(`
             ${taskEnPrio.nomTask}<br>
             <i class="color-gray">${taskEnPrio.typeTask} - ${taskEnPrio.dureeTask} min</i>
             <div class="form-check form-switch float-end">
                 <input class="form-check-input switchMajTask" data-index="${j}" data-champs="statutTask" type="checkbox" id="statutTask${j}">
             </div>
         `);
+    } else if (taskEventPrio) {
+        $('#nextTaskPersoImg').attr('src', `images/${persoEnPrio.imagePerso}`);
+        $('#badge-gearlevel-nextTaskModal').html(persoEnPrio.gearlevel);
+        $(`#next${resetType}TaskImg`).attr('src', `images/${taskEventPrio.imageTask}`);
+        $(`#next${resetType}TaskName`).html(`
+            ${taskEventPrio.nomTask}<br>
+            <i class="color-gray">${taskEventPrio.typeTask} - ${taskEventPrio.dureeTask} min</i>
+            <div class="form-check form-switch float-end">
+                <input class="form-check-input switchMajTask" data-index="${j}" data-champs="statutTask" type="checkbox" id="statutTask${j}">
+            </div>
+        `);
     } else {
-        $('#nextTaskImg').attr('src', `images/success.avif`);
-        $('#nextTaskName').html(`DONE`);
+        $(`#next${resetType}TaskImg`).attr('src', `images/success.avif`);
+        $(`#next${resetType}TaskName`).html(`DONE`);
     }
 }
 
@@ -213,6 +447,7 @@ function showTask() {
                 <th scope="col">Nom</th>
                 <th scope="col">Priorité</th>
                 <th scope="col">Durée</th>
+                <th scope="col">Ouverture</th>
                 <th scope="col">Image</th>
                 <th scope="col">Statut</th>
                 <th scope="col">Delete</th>
@@ -230,6 +465,7 @@ function showTask() {
             <td><input type="text" class="form-control inputMajTask" data-index="${index}" data-champs="nomTask" value="${task.nomTask}"/></td>
             <td><input type="number" class="form-control inputMajTask" data-index="${index}" data-champs="prioTask" value="${task.prioTask}"/></td>
             <td><input type="number" class="form-control inputMajTask" data-index="${index}" data-champs="dureeTask" value="${task.dureeTask}"/></td>
+            <td><input list="openingOptions" class="form-control inputMajTask" data-index="${index}" data-champs="openingTask" value="${task.openingTask}"/></td>
             <td><input type="text" class="form-control inputMajTask" data-index="${index}" data-champs="imageTask" value="${task.imageTask}"/></td>
             <td>
                 <div class="form-check form-switch">
@@ -252,6 +488,7 @@ function addTask() {
     let nomTask = $('#nomTask').val();
     let prioTask = $('#prioTask').val();
     let dureeTask = $('#dureeTask').val();
+    let openingTask = $('#openingTask').val();
     let imageTask = $(`option[value="${typeTask}"]`).data('image');
 
     let task = {
@@ -262,6 +499,7 @@ function addTask() {
         'prioTask': prioTask,
         'dureeTask': dureeTask,
         'imageTask': imageTask,
+        'openingTask': openingTask,
         'statutTask': false
     };
 
@@ -294,7 +532,7 @@ function updateSwitchTask(data) {
     let index = data.data('index');
     let champs = data.data('champs');
 
-    console.log(value, index, champs)
+    // console.log(value, index, champs)
 
     dbTask.get("tasks")
         .get(index)
@@ -316,4 +554,21 @@ function deleteTask(data) {
     showTask();
     // location.reload();
     // return false;
+}
+
+function showTime() {
+    let date = new Date();
+    let h = date.getHours(); // 0 - 23
+    let m = date.getMinutes(); // 0 - 59
+    let s = date.getSeconds(); // 0 - 59
+
+    h = (h < 10) ? "0" + h : h;
+    m = (m < 10) ? "0" + m : m;
+    s = (s < 10) ? "0" + s : s;
+
+    let time = h + ":" + m + ":" + s;
+    document.getElementById("MyClockDisplay").innerText = time;
+    document.getElementById("MyClockDisplay").textContent = time;
+
+    setTimeout(showTime, 1000);
 }

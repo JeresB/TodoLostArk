@@ -228,9 +228,20 @@ function exportToJsonFile(jsonData) {
 function startRead(evt) {
     var file = document.getElementById('importFile').files[0];
     if (file) {
-        //  getAsText(file);
+        getAsText(file);
         alert("Name: " + file.name + "\n" + "Last Modified Date :" + file.lastModifiedDate);
     }
+}
+
+function getAsText(readFile) {
+    var reader = new FileReader();
+    reader.readAsText(readFile, "UTF-8″);
+    reader.onload = loaded;
+}
+function loaded(evt) {
+    alert("File Loaded Successfully");
+    var fileString = evt.target.result;
+    console.log(fileString)
 }
 
 function getOpening(type) {

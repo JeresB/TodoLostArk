@@ -372,6 +372,15 @@ const GESBROY_OPENING = [
 var minutesBeforeNextEvent = 9999;
 var persoPrio = null;
 var intervalEvent = null;
+var table = null;
+var eventTasks = [];
+var eventTaskPrio = null;
+var isEventTask = false;
+var prioPersoEnCours = 1;
+var prioTaskEnCours = 1;
+var persoEnCours = null;
+var taskEnCours = null;
+var resetTypes = ['Daily'];
 
 // AJOUT, MAJ, SUPPRESSION D'UN PERSONNAGE
 $(document).on('change', '.inputMajPerso', function () { updatePerso($(this)) });
@@ -405,7 +414,7 @@ $(document).ready(function () {
     } else {
         resetWeekly();
     }
-    
+
     if (dbPerso.get("personnages").value() === undefined) {
         dbPerso.set("personnages", []).save();
     } else if (dbPerso.get("personnages").value().length > 0) {
@@ -417,16 +426,16 @@ $(document).ready(function () {
     } else if (dbTask.get("tasks").value().length > 0) {
         showTask();
     }
-    
+
     nextEvent();
     refreshEvent();
     showTime();
-
+    calculTask();
     // console.log(dbTask.get("tasks").value()) 
 });
 
 function refreshEvent() {
-    intervalEvent = setInterval(nextEvent, 10000);
+    intervalEvent = setInterval(nextEvent, 100000);
 }
 
 function stopRefreshEvent() {
@@ -448,14 +457,14 @@ function resetDaily(resetVar, resetType) {
         console.log(dbTask.get('resetDaily').value())
 
         let tasks = dbTask.get("tasks").value();
-        
+
         for (let j = 0; j < tasks.length; j++) {
             if (tasks[j].resetTask == 'Daily') {
                 dbTask.get("tasks")
                     .get(j)
                     .get('statutTask')
                     .set(false);
-                
+
                 dbTask.save();
             }
         }
@@ -472,14 +481,14 @@ function resetWeekly() {
         console.log(dbTask.get('resetWeekly').value())
 
         let tasks = dbTask.get("tasks").value();
-        
+
         for (let j = 0; j < tasks.length; j++) {
             if (tasks[j].resetTask == 'Weekly') {
                 dbTask.get("tasks")
                     .get(j)
                     .get('statutTask')
                     .set(false);
-                
+
                 dbTask.save();
             }
         }
@@ -490,7 +499,7 @@ function resetWeekly() {
 
 function exportToJsonFile(jsonData) {
     let dataStr = JSON.stringify(jsonData);
-    let dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+    let dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
 
     let exportFileDefaultName = 'data.json';
 
@@ -513,25 +522,26 @@ function getAsText(readFile) {
     reader.readAsText(readFile, "UTF-8");
     reader.onload = loaded;
 }
+
 function loaded(evt) {
     console.log("File Loaded Successfully");
     let fileString = evt.target.result;
     console.log(fileString)
-    
+
     fileJSON = JSON.parse(fileString);
-    
+
     dbPerso.get("personnages").set(fileJSON.personnage);
     dbTask.get("tasks").set(fileJSON.tasks);
-    
+
     dbPerso.save();
     dbTask.save();
-    
+
     showPerso();
     showTask();
 }
 
 function getOpening(type) {
-    
+
 
     switch (type) {
         case 'Chaos Gate':
@@ -659,6 +669,127 @@ function getOpening(type) {
     }
 }
 
+function calculTask() {
+    console.log('CALCUL TASK');
+
+    let tasks = dbTask.get("tasks").value();
+
+    if (eventTasks.length == 0) getEventTask();
+
+    // tasks.forEach(function (task) {
+    //     console.log(task)
+    // });
+
+    console.log('eventTasks => ', eventTasks);
+
+    minutesBeforeNextEvent = 9999;
+    eventTaskPrio = null;
+    eventTasks.forEach(function (task) {
+        getNextOpening(task);
+    });
+
+    console.log('minutesBeforeNextEvent => ', minutesBeforeNextEvent);
+    console.log('eventTaskPrio => ', eventTaskPrio);
+
+    if (persoEnCours == null) getPersoPrio();
+
+    console.log('persoEnCours => ', persoEnCours);
+
+    if (taskEnCours == null) getNextDailyTask();
+    // clique sur la validation de la tache -> remettre taskEnCours a null et relancer function
+    
+    console.log('NextDailyTask => ', taskEnCours);
+}
+
+function getEventTask() {
+    eventTasks = [];
+
+    dbTask.get("tasks").value().forEach(function (task) {
+        if (task.openingTask.length > 0) eventTasks.push(task);
+    });
+}
+
+function getPersoPrio() {
+    persoEnCours = null;
+
+    dbPerso.get("personnages").value().forEach(function (perso) {
+        if (perso.prioPerso == prioPersoEnCours) {
+            persoEnCours = perso;
+        }
+    });
+}
+
+function getNextDailyTask() {
+    taskEnCours = null;
+    // console.log('getNextDailyTask');
+
+    dbTask.get("tasks").value().forEach(function (task) {
+        // console.log('getNextDailyTask => ', task);
+        if (task.prioTask == prioTaskEnCours && task.resetTask == 'Daily' && persoEnCours.typePerso == task.persoTask && !task.statutTask && task.openingTask.length == 0 && taskEnCours == null) {
+            if (isEventTask && (parseInt(task.dureeTask) + 2) < minutesBeforeNextEvent) {
+                taskEnCours = task;
+            } else if(!isEventTask) {
+                taskEnCours = task;
+                return;
+            }
+        }
+    });
+}
+
+function calculMinBeforeEvent(opening, task) {
+    let now = moment();
+    let end = moment().isoWeekday(parseInt(opening.day)).set('hour', parseInt(opening.hour)).set('minute', parseInt(opening.min)).set('second', 00);
+
+    let diff = moment.duration(end.diff(now));
+
+    let minutesBeforeEvent = Math.round(diff.as('minutes'));
+
+    if (minutesBeforeNextEvent > minutesBeforeEvent && minutesBeforeEvent > 0) {
+        minutesBeforeNextEvent = minutesBeforeEvent;
+        eventTaskPrio = task;
+        isEventTask = true;
+    }
+}
+
+function getNextOpening(task) {
+    // console.log('getNextOpening task => ', task);
+
+    switch (task.openingTask) {
+        case 'Chaos Gate':
+            CHAOS_GATE_OPENING.forEach(function (opening) {
+                calculMinBeforeEvent(opening, task);
+            });
+            break;
+
+        case 'Alakkir':
+            ALAKKIR_OPENING.forEach(function (opening) {
+                calculMinBeforeEvent(opening, task);
+            });
+            break;
+
+        case 'Adventure Island Daily':
+            ADVENTURE_ISLAND_OPENING.forEach(function (opening) {
+                calculMinBeforeEvent(opening, task);
+            });
+            break;
+
+        case 'World Boss':
+            WORLD_BOSS_OPENING.forEach(function (opening) {
+                calculMinBeforeEvent(opening, task);
+            });
+            break;
+
+        case 'Gesbroy':
+            GESBROY_OPENING.forEach(function (opening) {
+                calculMinBeforeEvent(opening, task);
+            });
+            break;
+
+        default:
+            break;
+    }
+}
+
 function nextTypeEvent(resetType) {
     let prioPerso = 1;
     let prioTask = 1;
@@ -732,11 +863,11 @@ function nextTypeEvent(resetType) {
 
             for (j = 0; j < tasks.length; j++) {
                 // console.log(tasks[j].nomTask, tasks[j].prioTask, prioTask, tasks[j].resetTask, resetType, persoEnPrio.typePerso, tasks[j].persoTask, tasks[j].statutTask)
-                
+
                 if (parseInt(tasks[j].prioTask) == prioTask && tasks[j].resetTask == resetType && persoEnPrio.typePerso == tasks[j].persoTask && !tasks[j].statutTask && tasks[j].openingTask.length == 0) {
                     // console.log(tasks[j].nomTask)
                     console.log(tasks[j].nomTask, tasks[j].resetTask, (parseInt(tasks[j].dureeTask) + 5), minutesBeforeNextEvent, (parseInt(tasks[j].dureeTask) + 5) < minutesBeforeNextEvent)
-                    
+
                     if (tasks[j].resetTask == 'Daily' && (parseInt(tasks[j].dureeTask) + 5) < minutesBeforeNextEvent) {
                         taskEnPrio = tasks[j];
                         break;
@@ -879,7 +1010,7 @@ function deletePerso(data) {
 
 function showTask() {
     let listeHtmlTask = `
-    <table class="table">
+    <table id="tableTask" class="table">
         <thead>
             <tr>
                 <th scope="col">Personnage</th>
@@ -920,6 +1051,7 @@ function showTask() {
     listeHtmlTask += `</tbody></table>`;
 
     $('#sectionTasks').html(listeHtmlTask);
+    table = $('#tableTask').DataTable();
 }
 
 function addTask() {

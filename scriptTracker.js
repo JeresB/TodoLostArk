@@ -371,6 +371,7 @@ const GESBROY_OPENING = [
 
 var minutesBeforeNextEvent = 9999;
 var persoPrio = null;
+var intervalEvent = null;
 
 // AJOUT, MAJ, SUPPRESSION D'UN PERSONNAGE
 $(document).on('change', '.inputMajPerso', function () { updatePerso($(this)) });
@@ -384,7 +385,7 @@ $(document).on('click', '.deleteTask', function () { deleteTask($(this)) });
 $(document).on('click', '#saveTask', function () { addTask() });
 
 
-$(document).on('click', '#btnNextTask', function () { nextEvent() });
+// $(document).on('click', '#btnNextTask', function () { nextEvent() });
 
 $(document).on('click', '#btnExportJson', function () { exportToJsonFile({ personnage: dbPerso.get("personnages").value(), tasks: dbTask.get("tasks").value() }) });
 $(document).on('change', '#importFile', function (e) { startRead(e); });
@@ -417,11 +418,19 @@ $(document).ready(function () {
         showTask();
     }
 
-    nextEvent();
+    refreshEvent();
     showTime();
 
     // console.log(dbTask.get("tasks").value()) 
 });
+
+function refreshEvent() {
+    intervalEvent = setInterval(nextEvent, 10000);
+}
+
+function stopRefreshEvent() {
+    clearInterval(intervalEvent);
+}
 
 function nextEvent() {
     minutesBeforeNextEvent = 9999;
@@ -751,6 +760,7 @@ function nextTypeEvent(resetType) {
     // console.log(j)
 
     if (taskEnPrio) {
+        refreshEvent();
         $('#nextTaskPersoImg').attr('src', `images/${persoEnPrio.imagePerso}`);
         $('#badge-gearlevel-nextTaskModal').html(persoEnPrio.gearlevel);
         $(`#next${resetType}TaskImg`).attr('src', `images/${taskEnPrio.imageTask}`);
@@ -762,6 +772,7 @@ function nextTypeEvent(resetType) {
             </div>
         `);
     } else if (taskEventPrio) {
+        stopRefreshEvent();
         $('#nextTaskPersoImg').attr('src', `images/${persoEventPrio.imagePerso}`);
         $('#badge-gearlevel-nextTaskModal').html(persoEventPrio.gearlevel);
         $(`#next${resetType}TaskImg`).attr('src', `images/${taskEventPrio.imageTask}`);

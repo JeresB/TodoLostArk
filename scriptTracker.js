@@ -417,7 +417,8 @@ $(document).ready(function () {
     } else if (dbTask.get("tasks").value().length > 0) {
         showTask();
     }
-
+    
+    nextEvent();
     refreshEvent();
     showTime();
 

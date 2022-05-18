@@ -1159,6 +1159,11 @@ function updateSwitchTask(data) {
     dbTask.save();
 
     nextEvent();
+    
+    prioTaskEnCours = 1;
+    taskEnCours = null;
+    calculTask();
+    
     // location.reload();
     // return false;
 }

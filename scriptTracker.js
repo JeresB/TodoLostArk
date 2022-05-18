@@ -380,14 +380,19 @@ var isEventTask = false;
 var prioPersoEnCours = 1;
 var prioTaskEnCours = 1;
 var prioTaskWeeklyEnCours = 1;
+var prioTaskUniqueEnCours = 1;
 var persoEnCours = null;
+var persoTempEnCours = null;
 var taskEnCours = null;
 var taskWeeklyEnCours = null;
+var taskUniqueEnCours = null;
 var indexTaskEnCours = 0;
 var indexTaskWeeklyEnCours = 0;
+var indexTaskUniqueEnCours = 0;
 var resetTypes = ['Daily'];
 var prioMaximumTask = 10;
 var prioMaximumTaskWeekly = 10;
+var prioMaximumTaskUnique = 10;
 var prioMaximumPerso = 10;
 
 // AJOUT, MAJ, SUPPRESSION D'UN PERSONNAGE
@@ -435,8 +440,8 @@ $(document).ready(function () {
         showTask();
     }
 
-    nextEvent();
-    refreshEvent();
+    // nextEvent();
+    // refreshEvent();
     showTime();
     calculTask();
     // console.log(dbTask.get("tasks").value()) 
@@ -701,13 +706,19 @@ function calculTask() {
     console.log('minutesBeforeNextEvent => ', minutesBeforeNextEvent);
     console.log('eventTaskPrio => ', eventTaskPrio);
 
-    if (persoEnCours == null) {
+    if (taskEnCours == 'done') {
+        getPersoPrio();
+        console.log('All task done perso prio => ', persoEnCours)
+    } else if (persoEnCours == null) {
         prioTaskEnCours = 1;
         prioTaskWeeklyEnCours = 1;
+        prioTaskUniqueEnCours = 1;
         taskEnCours = null;
         taskWeeklyEnCours = null;
+        taskUniqueEnCours = null;
         indexTaskEnCours = 0;
         indexTaskWeeklyEnCours = 0;
+        indexTaskUniqueEnCours = 0;
         getPersoPrio();
     }
 
@@ -716,57 +727,99 @@ function calculTask() {
     if (taskEnCours == null) {
         prioTaskEnCours = 1;
         indexTaskEnCours = 0;
-        getNextDailyTask();
+        getNextDailyTask(persoEnCours);
     }
     // clique sur la validation de la tache -> remettre taskEnCours a null et relancer function
-    
+
     console.log('NextDailyTask => ', taskEnCours);
-    
-    if (taskEnCours) {
+
+    if (taskEnCours && taskEnCours != 'done') {
         prioTaskWeeklyEnCours = 1;
         indexTaskWeeklyEnCours = 0;
-        getNextWeeklyTask();
-        // get unique
-        
-        showOnModal('Daily', taskEnCours, indexTaskEnCours);
-        showOnModal('Weekly', taskWeeklyEnCours, indexTaskWeeklyEnCours);
-        // show unique on modal
-        
-        // wait
-        // do i have time still ?
-            // yes
-                // wait repeat question
-            // no
-                // show event
-                // update perso
-                // update weekly, unique
-    } else if(isEventTask) {
-        // get perso of event
-        // get weekly
-        // get unique
-        // show on modal
-    } else {
-        persoEnCours = null;
-        if (prioPersoEnCours < prioMaximumPerso) {
-            prioPersoEnCours++;
-            calculTask();
-        } else {
-            // looking for weekly next ?
+        getNextWeeklyTask(persoEnCours);
+
+        prioTaskUniqueEnCours = 1;
+        indexTaskUniqueEnCours = 0;
+        getNextUniqueTask(persoEnCours);
+
+        showOnModal('Daily', taskEnCours, indexTaskEnCours, persoEnCours);
+        showOnModal('Weekly', taskWeeklyEnCours, indexTaskWeeklyEnCours, persoEnCours);
+        showOnModal('Unique', taskUniqueEnCours, indexTaskUniqueEnCours, persoEnCours);
+
+        let keepGoing = true;
+
+        if (isEventTask) {
+            // do {
+                setTimeout(refreshNextEvent, (minutesBeforeNextEvent - 1) * 60000);
+
+                if ((parseInt(taskEnCours.dureeTask) + 2) < minutesBeforeNextEvent) {
+                    keepGoing = true;
+                } else {
+                    getPerso(eventTaskPrio);
+
+                    prioTaskWeeklyEnCours = 1;
+                    indexTaskWeeklyEnCours = 0;
+                    getNextWeeklyTask(persoTempEnCours);
+
+                    prioTaskUniqueEnCours = 1;
+                    indexTaskUniqueEnCours = 0;
+                    getNextUniqueTask(persoTempEnCours);
+
+                    showOnModal('Daily', eventTaskPrio, getIndexTask(eventTaskPrio), persoTempEnCours);
+                    showOnModal('Weekly', taskWeeklyEnCours, indexTaskWeeklyEnCours, persoTempEnCours);
+                    showOnModal('Unique', taskUniqueEnCours, indexTaskUniqueEnCours, persoTempEnCours);
+
+                    keepGoing = false;
+                }
+
+
+            // } while (keepGoing);
         }
+
+    } else if (isEventTask) {
+        getPerso(eventTaskPrio);
+        prioTaskWeeklyEnCours = 1;
+        indexTaskWeeklyEnCours = 0;
+        getNextWeeklyTask(persoTempEnCours);
+
+        prioTaskUniqueEnCours = 1;
+        indexTaskUniqueEnCours = 0;
+        getNextUniqueTask(persoTempEnCours);
+
+        showOnModal('Daily', eventTaskPrio, getIndexTask(eventTaskPrio), persoTempEnCours);
+        showOnModal('Weekly', taskWeeklyEnCours, indexTaskWeeklyEnCours, persoTempEnCours);
+        showOnModal('Unique', taskUniqueEnCours, indexTaskUniqueEnCours, persoTempEnCours);
+    } else if (taskEnCours == 'done') {
+        console.log('ALL DAILY TASK DONE')
+        // search weekly and unique for champ
+        // find -> show
+        // not found 
+            // -> prioPersoEnCours = 1;
+            // -> calculTask();
+    } else {
+        console.log('SET ALL DAILY TASK DONE')
+        taskEnCours = 'done';
+        prioPersoEnCours = 1;
+        calculTask();
     }
 }
 
-function showOnModal(resetType, task, index) {
-    $('#nextTaskPersoImg').attr('src', `images/${persoEnPrio.imagePerso}`);
-    $('#badge-gearlevel-nextTaskModal').html(persoEnPrio.gearlevel);
-    $(`#next${resetType}TaskImg`).attr('src', `images/${task.imageTask}`);
-    $(`#next${resetType}TaskName`).html(`
-        ${task.nomTask}<br>
-        <i class="color-gray">${task.typeTask} - ${task.dureeTask} min</i>
-        <div class="form-check form-switch float-end">
-            <input class="form-check-input switchMajTask" data-index="${index}" data-champs="statutTask" type="checkbox" id="statutTask${index}">
-        </div>
-    `);
+function showOnModal(resetType, task, index, perso) {
+    if (task) {
+        $('#nextTaskPersoImg').attr('src', `images/${perso.imagePerso}`);
+        $('#badge-gearlevel-nextTaskModal').html(perso.gearlevel);
+        $(`#next${resetType}TaskImg`).attr('src', `images/${task.imageTask}`);
+        $(`#next${resetType}TaskName`).html(`
+            ${task.nomTask}<br>
+            <i class="color-gray">${task.typeTask} - ${task.dureeTask} min</i>
+            <div class="form-check form-switch float-end">
+                <input class="form-check-input switchMajTask" data-index="${index}" data-champs="statutTask" type="checkbox" id="statutTask${index}">
+            </div>
+        `);
+    } else {
+        $(`#next${resetType}TaskImg`).attr('src', `images/success.avif`);
+        $(`#next${resetType}TaskName`).html(`DONE`);
+    }
 }
 
 function refreshNextEvent() {
@@ -776,29 +829,41 @@ function refreshNextEvent() {
     isEventTask = false;
     eventTasks.forEach(function (task) {
         getNextOpening(task);
-    });   
+    });
 }
 
 function getEventTask() {
     eventTasks = [];
 
     dbTask.get("tasks").value().forEach(function (task) {
-        if (task.openingTask.length > 0) eventTasks.push(task);
+        if (task.openingTask && task.openingTask.length > 0) eventTasks.push(task);
     });
 }
 
 function getIndexTask(task) {
     indexEventTaskPrio = 0;
-    
+
     dbTask.get("tasks").value().forEach(function (t, index) {
         if (task.nomTask == t.nomTask) indexEventTaskPrio = index;
     });
 }
 
 function getPerso(task) {
+    persoTempEnCours = null;
+
     dbPerso.get("personnages").value().forEach(function (p, index) {
         if (task.persoTask == p.typePerso) {
-            persoEnCours = p;
+            persoTempEnCours = p;
+        }
+    });
+}
+
+function getPersoFromPrio(prio) {
+    persoTempEnCours = null;
+
+    dbPerso.get("personnages").value().forEach(function (p, index) {
+        if (prio == p.prioPerso) {
+            persoTempEnCours = p;
         }
     });
 }
@@ -813,43 +878,73 @@ function getPersoPrio() {
     });
 }
 
-function getNextDailyTask() {
+function getNextDailyTask(perso) {
     taskEnCours = null;
     // console.log('getNextDailyTask');
+    if (!perso) {
+        return;
+    }
 
     dbTask.get("tasks").value().forEach(function (task, index) {
         // console.log('getNextDailyTask => ', task);
-        if (task.prioTask == prioTaskEnCours && task.resetTask == 'Daily' && persoEnCours.typePerso == task.persoTask && !task.statutTask && task.openingTask.length == 0 && taskEnCours == null) {
-            if ((isEventTask && (parseInt(taskEnCours.dureeTask) + 2) < minutesBeforeNextEvent) || !isEventTask) {
+        if (task.prioTask == prioTaskEnCours && task.resetTask == 'Daily' && perso.typePerso == task.persoTask && !task.statutTask && task.openingTask.length == 0 && taskEnCours == null) {
+            console.log('getNextDailyTask => ', task);
+            if ((isEventTask && (parseInt(task.dureeTask) + 2) < minutesBeforeNextEvent) || !isEventTask) {
                 taskEnCours = task;
                 indexTaskEnCours = index;
             }
         }
     });
-    
-    if (taskEnCours == null && prioTaskEnCours < prioMaximumTask) {
-        prioTaskEnCours++;
-        getNextDailyTask();
+
+    if (taskEnCours == null) {
+        if (prioTaskEnCours < prioMaximumTask) {
+            console.log('call getNextDailyTask prio => ', prioTaskEnCours);
+            prioTaskEnCours++;
+            getNextDailyTask(perso);
+        } else if (prioPersoEnCours < prioMaximumTask) {
+            console.log('call getNextDailyTask prio => ', prioTaskEnCours);
+            prioTaskEnCours = 1;
+            prioPersoEnCours++;
+            getPersoPrio()
+
+            if (persoEnCours) getNextDailyTask(persoEnCours);
+        }
     }
 }
 
-function getNextWeeklyTask() {
+function getNextWeeklyTask(perso) {
     taskWeeklyEnCours = null;
     // console.log('getNextDailyTask');
 
     dbTask.get("tasks").value().forEach(function (task, index) {
         // console.log('getNextDailyTask => ', task);
-        if (task.prioTask == prioTaskWeeklyEnCours && task.resetTask == 'Weekly' && persoEnCours.typePerso == task.persoTask && !task.statutTask && task.openingTask.length == 0 && taskWeeklyEnCours == null) {
-            if ((isEventTask && (parseInt(taskEnCours.dureeTask) + 2) < minutesBeforeNextEvent) || !isEventTask) {
-                taskWeeklyEnCours = task;
-                indexTaskWeeklyEnCours = index;
-            }
+        if (task.prioTask == prioTaskWeeklyEnCours && task.resetTask == 'Weekly' && perso.typePerso == task.persoTask && !task.statutTask && task.openingTask.length == 0 && taskWeeklyEnCours == null) {
+            taskWeeklyEnCours = task;
+            indexTaskWeeklyEnCours = index;
         }
     });
-    
+
     if (taskWeeklyEnCours == null && prioTaskWeeklyEnCours < prioMaximumTaskWeekly) {
         prioTaskWeeklyEnCours++;
-        getNextWeeklyTask();
+        getNextWeeklyTask(perso);
+    }
+}
+
+function getNextUniqueTask(perso) {
+    taskUniqueEnCours = null;
+    // console.log('getNextDailyTask');
+
+    dbTask.get("tasks").value().forEach(function (task, index) {
+        // console.log('getNextDailyTask => ', task);
+        if (task.prioTask == prioTaskUniqueEnCours && task.resetTask == 'Unique' && perso.typePerso == task.persoTask && !task.statutTask && task.openingTask.length == 0 && taskUniqueEnCours == null) {
+            taskUniqueEnCours = task;
+            indexTaskUniqueEnCours = index;
+        }
+    });
+
+    if (taskUniqueEnCours == null && prioTaskUniqueEnCours < prioMaximumTaskUnique) {
+        prioTaskUniqueEnCours++;
+        getNextUniqueTask(perso);
     }
 }
 
@@ -1230,12 +1325,12 @@ function updateSwitchTask(data) {
         .set(value);
     dbTask.save();
 
-    nextEvent();
-    
+    // nextEvent();
+
     prioTaskEnCours = 1;
     taskEnCours = null;
     calculTask();
-    
+
     // location.reload();
     // return false;
 }

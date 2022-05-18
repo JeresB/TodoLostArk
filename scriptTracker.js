@@ -369,7 +369,7 @@ const GESBROY_OPENING = [
 ]
 
 
-var minutesBeforeNextEvent = 9999;
+var minutesBeforeNextEvent = 300;
 var persoPrio = null;
 var intervalEvent = null;
 var table = null;
@@ -684,7 +684,7 @@ function calculTask() {
 
     console.log('eventTasks => ', eventTasks);
 
-    minutesBeforeNextEvent = 9999;
+    minutesBeforeNextEvent = 300;
     eventTaskPrio = null;
     isEventTask = false;
     eventTasks.forEach(function (task) {
@@ -730,9 +730,12 @@ function calculTask() {
         // show on modal
     } else {
         persoEnCours = null;
-        prioPersoEnCours++;
-        // show success daily
-        // looking for weekly next ?
+        if (prioPersoEnCours < prioMaximumPerso) {
+            prioPersoEnCours++;
+            calculTask();
+        } else {
+            // looking for weekly next ?
+        }
     }
 }
 
@@ -786,7 +789,7 @@ function calculMinBeforeEvent(opening, task) {
 
     let minutesBeforeEvent = Math.round(diff.as('minutes'));
 
-    if (minutesBeforeNextEvent > minutesBeforeEvent && minutesBeforeEvent > 0) {
+    if (minutesBeforeNextEvent > minutesBeforeEvent && minutesBeforeEvent > 0 && !task.statutTask) {
         minutesBeforeNextEvent = minutesBeforeEvent;
         eventTaskPrio = task;
         isEventTask = true;

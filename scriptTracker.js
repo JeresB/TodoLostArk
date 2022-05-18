@@ -381,6 +381,8 @@ var prioTaskEnCours = 1;
 var persoEnCours = null;
 var taskEnCours = null;
 var resetTypes = ['Daily'];
+var prioMaximumTask = 10;
+var prioMaximumPerso = 10;
 
 // AJOUT, MAJ, SUPPRESSION D'UN PERSONNAGE
 $(document).on('change', '.inputMajPerso', function () { updatePerso($(this)) });
@@ -684,6 +686,7 @@ function calculTask() {
 
     minutesBeforeNextEvent = 9999;
     eventTaskPrio = null;
+    isEventTask = false;
     eventTasks.forEach(function (task) {
         getNextOpening(task);
     });
@@ -691,15 +694,52 @@ function calculTask() {
     console.log('minutesBeforeNextEvent => ', minutesBeforeNextEvent);
     console.log('eventTaskPrio => ', eventTaskPrio);
 
-    if (persoEnCours == null) getPersoPrio();
+    if (persoEnCours == null) {
+        prioTaskEnCours = 1;
+        taskEnCours = null;
+        getPersoPrio();
+    }
 
     console.log('persoEnCours => ', persoEnCours);
 
-    if (taskEnCours == null) getNextDailyTask();
+    if (taskEnCours == null) {
+        prioTaskEnCours = 1;
+        getNextDailyTask();
+    }
     // clique sur la validation de la tache -> remettre taskEnCours a null et relancer function
     
     console.log('NextDailyTask => ', taskEnCours);
+    
+    if (taskEnCours) {
+        // get weekly
+        // get unique
+        // show on modal
+        
+        // wait
+        // do i have time still ?
+            // yes
+                // wait repeat question
+            // no
+                // show event
+                // update perso
+                // update weekly, unique
+    } else if(isEventTask) {
+        // get perso of event
+        // get weekly
+        // get unique
+        // show on modal
+    } else {
+        persoEnCours = null;
+        prioPersoEnCours++;
+        // show success daily
+        // looking for weekly next ?
+    }
 }
+
+// if valide task
+    // reset prio task
+    // reset task en cours
+    // call calculTask
 
 function getEventTask() {
     eventTasks = [];
@@ -726,14 +766,16 @@ function getNextDailyTask() {
     dbTask.get("tasks").value().forEach(function (task) {
         // console.log('getNextDailyTask => ', task);
         if (task.prioTask == prioTaskEnCours && task.resetTask == 'Daily' && persoEnCours.typePerso == task.persoTask && !task.statutTask && task.openingTask.length == 0 && taskEnCours == null) {
-            if (isEventTask && (parseInt(task.dureeTask) + 2) < minutesBeforeNextEvent) {
+            if ((isEventTask && (parseInt(taskEnCours.dureeTask) + 2) < minutesBeforeNextEvent) || !isEventTask) {
                 taskEnCours = task;
-            } else if(!isEventTask) {
-                taskEnCours = task;
-                return;
             }
         }
     });
+    
+    if (taskEnCours == null && prioTaskEnCours < prioMaximumTask) {
+        prioTaskEnCours++;
+        getNextDailyTask();
+    }
 }
 
 function calculMinBeforeEvent(opening, task) {

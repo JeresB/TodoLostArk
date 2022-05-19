@@ -792,10 +792,44 @@ function calculTask() {
     } else if (taskEnCours == 'done') {
         console.log('ALL DAILY TASK DONE')
         // search weekly and unique for champ
-        // find -> show
-        // not found 
-            // -> prioPersoEnCours = 1;
-            // -> calculTask();
+        prioTaskWeeklyEnCours = 1;
+        indexTaskWeeklyEnCours = 0;
+        getNextWeeklyTask(persoEnCours);
+        
+        if (taskWeeklyEnCours) {
+            getPerso(taskWeeklyEnCours);
+            
+            prioTaskUniqueEnCours = 1;
+            indexTaskUniqueEnCours = 0;
+            getNextUniqueTask(persoTempEnCours);
+            
+            showOnModal('Daily', null, 0, persoTempEnCours);
+            showOnModal('Weekly', taskWeeklyEnCours, indexTaskWeeklyEnCours, persoTempEnCours);
+            showOnModal('Unique', taskUniqueEnCours, indexTaskUniqueEnCours, persoTempEnCours);
+        } else if (prioPersoEnCours < prioMaximumTask) {
+            prioPersoEnCours++;
+            calculTask();
+        } else {
+            taskEnCours = 'unique';
+            prioPersoEnCours = 1;
+            calculTask();
+        }
+    } else if (taskEnCours == 'unique') {
+        prioTaskUniqueEnCours = 1;
+        indexTaskUniqueEnCours = 0;
+        getNextUniqueTask(persoEnCours);
+        
+        if (taskUniqueEnCours) {
+            showOnModal('Daily', null, 0, persoEnCours);
+            showOnModal('Weekly', null, 0, persoEnCours);
+            showOnModal('Unique', taskUniqueEnCours, indexTaskUniqueEnCours, persoEnCours);
+        } else {
+            getPersoFromPrio(1);
+            
+            showOnModal('Daily', null, 0, persoTempEnCours);
+            showOnModal('Weekly', null, 0, persoTempEnCours);
+            showOnModal('Unique', null, 0, persoTempEnCours);
+        }
     } else {
         console.log('SET ALL DAILY TASK DONE')
         taskEnCours = 'done';

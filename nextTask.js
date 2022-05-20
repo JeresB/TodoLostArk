@@ -445,34 +445,24 @@ function updateSwitchTask(data) {
     let index = data.data('index');
     let champs = data.data('champs');
 
-    // console.log('updateSwitchTask => ', db.get('tasks').get(index).get('nomTask').value())
-    // console.log('updateSwitchTask => ', db.get('tasks').get(index).get(champs).value())
-    // console.log('updateSwitchTask => ', champs, value)
-    
-    console.log('updateSwitchTask => ', db.get("tasks").get(index).value());
-    
     db.get("tasks")
         .get(index)
         .get(champs)
         .set(value);
     db.save();
-    db.save();
 
-    console.log('updateSwitchTask => ', db.get("tasks").get(index).value());
+    if (db.get('tasks').get(index).get('openingTask').value().length > 0) {
+        nextEventTask();
+    }
 
-    // console.log('updateSwitchTask => ', db.get('tasks').get(index).get(champs).value())
-
-    // if (db.get('tasks').get(index).get('openingTask').value().length > 0) {
-    //     setTimeout(nextEventTask, 1000);
-    // }
-
-    // if (db.get('tasks').get(index).get('openingTask').value().length == 0) {
-    //     console.log('updateSwitchTask => nextTask')
-    //     setTimeout(nextTask, 1000);
-    // }
-
-    nextEventTask()
-    nextTask()
+    if (db.get('tasks').get(index).get('openingTask').value().length == 0) {
+        if (db.get('tasks').get(index).get('resetTask').value() == 'Unique') {
+            db.get("tasks").get(index).delete(true);
+            db.save();
+        }
+        
+        nextTask();
+    }
 }
 
 function deleteTask(data) {

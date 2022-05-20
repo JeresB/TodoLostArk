@@ -395,7 +395,9 @@ function showTask() {
     listeHtmlTask += `</tbody></table>`;
 
     $('#sectionTasks').html(listeHtmlTask);
-    table = $('#tableTask').DataTable();
+    table = $('#tableTask').DataTable({
+        stateSave: true
+    });
 }
 
 function addTask() {
@@ -460,7 +462,7 @@ function updateSwitchTask(data) {
             db.get("tasks").get(index).delete(true);
             db.save();
         }
-        
+
         nextTask();
     }
 }

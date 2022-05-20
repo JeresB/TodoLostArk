@@ -1,6 +1,11 @@
 const engine = new BrowserEngine("db");
 const db = new StormDB(engine);
 
+const CHAOS_GATE_OPENING=[{day:"1",hour:"05",min:"00"},{day:"1",hour:"06",min:"00"},{day:"1",hour:"07",min:"00"},{day:"1",hour:"08",min:"00"},{day:"1",hour:"09",min:"00"},{day:"1",hour:"10",min:"00"},{day:"1",hour:"11",min:"00"},{day:"1",hour:"12",min:"00"},{day:"1",hour:"13",min:"00"},{day:"1",hour:"14",min:"00"},{day:"1",hour:"15",min:"00"},{day:"1",hour:"16",min:"00"},{day:"1",hour:"17",min:"00"},{day:"1",hour:"18",min:"00"},{day:"1",hour:"19",min:"00"},{day:"1",hour:"20",min:"00"},{day:"1",hour:"21",min:"00"},{day:"1",hour:"22",min:"00"},{day:"1",hour:"23",min:"00"}],WORLD_BOSS_OPENING=[{day:"2",hour:"05",min:"00"}],ALAKKIR_OPENING=[{day:"1",hour:"18",min:"50"},{day:"1",hour:"21",min:"50"},{day:"2",hour:"18",min:"50"},{day:"2",hour:"21",min:"50"},{day:"3",hour:"18",min:"50"},{day:"3",hour:"21",min:"50"},{day:"4",hour:"18",min:"50"},{day:"4",hour:"21",min:"50"},{day:"5",hour:"18",min:"50"},{day:"5",hour:"21",min:"50"},{day:"6",hour:"18",min:"50"},{day:"6",hour:"21",min:"50"},{day:"7",hour:"18",min:"50"},{day:"7",hour:"21",min:"50"}],ADVENTURE_ISLAND_OPENING=[{day:"1",hour:"21",min:"00"},{day:"1",hour:"23",min:"00"},{day:"2",hour:"21",min:"00"},{day:"2",hour:"23",min:"00"},{day:"3",hour:"21",min:"00"},{day:"3",hour:"23",min:"00"},{day:"4",hour:"21",min:"00"},{day:"4",hour:"23",min:"00"},{day:"5",hour:"21",min:"00"},{day:"5",hour:"23",min:"00"},{day:"6",hour:"21",min:"00"},{day:"6",hour:"23",min:"00"},{day:"7",hour:"21",min:"00"},{day:"7",hour:"23",min:"00"}],GESBROY_OPENING=[{day:"1",hour:"18",min:"20"},{day:"1",hour:"19",min:"20"},{day:"1",hour:"20",min:"20"},{day:"2",hour:"18",min:"20"},{day:"2",hour:"19",min:"20"},{day:"2",hour:"20",min:"20"},{day:"3",hour:"18",min:"20"},{day:"3",hour:"19",min:"20"},{day:"3",hour:"20",min:"20"},{day:"4",hour:"18",min:"20"},{day:"4",hour:"19",min:"20"},{day:"4",hour:"20",min:"20"},{day:"5",hour:"18",min:"20"},{day:"5",hour:"19",min:"20"},{day:"5",hour:"20",min:"20"},{day:"6",hour:"18",min:"20"},{day:"6",hour:"19",min:"20"},{day:"6",hour:"20",min:"20"},{day:"7",hour:"18",min:"20"},{day:"7",hour:"19",min:"20"},{day:"7",hour:"20",min:"20"}];
+
+var prioTaskEnCours = 1;
+var prioTaskEnCoursMax = 30;
+
 $(document).ready(function () {
     // SHOW MODAL NEXT EVENT
     let nextTaskModal = new bootstrap.Modal(document.getElementById('nextTaskModal'), {});
@@ -19,11 +24,14 @@ $(document).ready(function () {
     else if (db.get("personnages").value().length > 0) showPerso();
 
     // SHOW TASKS
-    if (dbTask.get("tasks").value() === undefined) dbTask.set("tasks", []).save();
-    else if (dbTask.get("tasks").value().length > 0) showTask();
+    if (db.get("tasks").value() === undefined) db.set("tasks", []).save();
+    else if (db.get("tasks").value().length > 0) showTask();
 
     // SHOW TIME ON MODAL
     showTime();
+
+    nextEventTask();
+    nextTask();
 });
 
 // AJOUT, MAJ, SUPPRESSION D'UN PERSONNAGE
@@ -53,19 +61,45 @@ function nextEventTask() {
         getNextOpening(task);
     });
   
-    let perso = getPerso(eventTaskPrio);
-  
-    // SHOW EVENT ON MODAL
+    showOnModal('Event', eventTaskPrio);
+}
+
+function nextTask() {
+    taskEnCours = null;
+    
+    db.get("tasks").value().forEach(function (task) {
+        if (task.prioTask == prioTaskEnCours && !task.statutTask && task.openingTask.length == 0 && taskEnCours == null) {
+            console.log(task);
+            taskEnCours = task;
+        }
+    });
+
+    if (!taskEnCours && prioTaskEnCours < prioTaskEnCoursMax) {
+        prioTaskEnCours++
+        nextTask();
+    } else {
+        showOnModal('Daily', taskEnCours, getPerso(taskEnCours));
+    }
 }
 
 function getEventTask() {
     let eventTasks = [];
 
-    dbTask.get("tasks").value().forEach(function (task) {
+    db.get("tasks").value().forEach(function (task) {
         if (task.openingTask && task.openingTask.length > 0) eventTasks.push(task);
     });
   
     return eventTasks;
+}
+
+function getIndexTask(task) {
+    let index = 0;
+
+    db.get("tasks").value().forEach(function (t, i) {
+        if (task == t) index = i;
+    });
+
+    return index;
 }
 
 function getPerso(task) {
@@ -78,6 +112,28 @@ function getPerso(task) {
     });
   
     return perso;
+}
+
+function showOnModal(resetType, task, perso = null) {
+    if (perso) {
+        $('#nextTaskPersoImg').attr('src', `images/${perso.imagePerso}`);
+        $('#badge-gearlevel-nextTaskModal').html(perso.gearlevel);
+    }
+
+    if (task) {
+        let index = getIndexTask(task);
+        $(`#next${resetType}TaskImg`).attr('src', `images/${task.imageTask}`);
+        $(`#next${resetType}TaskName`).html(`
+            ${task.nomTask}<br>
+            <i class="color-gray">${task.typeTask} - ${task.dureeTask} min</i>
+            <div class="form-check form-switch float-end">
+                <input class="form-check-input switchMajTask" data-index="${index}" data-champs="statutTask" type="checkbox" id="statutTask${index}">
+            </div>
+        `);
+    } else {
+        $(`#next${resetType}TaskImg`).attr('src', `images/success.avif`);
+        $(`#next${resetType}TaskName`).html(`Aucune tâche restante !`);
+    }
 }
 
 function calculMinBeforeEvent(opening, task) {
@@ -389,13 +445,34 @@ function updateSwitchTask(data) {
     let index = data.data('index');
     let champs = data.data('champs');
 
+    // console.log('updateSwitchTask => ', db.get('tasks').get(index).get('nomTask').value())
+    // console.log('updateSwitchTask => ', db.get('tasks').get(index).get(champs).value())
+    // console.log('updateSwitchTask => ', champs, value)
+    
+    console.log('updateSwitchTask => ', db.get("tasks").get(index).value());
+    
     db.get("tasks")
         .get(index)
         .get(champs)
         .set(value);
     db.save();
+    db.save();
 
-    // TODO CALL FONCTION TO GET NEXT TASK
+    console.log('updateSwitchTask => ', db.get("tasks").get(index).value());
+
+    // console.log('updateSwitchTask => ', db.get('tasks').get(index).get(champs).value())
+
+    // if (db.get('tasks').get(index).get('openingTask').value().length > 0) {
+    //     setTimeout(nextEventTask, 1000);
+    // }
+
+    // if (db.get('tasks').get(index).get('openingTask').value().length == 0) {
+    //     console.log('updateSwitchTask => nextTask')
+    //     setTimeout(nextTask, 1000);
+    // }
+
+    nextEventTask()
+    nextTask()
 }
 
 function deleteTask(data) {

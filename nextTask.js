@@ -189,7 +189,7 @@ function getNextOpening(task) {
 }
 
 function resetDaily(resetVar, resetType) {
-    if (db.get('resetDaily').value() != moment().format('DD/MM/YYYY')) {
+    if (db.get('resetDaily').value() != moment().format('DD/MM/YYYY') && moment().format("HH") > 11) {
         db.get('resetDaily').set(moment().format('DD/MM/YYYY'));
         db.save();
 

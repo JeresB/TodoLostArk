@@ -19,6 +19,7 @@
         <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addCaractereModal">Add
             Caractère</button>
         <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addTaskModal">Add Task</button>
+        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addTimeModal">Add Time</button>
         <button id="btnNextTask" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#nextTaskModal">Next
             Task</button>
     </div>
@@ -30,6 +31,10 @@
     <div><br></div>
 
     <section id="sectionTasks"></section>
+
+    <div><br></div>
+
+    <section id="sectionTimes"></section>
 
     <div><br></div>
 
@@ -195,6 +200,45 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i
                             class="fa-solid fa-xmark"></i></button>
                     <button id="saveTask" type="button" class="btn btn-success" data-bs-dismiss="modal"><i
+                            class="fa-solid fa-check"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="addTimeModal" class="modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Ajout d'une ouverture pour un événement</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="typeEvent" class="form-label">Type d'événement</label>
+                        <input class="form-control" list="typeEventOptions" id="typeEvent" placeholder="Chaos Gate">
+                        <datalist id="typeEventOptions"></datalist>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="day" class="form-label">Jour</label>
+                        <input type="number" class="form-control" id="day" placeholder="1 pour lundi">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="hour" class="form-label">Heure</label>
+                        <input type="number" class="form-control" id="hour" placeholder="00">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="minute" class="form-label">Minute</label>
+                        <input type="number" class="form-control" id="minute" placeholder="00">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i
+                            class="fa-solid fa-xmark"></i></button>
+                    <button id="saveTime" type="button" class="btn btn-success" data-bs-dismiss="modal"><i
                             class="fa-solid fa-check"></i></button>
                 </div>
             </div>

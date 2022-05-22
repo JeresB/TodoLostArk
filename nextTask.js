@@ -27,6 +27,10 @@ $(document).ready(function () {
     if (db.get("tasks").value() === undefined) db.set("tasks", []).save();
     else if (db.get("tasks").value().length > 0) showTask();
 
+    // SHOW TIMES
+    if (db.get("times").value() === undefined) db.set("times", []).save();
+    else if (db.get("times").value().length > 0) //showTimes();
+
     // SHOW TIME ON MODAL
     showTime();
 
@@ -471,6 +475,35 @@ function deleteTask(data) {
     let index = data.data('index');
 
     db.get("tasks").get(index).delete(true);
+    db.save();
+
+    showTask();
+}
+
+function showTimes() {
+    $('#typeEventOptions').html('');
+
+    db.get("times").value().forEach(function (time, index) {
+        $('#typeEventOptions').html(`<option value="${time.typeEvent}"></option>`);
+    });
+
+
+}
+
+function addTimes() {
+    let typeEvent = $('#typeEvent').val();
+    let day = $('#day').val();
+    let hour = $('#hour').val();
+    let minute = $('#minute').val();
+
+    let time = {
+        'typeEvent': typeEvent,
+        'day': day,
+        'hour': hour,
+        'minute': minute
+    };
+
+    db.get("tasks").push(task).save();
     db.save();
 
     showTask();

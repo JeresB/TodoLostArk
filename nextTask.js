@@ -52,7 +52,7 @@ $(document).on('click', '#saveTask', function () { addTask() });
 // AJOUT, MAJ, SUPPRESSION D'UN TEMPS
 $(document).on('change', '.inputMajTimes', function () { updateTimes($(this)) });
 $(document).on('click', '.deleteTimes', function () { deleteTimes($(this)) });
-$(document).on('click', '#saveTimes', function () { addTimes() });
+$(document).on('click', '#saveTime', function () { addTimes() });
 
 // IMPORT EXPORT JSON DATA
 $(document).on('click', '#btnExportJson', function () { exportToJsonFile({ personnage: db.get("personnages").value(), tasks: db.get("tasks").value() }) });

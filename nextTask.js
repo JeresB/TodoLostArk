@@ -490,10 +490,13 @@ function showTimes() {
     let typeEventOptions = [];
 
     db.get("times").value().forEach(function (time, index) {
+        console.log("times.forEach => ", time);
         if (!typeEventOptions.indexOf(time.typeEvent)) {
                typeEventOptions.push(time.typeEvent);
         }
     });
+    
+    console.log("typeEventOptions => ", typeEventOptions);
     
     typeEventOptions.forEach(function (time, index) {
         console.log("typeEventOptions.forEach => ", time);

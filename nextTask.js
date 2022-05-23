@@ -49,6 +49,11 @@ $(document).on('change', '.switchMajTask', function () { updateSwitchTask($(this
 $(document).on('click', '.deleteTask', function () { deleteTask($(this)) });
 $(document).on('click', '#saveTask', function () { addTask() });
 
+// AJOUT, MAJ, SUPPRESSION D'UN TEMPS
+$(document).on('change', '.inputMajTimes', function () { updateTimes($(this)) });
+$(document).on('click', '.deleteTimes', function () { deleteTimes($(this)) });
+$(document).on('click', '#saveTimes', function () { addTimes() });
+
 // IMPORT EXPORT JSON DATA
 $(document).on('click', '#btnExportJson', function () { exportToJsonFile({ personnage: db.get("personnages").value(), tasks: db.get("tasks").value() }) });
 $(document).on('change', '#importFile', function (e) { startRead(e); });
@@ -482,12 +487,46 @@ function deleteTask(data) {
 
 function showTimes() {
     $('#typeEventOptions').html('');
+    let typeEventOptions = [];
 
     db.get("times").value().forEach(function (time, index) {
-        $('#typeEventOptions').html(`<option value="${time.typeEvent}"></option>`);
+        if (!typeEventOptions.indexOf(time.typeEvent)) {
+               typeEventOptions.push(time.typeEvent);
+        }
+    });
+    
+    typeEventOptions.forEach(function (time, index) {
+        $('#typeEventOptions').html(`<option value="${time}"></option>`);
+    });
+    
+    
+    let listeHtmlTimes = `
+    <table id="tableTimes" class="table">
+        <thead>
+            <tr>
+                <th scope="col">Type Event</th>
+                <th scope="col">Day</th>
+                <th scope="col">Hour</th>
+                <th scope="col">Minute</th>
+            </tr>
+        </thead>
+        <tbody>`;
+
+    db.get("times").value().forEach((time, index) => {
+
+        listeHtmlTimes += `
+        <tr>
+            <th scope="row">${time.typeEvent}</th>
+            <td><input type="number" class="form-control inputMajTimes" data-index="${index}" data-champs="day" value="${time.day}"/></td>
+            <td><input type="number" class="form-control inputMajTimes" data-index="${index}" data-champs="hour" value="${time.hour}"/></td>
+            <td><input type="number" class="form-control inputMajTimes" data-index="${index}" data-champs="minute" value="${time.minute}"/></td>
+            <td><button class="btn btn-danger deleteTimes" data-index="${index}"><i class="fa-solid fa-minus"></i></button></td>
+        </tr>`;
     });
 
+    listeHtmlTimes += `</tbody></table>`;
 
+    $('#sectionTimes').html(listeHtmlTimes);
 }
 
 function addTimes() {
@@ -503,10 +542,33 @@ function addTimes() {
         'minute': minute
     };
 
-    db.get("tasks").push(task).save();
+    db.get("times").push(time).save();
     db.save();
 
-    showTask();
+    showTimes();
+}
+
+function updateTimes(data) {
+    let value = data.val();
+    let index = data.data('index');
+    let champs = data.data('champs');
+
+    db.get("times")
+        .get(index)
+        .get(champs)
+        .set(value);
+    db.save();
+
+    showTimes();
+}
+
+function deleteTimes(data) {
+    let index = data.data('index');
+
+    db.get("times").get(index).delete(true);
+    db.save();
+
+    showTimes();
 }
 
 function showTime() {

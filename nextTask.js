@@ -491,7 +491,7 @@ function showTimes() {
 
     db.get("times").value().forEach(function (time, index) {
         console.log("times.forEach => ", time);
-        if (!typeEventOptions.indexOf(time.typeEvent)) {
+        if (typeEventOptions.indexOf(time.typeEvent) === -1) {
                typeEventOptions.push(time.typeEvent);
         }
     });

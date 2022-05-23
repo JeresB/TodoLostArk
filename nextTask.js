@@ -496,7 +496,8 @@ function showTimes() {
     });
     
     typeEventOptions.forEach(function (time, index) {
-        $('#typeEventOptions').html(`<option value="${time}"></option>`);
+        console.log("typeEventOptions.forEach => ", time);
+        $('#typeEventOptions').append(`<option value="${time}"></option>`);
     });
     
     

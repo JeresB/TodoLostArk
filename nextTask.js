@@ -103,7 +103,7 @@ function nextTask() {
     } else {
         console.log('nextTask => ', taskEnCours);
         taskEnCours.forEach(function (task) {
-            showOnModal('Daily', task, getPerso(taskEnCours));
+            showOnModal('Daily', task, getPerso(taskEnCours[0]));
         });
     }
 }

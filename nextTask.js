@@ -70,8 +70,12 @@ function nextEventTask() {
   
     eventTasks.forEach(function (task) {
         minutesBeforeNextEvent = 55;
+        console.log('nextEventTask task => ', task); 
         db.get("times").value().forEach(function (time) {
+            console.log('nextEventTask time => ', time); 
+            
             if (task.openingTask == time.typeEvent) {
+                console.log('nextEventTask calcul => ', calculMinBeforeEvent(time, task)); 
                 if(calculMinBeforeEvent(time, task)) {
                         console.log('nextEventTask showOnModal => ', task); 
                         showOnModal('Event', task);

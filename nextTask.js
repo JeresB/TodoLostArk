@@ -73,7 +73,8 @@ function nextEventTask() {
         db.get("times").value().forEach(function (time) {
             if (task.openingTask == time.typeEvent) {
                 if(calculMinBeforeEvent(time, task)) {
-                       showOnModal('Event', task);
+                        console.log('nextEventTask showOnModal => ', task); 
+                        showOnModal('Event', task);
                 }
             }
         });

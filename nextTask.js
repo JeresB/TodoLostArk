@@ -101,8 +101,9 @@ function nextTask() {
         prioTaskEnCours++
         nextTask();
     } else {
+        console.log('nextTask => ', taskEnCours);
         taskEnCours.forEach(function (task) {
-            showOnModal('Daily', taskEnCours, getPerso(taskEnCours));
+            showOnModal('Daily', task, getPerso(taskEnCours));
         });
     }
 }

@@ -33,9 +33,12 @@ $(document).ready(function () {
 
     // SHOW TIME ON MODAL
     showTime();
-
+    
+    $(`#sectionEvent`).html('');
     nextEventTask();
+    
     taskEnCours = [];
+    $(`#sectionDaily`).html('');
     nextTask();
 });
 
@@ -519,6 +522,7 @@ function updateSwitchTask(data) {
 
         taskEnCours = [];
         prioTaskEnCours = 1;
+        $(`#sectionDaily`).html('');
         nextTask();
     }
 }

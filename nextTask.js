@@ -91,6 +91,7 @@ function nextEventTask() {
 function nextTask() {
 
     db.get("tasks").value().forEach(function (task) {
+        console.log(task);
         if (task.prioTask == prioTaskEnCours && !task.statutTask && task.openingTask.length == 0 && taskEnCours.length < 4) {
             console.log(task);
             taskEnCours.push(task);

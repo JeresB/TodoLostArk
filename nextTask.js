@@ -99,7 +99,6 @@ function nextTask() {
 
     if (taskEnCours.length < 4 && prioTaskEnCours < prioTaskEnCoursMax) {
         prioTaskEnCours++
-        taskEnCours = [];
         nextTask();
     } else {
         console.log('nextTask => ', taskEnCours);
@@ -517,6 +516,8 @@ function updateSwitchTask(data) {
             db.save();
         }
 
+        taskEnCours = [];
+        prioTaskEnCours = 1;
         nextTask();
     }
 }

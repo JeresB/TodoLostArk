@@ -61,13 +61,22 @@ $(document).on('change', '#importFile', function (e) { startRead(e); });
 function nextEventTask() {
     let eventTasks = getEventTask();
   
-    minutesBeforeNextEvent = 300;
+    minutesBeforeNextEvent = 55;
     eventTaskPrio = null;
     indexEventTaskPrio = 0;
     isEventTask = false;
+    
+    $(`#sectionEvent`).html('');
   
     eventTasks.forEach(function (task) {
-        getNextOpening(task);
+        minutesBeforeNextEvent = 55;
+        db.get("times").value().forEach(function (time) {
+            if (task.openingTask == time.typeEvent) {
+                if(calculMinBeforeEvent(time, task)) {
+                       showOnModal('Event', task);
+                }
+            }
+        });
     });
   
     showOnModal('Event', eventTaskPrio);
@@ -131,18 +140,33 @@ function showOnModal(resetType, task, perso = null) {
 
     if (task) {
         let index = getIndexTask(task);
-        $(`#next${resetType}TaskImg`).attr('src', `images/${task.imageTask}`);
-        $(`#next${resetType}TaskName`).html(`
-            ${task.nomTask}<br>
-            <i class="color-gray">${task.typeTask} - ${task.dureeTask} min</i>
-            <div class="form-check form-switch float-end">
-                <input class="form-check-input switchMajTask" data-index="${index}" data-champs="statutTask" type="checkbox" id="statutTask${index}">
+        let htmlevent = `<div class="card-body" style="padding: 0rem 1rem;">
+            <div class="card mb-3">
+                <div class="d-flex">
+                    <img src="images/${task.imageTask}" class="img-fluid rounded-start" alt="" style="max-height: 120px; min-width: 80px; max-width:180px;">
+                    <div class="card-body">
+                        ${task.nomTask}<br>
+                        <i class="color-gray">${task.typeTask} - ${task.dureeTask} min</i>
+                        <div class="form-check form-switch float-end">
+                            <input class="form-check-input switchMajTask" data-index="${index}" data-champs="statutTask" type="checkbox" id="statutTask${index}">
+                        </div>
+                    </div>
+                </div>
             </div>
-        `);
+        </div>`;
+        
     } else {
-        $(`#next${resetType}TaskImg`).attr('src', `images/success.avif`);
-        $(`#next${resetType}TaskName`).html(`Aucune tâche restante !`);
+        let htmlevent = `<div class="card-body" style="padding: 0rem 1rem;">
+            <div class="card mb-3">
+                <div class="d-flex">
+                    <img src="images/success.avif" class="img-fluid rounded-start" alt="" style="max-height: 120px; min-width: 80px; max-width:180px;">
+                    <div class="card-body">Aucune tâche restante !</div>
+                </div>
+            </div>
+        </div>`;
     }
+    
+    $(`#section${resetType}`).append(htmlevent);
 }
 
 function calculMinBeforeEvent(opening, task) {
@@ -154,9 +178,9 @@ function calculMinBeforeEvent(opening, task) {
     let minutesBeforeEvent = Math.round(diff.as('minutes'));
 
     if (minutesBeforeNextEvent > minutesBeforeEvent && minutesBeforeEvent > 0 && !task.statutTask) {
-        minutesBeforeNextEvent = minutesBeforeEvent;
-        eventTaskPrio = task;
-        isEventTask = true;
+        return true;
+    } else {
+        return false;   
     }
 }
 

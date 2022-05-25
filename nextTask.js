@@ -183,6 +183,8 @@ function calculMinBeforeEvent(opening, task) {
     let diff = moment.duration(end.diff(now));
 
     let minutesBeforeEvent = Math.round(diff.as('minutes'));
+    
+    console.log('calculMinBeforeEvent => ', minutesBeforeEvent);
 
     if (minutesBeforeNextEvent > minutesBeforeEvent && minutesBeforeEvent > 0 && !task.statutTask) {
         return true;

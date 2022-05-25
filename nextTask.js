@@ -88,12 +88,12 @@ function nextEventTask() {
 }
 
 function nextTask() {
-    taskEnCours = null;
+    taskEnCours = [];
     
     db.get("tasks").value().forEach(function (task) {
-        if (task.prioTask == prioTaskEnCours && !task.statutTask && task.openingTask.length == 0 && taskEnCours == null) {
+        if (task.prioTask == prioTaskEnCours && !task.statutTask && task.openingTask.length == 0 && taskEnCours.length < 3) {
             console.log(task);
-            taskEnCours = task;
+            taskEnCours.push(task);
         }
     });
 
@@ -101,7 +101,9 @@ function nextTask() {
         prioTaskEnCours++
         nextTask();
     } else {
-        showOnModal('Daily', taskEnCours, getPerso(taskEnCours));
+        taskEnCours.forEach(function (task) {
+            showOnModal('Daily', taskEnCours, getPerso(taskEnCours));
+        });
     }
 }
 

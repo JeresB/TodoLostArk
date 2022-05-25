@@ -92,13 +92,13 @@ function nextTask() {
 
     db.get("tasks").value().forEach(function (task) {
         console.log(task);
-        if (task.prioTask == prioTaskEnCours && !task.statutTask && task.openingTask.length == 0 && taskEnCours.length < 4) {
+        if (task.prioTask == prioTaskEnCours && !task.statutTask && task.openingTask.length == 0 && taskEnCours.length < 3) {
             console.log(task);
             taskEnCours.push(task);
         }
     });
 
-    if (taskEnCours.length < 4 && prioTaskEnCours < prioTaskEnCoursMax) {
+    if (taskEnCours.length < 3 && prioTaskEnCours < prioTaskEnCoursMax) {
         prioTaskEnCours++
         nextTask();
     } else {

@@ -29,7 +29,7 @@ $(document).ready(function () {
 
     // SHOW TIMES
     if (db.get("times").value() === undefined) db.set("times", []).save();
-    else if (db.get("times").value().length > 0) //showTimes();
+    else if (db.get("times").value().length > 0) showTimes();
 
     // SHOW TIME ON MODAL
     showTime();

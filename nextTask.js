@@ -84,7 +84,7 @@ function nextEventTask() {
         });
     });
   
-    showOnModal('Event', eventTaskPrio);
+    // showOnModal('Event', eventTaskPrio);
 }
 
 function nextTask() {

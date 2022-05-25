@@ -133,6 +133,8 @@ function getPerso(task) {
 }
 
 function showOnModal(resetType, task, perso = null) {
+    let htmlevent = '';
+    
     if (perso) {
         $('#nextTaskPersoImg').attr('src', `images/${perso.imagePerso}`);
         $('#badge-gearlevel-nextTaskModal').html(perso.gearlevel);
@@ -140,7 +142,7 @@ function showOnModal(resetType, task, perso = null) {
 
     if (task) {
         let index = getIndexTask(task);
-        let htmlevent = `<div class="card-body" style="padding: 0rem 1rem;">
+        htmlevent = `<div class="card-body" style="padding: 0rem 1rem;">
             <div class="card mb-3">
                 <div class="d-flex">
                     <img src="images/${task.imageTask}" class="img-fluid rounded-start" alt="" style="max-height: 120px; min-width: 80px; max-width:180px;">
@@ -156,7 +158,7 @@ function showOnModal(resetType, task, perso = null) {
         </div>`;
         
     } else {
-        let htmlevent = `<div class="card-body" style="padding: 0rem 1rem;">
+        htmlevent = `<div class="card-body" style="padding: 0rem 1rem;">
             <div class="card mb-3">
                 <div class="d-flex">
                     <img src="images/success.avif" class="img-fluid rounded-start" alt="" style="max-height: 120px; min-width: 80px; max-width:180px;">

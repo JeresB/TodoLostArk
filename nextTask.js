@@ -182,7 +182,8 @@ function calculMinBeforeEvent(opening, task) {
     console.log('task => ', task);
     
     let now = moment();
-    let end = moment().isoWeekday(parseInt(opening.day)).set('hour', parseInt(opening.hour)).set('minute', parseInt(opening.min)).set('second', 00);
+    let end = moment().isoWeekday(parseInt(opening.day)).set('hour', opening.hour).set('minute', opening.minute).set('second', 00);
+
 
     console.log('now => ', now);
     console.log('end => ', end);

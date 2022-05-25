@@ -91,7 +91,7 @@ function nextTask() {
     taskEnCours = [];
     
     db.get("tasks").value().forEach(function (task) {
-        if (task.prioTask == prioTaskEnCours && !task.statutTask && task.openingTask.length == 0 && taskEnCours.length < 3) {
+        if (task.prioTask == prioTaskEnCours && !task.statutTask && task.openingTask.length == 0 && taskEnCours.length < 4) {
             console.log(task);
             taskEnCours.push(task);
         }

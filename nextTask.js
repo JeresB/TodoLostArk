@@ -1,7 +1,7 @@
 const engine = new BrowserEngine("db");
 const db = new StormDB(engine);
 
-const CHAOS_GATE_OPENING=[{day:"1",hour:"05",min:"00"},{day:"1",hour:"06",min:"00"},{day:"1",hour:"07",min:"00"},{day:"1",hour:"08",min:"00"},{day:"1",hour:"09",min:"00"},{day:"1",hour:"10",min:"00"},{day:"1",hour:"11",min:"00"},{day:"1",hour:"12",min:"00"},{day:"1",hour:"13",min:"00"},{day:"1",hour:"14",min:"00"},{day:"1",hour:"15",min:"00"},{day:"1",hour:"16",min:"00"},{day:"1",hour:"17",min:"00"},{day:"1",hour:"18",min:"00"},{day:"1",hour:"19",min:"00"},{day:"1",hour:"20",min:"00"},{day:"1",hour:"21",min:"00"},{day:"1",hour:"22",min:"00"},{day:"1",hour:"23",min:"00"}],WORLD_BOSS_OPENING=[{day:"2",hour:"05",min:"00"}],ALAKKIR_OPENING=[{day:"1",hour:"18",min:"50"},{day:"1",hour:"21",min:"50"},{day:"2",hour:"18",min:"50"},{day:"2",hour:"21",min:"50"},{day:"3",hour:"18",min:"50"},{day:"3",hour:"21",min:"50"},{day:"4",hour:"18",min:"50"},{day:"4",hour:"21",min:"50"},{day:"5",hour:"18",min:"50"},{day:"5",hour:"21",min:"50"},{day:"6",hour:"18",min:"50"},{day:"6",hour:"21",min:"50"},{day:"7",hour:"18",min:"50"},{day:"7",hour:"21",min:"50"}],ADVENTURE_ISLAND_OPENING=[{day:"1",hour:"21",min:"00"},{day:"1",hour:"23",min:"00"},{day:"2",hour:"21",min:"00"},{day:"2",hour:"23",min:"00"},{day:"3",hour:"21",min:"00"},{day:"3",hour:"23",min:"00"},{day:"4",hour:"21",min:"00"},{day:"4",hour:"23",min:"00"},{day:"5",hour:"21",min:"00"},{day:"5",hour:"23",min:"00"},{day:"6",hour:"21",min:"00"},{day:"6",hour:"23",min:"00"},{day:"7",hour:"21",min:"00"},{day:"7",hour:"23",min:"00"}],GESBROY_OPENING=[{day:"1",hour:"18",min:"20"},{day:"1",hour:"19",min:"20"},{day:"1",hour:"20",min:"20"},{day:"2",hour:"18",min:"20"},{day:"2",hour:"19",min:"20"},{day:"2",hour:"20",min:"20"},{day:"3",hour:"18",min:"20"},{day:"3",hour:"19",min:"20"},{day:"3",hour:"20",min:"20"},{day:"4",hour:"18",min:"20"},{day:"4",hour:"19",min:"20"},{day:"4",hour:"20",min:"20"},{day:"5",hour:"18",min:"20"},{day:"5",hour:"19",min:"20"},{day:"5",hour:"20",min:"20"},{day:"6",hour:"18",min:"20"},{day:"6",hour:"19",min:"20"},{day:"6",hour:"20",min:"20"},{day:"7",hour:"18",min:"20"},{day:"7",hour:"19",min:"20"},{day:"7",hour:"20",min:"20"}];
+const CHAOS_GATE_OPENING = [{ day: "1", hour: "05", min: "00" }, { day: "1", hour: "06", min: "00" }, { day: "1", hour: "07", min: "00" }, { day: "1", hour: "08", min: "00" }, { day: "1", hour: "09", min: "00" }, { day: "1", hour: "10", min: "00" }, { day: "1", hour: "11", min: "00" }, { day: "1", hour: "12", min: "00" }, { day: "1", hour: "13", min: "00" }, { day: "1", hour: "14", min: "00" }, { day: "1", hour: "15", min: "00" }, { day: "1", hour: "16", min: "00" }, { day: "1", hour: "17", min: "00" }, { day: "1", hour: "18", min: "00" }, { day: "1", hour: "19", min: "00" }, { day: "1", hour: "20", min: "00" }, { day: "1", hour: "21", min: "00" }, { day: "1", hour: "22", min: "00" }, { day: "1", hour: "23", min: "00" }], WORLD_BOSS_OPENING = [{ day: "2", hour: "05", min: "00" }], ALAKKIR_OPENING = [{ day: "1", hour: "18", min: "50" }, { day: "1", hour: "21", min: "50" }, { day: "2", hour: "18", min: "50" }, { day: "2", hour: "21", min: "50" }, { day: "3", hour: "18", min: "50" }, { day: "3", hour: "21", min: "50" }, { day: "4", hour: "18", min: "50" }, { day: "4", hour: "21", min: "50" }, { day: "5", hour: "18", min: "50" }, { day: "5", hour: "21", min: "50" }, { day: "6", hour: "18", min: "50" }, { day: "6", hour: "21", min: "50" }, { day: "7", hour: "18", min: "50" }, { day: "7", hour: "21", min: "50" }], ADVENTURE_ISLAND_OPENING = [{ day: "1", hour: "21", min: "00" }, { day: "1", hour: "23", min: "00" }, { day: "2", hour: "21", min: "00" }, { day: "2", hour: "23", min: "00" }, { day: "3", hour: "21", min: "00" }, { day: "3", hour: "23", min: "00" }, { day: "4", hour: "21", min: "00" }, { day: "4", hour: "23", min: "00" }, { day: "5", hour: "21", min: "00" }, { day: "5", hour: "23", min: "00" }, { day: "6", hour: "21", min: "00" }, { day: "6", hour: "23", min: "00" }, { day: "7", hour: "21", min: "00" }, { day: "7", hour: "23", min: "00" }], GESBROY_OPENING = [{ day: "1", hour: "18", min: "20" }, { day: "1", hour: "19", min: "20" }, { day: "1", hour: "20", min: "20" }, { day: "2", hour: "18", min: "20" }, { day: "2", hour: "19", min: "20" }, { day: "2", hour: "20", min: "20" }, { day: "3", hour: "18", min: "20" }, { day: "3", hour: "19", min: "20" }, { day: "3", hour: "20", min: "20" }, { day: "4", hour: "18", min: "20" }, { day: "4", hour: "19", min: "20" }, { day: "4", hour: "20", min: "20" }, { day: "5", hour: "18", min: "20" }, { day: "5", hour: "19", min: "20" }, { day: "5", hour: "20", min: "20" }, { day: "6", hour: "18", min: "20" }, { day: "6", hour: "19", min: "20" }, { day: "6", hour: "20", min: "20" }, { day: "7", hour: "18", min: "20" }, { day: "7", hour: "19", min: "20" }, { day: "7", hour: "20", min: "20" }];
 
 var prioTaskEnCours = 1;
 var prioTaskEnCoursMax = 130;
@@ -33,10 +33,10 @@ $(document).ready(function () {
 
     // SHOW TIME ON MODAL
     showTime();
-    
+
     $(`#sectionEvent`).html('');
     nextEventTask();
-    
+
     taskEnCours = [];
     $(`#sectionDaily`).html('');
     nextTask();
@@ -64,30 +64,30 @@ $(document).on('change', '#importFile', function (e) { startRead(e); });
 
 function nextEventTask() {
     let eventTasks = getEventTask();
-  
+
     minutesBeforeNextEvent = 55;
     eventTaskPrio = null;
     indexEventTaskPrio = 0;
     isEventTask = false;
-    
+
     $(`#sectionEvent`).html('');
-  
+
     eventTasks.forEach(function (task) {
         minutesBeforeNextEvent = 55;
-        console.log('nextEventTask task => ', task); 
+        console.log('nextEventTask task => ', task);
         db.get("times").value().forEach(function (time) {
-            console.log('nextEventTask time => ', time); 
-            
+            console.log('nextEventTask time => ', time);
+
             if (task.openingTask == time.typeEvent) {
-                console.log('nextEventTask calcul => ', calculMinBeforeEvent(time, task)); 
-                if(calculMinBeforeEvent(time, task)) {
-                        console.log('nextEventTask showOnModal => ', task); 
-                        showOnModal('Event', task);
+                console.log('nextEventTask calcul => ', calculMinBeforeEvent(time, task));
+                if (calculMinBeforeEvent(time, task)) {
+                    console.log('nextEventTask showOnModal => ', task);
+                    showOnModal('Event', task);
                 }
             }
         });
     });
-  
+
     // showOnModal('Event', eventTaskPrio);
 }
 
@@ -119,7 +119,7 @@ function getEventTask() {
     db.get("tasks").value().forEach(function (task) {
         if (task.openingTask && task.openingTask.length > 0) eventTasks.push(task);
     });
-  
+
     return eventTasks;
 }
 
@@ -141,13 +141,13 @@ function getPerso(task) {
             perso = p;
         }
     });
-  
+
     return perso;
 }
 
 function showOnModal(resetType, task, perso = null) {
     let htmlevent = '';
-    
+
     if (perso) {
         $('#nextTaskPersoImg').attr('src', `images/${perso.imagePerso}`);
         $('#badge-gearlevel-nextTaskModal').html(perso.gearlevel);
@@ -169,7 +169,7 @@ function showOnModal(resetType, task, perso = null) {
                 </div>
             </div>
         </div>`;
-        
+
     } else {
         htmlevent = `<div class="card-body" style="padding: 0rem 1rem;">
             <div class="card mb-3">
@@ -180,80 +180,82 @@ function showOnModal(resetType, task, perso = null) {
             </div>
         </div>`;
     }
-    
+
     $(`#section${resetType}`).append(htmlevent);
 }
 
 function showStatsOnModal(perso) {
-    let dureeTotalPerso = 0;
-    let dureeRestantePerso = 0;
-    let nbTotalTask = 0;
-    let nbRestanteTask = 0;
+    if (perso) {
+        let dureeTotalPerso = 0;
+        let dureeRestantePerso = 0;
+        let nbTotalTask = 0;
+        let nbRestanteTask = 0;
 
-    db.get("tasks").value().forEach(function (task) {
-        if (task.persoTask == perso.typePerso) {
-            if (!task.statutTask) {
-                dureeRestantePerso += task.dureeTask;
-                nbRestanteTask++;
+        db.get("tasks").value().forEach(function (task) {
+            if (task.persoTask == perso.typePerso) {
+                if (!task.statutTask) {
+                    dureeRestantePerso += task.dureeTask;
+                    nbRestanteTask++;
+                }
+
+                dureeTotalPerso += task.dureeTask;
+                nbTotalTask++;
             }
+        });
 
-            dureeTotalPerso += task.dureeTask;
-            nbTotalTask++;
-        }
-    });
-
-    let html = `
-        <div style="display: flex;">
-            <div class="card" style="width: 18rem;">
-                <div class="card-body">
-                    <h6 class="card-subtitle mb-2 text-muted">${dureeTotalPerso}</h6>
-                    <h5 class="card-title">Durée total tâche perso : ${perso.nom}</h5>
-                </div>
-            </div>
-
-            <div class="card" style="width: 18rem;">
-                <div class="card-body">
-                    <h6 class="card-subtitle mb-2 text-muted">${dureeRestantePerso}</h6>
-                    <h5 class="card-title">Durée restante tâche perso : ${perso.nom}</h5>
-                </div>
-            </div>
-
-            <div class="card" style="width: 18rem;">
-                <div class="card-body">
-                    <div class="progress">
-                        <div class="progress-bar" role="progressbar" style="width: ${nbRestanteTask}%" aria-valuenow="${nbRestanteTask}" aria-valuemin="${nbRestanteTask}" aria-valuemax="${nbTotalTask}"></div>
+        let html = `
+            <div style="display: flex;">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">${dureeTotalPerso}</h6>
+                        <h5 class="card-title">Durée total tâche perso : ${perso.nom}</h5>
                     </div>
-                    <h5 class="card-title">Nb tache pour le perso : ${perso.nom}</h5>
+                </div>
+
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">${dureeRestantePerso}</h6>
+                        <h5 class="card-title">Durée restante tâche perso : ${perso.nom}</h5>
+                    </div>
+                </div>
+
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" style="width: ${nbRestanteTask}%" aria-valuenow="${nbRestanteTask}" aria-valuemin="${nbRestanteTask}" aria-valuemax="${nbTotalTask}"></div>
+                        </div>
+                        <h5 class="card-title">Nb tache pour le perso : ${perso.nom}</h5>
+                    </div>
                 </div>
             </div>
-        </div>
-    `;
+        `;
 
-    $(`#sectionStatsPerso`).html(html);
+        $(`#sectionStatsPerso`).html(html);
+    }
 }
 
 function calculMinBeforeEvent(opening, task) {
     console.log('-------- calculMinBeforeEvent ----------');
     console.log('opening => ', opening);
     console.log('task => ', task);
-    
+
     let now = moment();
     let end = moment().isoWeekday(parseInt(opening.day)).set('hour', opening.hour).set('minute', opening.minute).set('second', 00);
 
 
     console.log('now => ', now);
     console.log('end => ', end);
-    
+
     let diff = moment.duration(end.diff(now));
 
     let minutesBeforeEvent = Math.round(diff.as('minutes'));
-    
+
     console.log('calculMinBeforeEvent => ', minutesBeforeEvent);
 
     if (minutesBeforeNextEvent > minutesBeforeEvent && minutesBeforeEvent > 0 && !task.statutTask) {
         return true;
     } else {
-        return false;   
+        return false;
     }
 }
 
@@ -322,7 +324,7 @@ function resetWeekly() {
         db.save();
 
         let tasks = db.get("tasks").value();
-      
+
         tasks.forEach(function (task, i) {
             if (task.resetTask == 'Weekly') {
                 db.get("tasks")
@@ -592,18 +594,18 @@ function showTimes() {
     db.get("times").value().forEach(function (time, index) {
         console.log("times.forEach => ", time);
         if (typeEventOptions.indexOf(time.typeEvent) === -1) {
-               typeEventOptions.push(time.typeEvent);
+            typeEventOptions.push(time.typeEvent);
         }
     });
-    
+
     console.log("typeEventOptions => ", typeEventOptions);
-    
+
     typeEventOptions.forEach(function (time, index) {
         console.log("typeEventOptions.forEach => ", time);
         $('#typeEventOptions').append(`<option value="${time}"></option>`);
     });
-    
-    
+
+
     let listeHtmlTimes = `
     <table id="tableTimes" class="table">
         <thead>

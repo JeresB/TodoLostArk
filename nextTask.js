@@ -185,7 +185,51 @@ function showOnModal(resetType, task, perso = null) {
 }
 
 function showStatsOnModal(perso) {
-   
+    let dureeTotalPerso = 0;
+    let dureeRestantePerso = 0;
+    let nbTotalTask = 0;
+    let nbRestanteTask = 0;
+
+    db.get("tasks").value().forEach(function (task) {
+        if (task.persoTask == perso.typePerso) {
+            if (!task.statutTask) {
+                dureeRestantePerso += task.dureeTask;
+                nbRestanteTask++;
+            }
+
+            dureeTotalPerso += task.dureeTask;
+            nbTotalTask++;
+        }
+    });
+
+    let html = `
+        <div style="display: flex;">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h6 class="card-subtitle mb-2 text-muted">${dureeTotalPerso}</h6>
+                    <h5 class="card-title">Durée total tâche perso : ${perso.nom}</h5>
+                </div>
+            </div>
+
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h6 class="card-subtitle mb-2 text-muted">${dureeRestantePerso}</h6>
+                    <h5 class="card-title">Durée restante tâche perso : ${perso.nom}</h5>
+                </div>
+            </div>
+
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" style="width: ${nbRestanteTask}%" aria-valuenow="${nbRestanteTask}" aria-valuemin="${nbRestanteTask}" aria-valuemax="${nbTotalTask}"></div>
+                    </div>
+                    <h5 class="card-title">Nb tache pour le perso : ${perso.nom}</h5>
+                </div>
+            </div>
+        </div>
+    `;
+
+    $(`#sectionStatsPerso`).html(html);
 }
 
 function calculMinBeforeEvent(opening, task) {

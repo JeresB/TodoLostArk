@@ -108,7 +108,7 @@ function nextTask() {
         // console.log('nextTask => ', taskEnCours);
         taskEnCours.forEach(function (task) {
             showOnModal('Daily', task, getPerso(taskEnCours[0]));
-            showStatsOnModal(taskEnCours[0]);
+            showStatsOnModal(getPerso(taskEnCours[0]));
         });
     }
 }
@@ -186,53 +186,69 @@ function showOnModal(resetType, task, perso = null) {
 
 function showStatsOnModal(perso) {
     if (perso) {
-        let dureeTotalPerso = 0;
-        let dureeRestantePerso = 0;
-        let nbTotalTask = 0;
-        let nbRestanteTask = 0;
+        let dureeTotalWeeklyPerso = 0;
+        let dureeTotalDailyPerso = 0;
+        let dureeDoneWeeklyPerso = 0;
+        let dureeDoneDailyPerso = 0;
+        let nbTotalWeeklyTask = 0;
+        let nbTotalDailyTask = 0;
+        let nbDoneWeeklyTask = 0;
+        let nbDoneDailyTask = 0;
 
         db.get("tasks").value().forEach(function (task) {
-            console.log('showStatsOnModal task => ', task)
-            console.log('showStatsOnModal perso => ', perso)
+            // console.log('showStatsOnModal task => ', task.persoTask)
+            // console.log('showStatsOnModal perso => ', perso.persoTask)
 
-            if (task.persoTask == perso.typePerso) {
-                if (!task.statutTask) {
-                    dureeRestantePerso += task.dureeTask;
-                    nbRestanteTask++;
+            if (task.persoTask === perso.typePerso) {
+                // console.log('showStatsOnModal perso => ', perso)
+
+                if (task.statutTask) {
+                    if (task.resetTask == 'Daily') {
+                        dureeDoneDailyPerso += parseInt(task.dureeTask);
+                        nbDoneDailyTask++;
+                    } else {
+                        dureeDoneWeeklyPerso += parseInt(task.dureeTask);
+                        nbDoneWeeklyTask++;
+                    }
+                    
                 }
 
-                dureeTotalPerso += task.dureeTask;
-                nbTotalTask++;
+                if (task.resetTask == 'Daily') {
+                    dureeTotalDailyPerso += parseInt(task.dureeTask);
+                    nbTotalDailyTask++;
+                } else {
+                    dureeTotalWeeklyPerso += parseInt(task.dureeTask);
+                    nbTotalWeeklyTask++;
+                }
+
             }
         });
 
-        console.log('showStatsOnModal dureeTotalPerso => ', dureeTotalPerso)
-        console.log('showStatsOnModal dureeRestantePerso => ', dureeRestantePerso)
-        console.log('showStatsOnModal nbTotalTask => ', nbTotalTask)
-        console.log('showStatsOnModal nbRestanteTask => ', nbRestanteTask)
+        // console.log('showStatsOnModal dureeTotalPerso => ', dureeTotalPerso)
+        // console.log('showStatsOnModal dureeRestantePerso => ', dureeRestantePerso)
+        // console.log('showStatsOnModal nbTotalTask => ', nbTotalTask)
+        // console.log('showStatsOnModal nbRestanteTask => ', nbRestanteTask)
+
+        let pDailyTask = (nbDoneDailyTask * 100) / nbTotalDailyTask;
+        let pWeeklyTask = (nbDoneWeeklyTask * 100) / nbTotalWeeklyTask;
 
         let html = `
-            <div style="display: flex;">
-                <div class="card" style="width: 18rem;">
+            <div style="display: flex;gap: 10px;justify-content: space-evenly;margin-left: 15px;margin-right: 15px;">
+                <div class="card" style="width: 18rem;flex-grow: 1;">
                     <div class="card-body">
-                        <h6 class="card-subtitle mb-2 text-muted">${dureeTotalPerso}</h6>
-                        <h5 class="card-title">Durée total tâche perso : ${perso.nom}</h5>
-                    </div>
-                </div>
-
-                <div class="card" style="width: 18rem;">
-                    <div class="card-body">
-                        <h6 class="card-subtitle mb-2 text-muted">${dureeRestantePerso}</h6>
-                        <h5 class="card-title">Durée restante tâche perso : ${perso.nom}</h5>
-                    </div>
-                </div>
-
-                <div class="card" style="width: 18rem;">
-                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Daily ${toHoursAndMinutes(dureeDoneDailyPerso)} / ${toHoursAndMinutes(dureeTotalDailyPerso)} --- ${nbDoneDailyTask} / ${nbTotalDailyTask}</h6>
                         <div class="progress">
-                            <div class="progress-bar" role="progressbar" style="width: ${nbRestanteTask}%" aria-valuenow="${nbRestanteTask}" aria-valuemin="${nbRestanteTask}" aria-valuemax="${nbTotalTask}"></div>
+                            <div class="progress-bar" role="progressbar" style="width: ${pDailyTask}%" aria-valuenow="${pDailyTask}" aria-valuemin="0" aria-valuemax="${nbTotalDailyTask}"></div>
                         </div>
-                        <h5 class="card-title">Nb tache pour le perso : ${perso.nom}</h5>
+                    </div>
+                </div>
+
+                <div class="card" style="width: 18rem;flex-grow: 1;">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Weekly ${toHoursAndMinutes(dureeDoneWeeklyPerso)} / ${toHoursAndMinutes(dureeTotalWeeklyPerso)} --- ${nbDoneWeeklyTask} / ${nbTotalWeeklyTask}</h6>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" style="width: ${pWeeklyTask}%" aria-valuenow="${pWeeklyTask}" aria-valuemin="0" aria-valuemax="${nbTotalWeeklyTask}"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -240,6 +256,17 @@ function showStatsOnModal(perso) {
 
         $(`#sectionStatsPerso`).html(html);
     }
+}
+
+function toHoursAndMinutes(totalMinutes) {
+    const minutes = totalMinutes % 60;
+    const hours = Math.floor(totalMinutes / 60);
+
+    return `${padTo2Digits(hours)}:${padTo2Digits(minutes)}`;
+}
+
+function padTo2Digits(num) {
+    return num.toString().padStart(2, '0');
 }
 
 function calculMinBeforeEvent(opening, task) {

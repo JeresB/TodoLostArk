@@ -108,6 +108,7 @@ function nextTask() {
         console.log('nextTask => ', taskEnCours);
         taskEnCours.forEach(function (task) {
             showOnModal('Daily', task, getPerso(taskEnCours[0]));
+            showStatsOnModal(taskEnCours[0]);
         });
     }
 }
@@ -181,6 +182,10 @@ function showOnModal(resetType, task, perso = null) {
     }
     
     $(`#section${resetType}`).append(htmlevent);
+}
+
+function showStatsOnModal(perso) {
+   
 }
 
 function calculMinBeforeEvent(opening, task) {

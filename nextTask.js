@@ -192,6 +192,9 @@ function showStatsOnModal(perso) {
         let nbRestanteTask = 0;
 
         db.get("tasks").value().forEach(function (task) {
+            console.log('showStatsOnModal task => ', task)
+            console.log('showStatsOnModal perso => ', perso)
+
             if (task.persoTask == perso.typePerso) {
                 if (!task.statutTask) {
                     dureeRestantePerso += task.dureeTask;

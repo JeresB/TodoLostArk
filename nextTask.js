@@ -74,14 +74,14 @@ function nextEventTask() {
 
     eventTasks.forEach(function (task) {
         minutesBeforeNextEvent = 55;
-        console.log('nextEventTask task => ', task);
+        // console.log('nextEventTask task => ', task);
         db.get("times").value().forEach(function (time) {
-            console.log('nextEventTask time => ', time);
+            // console.log('nextEventTask time => ', time);
 
             if (task.openingTask == time.typeEvent) {
-                console.log('nextEventTask calcul => ', calculMinBeforeEvent(time, task));
+                // console.log('nextEventTask calcul => ', calculMinBeforeEvent(time, task));
                 if (calculMinBeforeEvent(time, task)) {
-                    console.log('nextEventTask showOnModal => ', task);
+                    // console.log('nextEventTask showOnModal => ', task);
                     showOnModal('Event', task);
                 }
             }
@@ -94,9 +94,9 @@ function nextEventTask() {
 function nextTask() {
 
     db.get("tasks").value().forEach(function (task) {
-        console.log(task);
+        // console.log(task);
         if (task.prioTask == prioTaskEnCours && !task.statutTask && task.openingTask.length == 0 && taskEnCours.length < 3) {
-            console.log(task);
+            // console.log(task);
             taskEnCours.push(task);
         }
     });
@@ -105,7 +105,7 @@ function nextTask() {
         prioTaskEnCours++
         nextTask();
     } else {
-        console.log('nextTask => ', taskEnCours);
+        // console.log('nextTask => ', taskEnCours);
         taskEnCours.forEach(function (task) {
             showOnModal('Daily', task, getPerso(taskEnCours[0]));
             showStatsOnModal(taskEnCours[0]);
@@ -203,6 +203,11 @@ function showStatsOnModal(perso) {
             }
         });
 
+        console.log('showStatsOnModal dureeTotalPerso => ', dureeTotalPerso)
+        console.log('showStatsOnModal dureeRestantePerso => ', dureeRestantePerso)
+        console.log('showStatsOnModal nbTotalTask => ', nbTotalTask)
+        console.log('showStatsOnModal nbRestanteTask => ', nbRestanteTask)
+
         let html = `
             <div style="display: flex;">
                 <div class="card" style="width: 18rem;">
@@ -235,22 +240,22 @@ function showStatsOnModal(perso) {
 }
 
 function calculMinBeforeEvent(opening, task) {
-    console.log('-------- calculMinBeforeEvent ----------');
-    console.log('opening => ', opening);
-    console.log('task => ', task);
+    // console.log('-------- calculMinBeforeEvent ----------');
+    // console.log('opening => ', opening);
+    // console.log('task => ', task);
 
     let now = moment();
     let end = moment().isoWeekday(parseInt(opening.day)).set('hour', opening.hour).set('minute', opening.minute).set('second', 00);
 
 
-    console.log('now => ', now);
-    console.log('end => ', end);
+    // console.log('now => ', now);
+    // console.log('end => ', end);
 
     let diff = moment.duration(end.diff(now));
 
     let minutesBeforeEvent = Math.round(diff.as('minutes'));
 
-    console.log('calculMinBeforeEvent => ', minutesBeforeEvent);
+    // console.log('calculMinBeforeEvent => ', minutesBeforeEvent);
 
     if (minutesBeforeNextEvent > minutesBeforeEvent && minutesBeforeEvent > 0 && !task.statutTask) {
         return true;
@@ -356,7 +361,7 @@ function startRead(evt) {
     let file = document.getElementById('importFile').files[0];
     if (file) {
         getAsText(file);
-        console.log("Name: " + file.name + "\n" + "Last Modified Date :" + file.lastModifiedDate);
+        // console.log("Name: " + file.name + "\n" + "Last Modified Date :" + file.lastModifiedDate);
     }
 }
 
@@ -592,16 +597,16 @@ function showTimes() {
     let typeEventOptions = [];
 
     db.get("times").value().forEach(function (time, index) {
-        console.log("times.forEach => ", time);
+        // console.log("times.forEach => ", time);
         if (typeEventOptions.indexOf(time.typeEvent) === -1) {
             typeEventOptions.push(time.typeEvent);
         }
     });
 
-    console.log("typeEventOptions => ", typeEventOptions);
+    // console.log("typeEventOptions => ", typeEventOptions);
 
     typeEventOptions.forEach(function (time, index) {
-        console.log("typeEventOptions.forEach => ", time);
+        // console.log("typeEventOptions.forEach => ", time);
         $('#typeEventOptions').append(`<option value="${time}"></option>`);
     });
 

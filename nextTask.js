@@ -161,7 +161,7 @@ function showOnModal(resetType, task, perso = null) {
                     <img src="images/${task.imageTask}" class="img-fluid rounded-start" alt="" style="max-height: 120px; min-width: 80px; max-width:180px;">
                     <div class="card-body">
                         ${task.nomTask}<br>
-                        <i class="color-gray">${task.typeTask} - ${task.dureeTask} min</i>
+                        <i class="color-gray">${task.typeTask} - ${task.dureeTask} min - ${task.persoTask}</i>
                         <div class="form-check form-switch float-end">
                             <input class="form-check-input switchMajTask" data-index="${index}" data-champs="statutTask" type="checkbox" id="statutTask${index}">
                         </div>

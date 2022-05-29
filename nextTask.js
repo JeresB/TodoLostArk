@@ -472,24 +472,26 @@ function modalDetailPerso(index) {
     let html = '';
 
     if (tasks) {
-        tasks.forEach((task, index) => {
-
-            html += `
-            <div style="flex-grow: 1;>
-                <div class="card-body" style="padding: 0rem 1rem;">
-                    <div class="card mb-3">
-                        <div class="d-flex">
-                            <div class="card-body">
-                                ${task.nomTask}<br>
-                                <i class="color-gray">${task.typeTask} - ${task.dureeTask} min - ${task.persoTask}</i>
-                                <div class="form-check form-switch float-end">
-                                    <input class="form-check-input switchMajTask" data-index="${index}" data-champs="statutTask" type="checkbox" id="statutTask${index}" ${task.statutTask ? 'checked' : ''}>
+        tasks.forEach((task, i) => {
+            if (!task.statutTask) {
+                let j = getIndexTask(task);
+                html += `
+                <div style="flex-grow: 1;>
+                    <div class="card-body" style="padding: 0rem 1rem;">
+                        <div class="card mb-3">
+                            <div class="d-flex">
+                                <div class="card-body">
+                                    ${task.nomTask}<br>
+                                    <i class="color-gray">${task.typeTask} - ${task.dureeTask} min - ${task.persoTask}</i>
+                                    <div class="form-check form-switch float-end">
+                                        <input class="form-check-input switchMajTask" data-index="${j}" data-champs="statutTask" type="checkbox" id="statutTaskDetail${j}" ${task.statutTask ? 'checked' : ''}>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>`;
+                </div>`;
+            }
         });
 
     }

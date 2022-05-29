@@ -467,6 +467,18 @@ function showPerso() {
     $('#sectionPersonnage').html(listeHtmlPerso);
 }
 
+function getColorFromTask(task) {
+    console.log('getColorFromTask => ', task.resetTask)
+    switch (task.resetTask) {
+        case 'Daily':
+            return 'taskRed';
+        case 'Weekly':
+            return 'taskBlue';
+        default:
+            return 'taskGray';
+    }
+}
+
 function modalDetailPerso(index) {
     let tasks = getTasksFromPersoIndex(index);
     let html = '';
@@ -475,12 +487,13 @@ function modalDetailPerso(index) {
         tasks.forEach((task, i) => {
             if (!task.statutTask) {
                 let j = getIndexTask(task);
+                let color = getColorFromTask(task);
                 html += `
                 <div style="flex-grow: 1;>
-                    <div class="card-body" style="padding: 0rem 1rem;">
+                    <div class="card-body " style="padding: 0rem 1rem;">
                         <div class="card mb-3">
                             <div class="d-flex">
-                                <div class="card-body">
+                                <div class="card-body ${color}">
                                     ${task.nomTask}<br>
                                     <i class="color-gray">${task.typeTask} - ${task.dureeTask} min - ${task.persoTask}</i>
                                     <div class="form-check form-switch float-end">

@@ -29,3 +29,15 @@ section {
     padding: 3px 9px;
     border-radius: 5px;
 }
+
+.taskRed {
+    background-color: #fbeeee;
+}
+
+.taskBlue {
+    background-color: #dfe6ff;
+}
+
+.taskGray {
+    background-color: #e3e3e3;
+}

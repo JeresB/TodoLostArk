@@ -46,6 +46,7 @@ $(document).ready(function () {
 $(document).on('change', '.inputMajPerso', function () { updatePerso($(this)) });
 $(document).on('click', '.deletePerso', function () { deletePerso($(this)) });
 $(document).on('click', '#savePerso', function () { addPerso() });
+$(document).on('click', '.modalDetailPerso', function () { modalDetailPerso($(this).data('index')) });
 
 // AJOUT, MAJ, SUPPRESSION D'UNE TACHE
 $(document).on('change', '.inputMajTask', function () { updateTask($(this)) });
@@ -108,7 +109,7 @@ function nextTask() {
         // console.log('nextTask => ', taskEnCours);
         taskEnCours.forEach(function (task) {
             showOnModal('Daily', task, getPerso(taskEnCours[0]));
-            showStatsOnModal(getPerso(taskEnCours[0]));
+            showStatsOnModal(getPerso(taskEnCours[0]), 'sectionStatsPerso');
         });
     }
 }
@@ -133,6 +134,21 @@ function getIndexTask(task) {
     return index;
 }
 
+function getTasksFromPersoIndex(index) {
+    let tasks = [];
+    let perso = null;
+
+    db.get("personnages").value().forEach(function (p, i) {
+        if (index == i) perso = p;
+    });
+
+    db.get("tasks").value().forEach(function (t, i) {
+        if (t.persoTask == perso.typePerso) tasks.push(t);
+    });
+
+    return tasks;
+}
+
 function getPerso(task) {
     let perso = null;
 
@@ -155,7 +171,7 @@ function showOnModal(resetType, task, perso = null) {
 
     if (task) {
         let index = getIndexTask(task);
-        htmlevent = `<div class="card-body" style="padding: 0rem 1rem;">
+        htmlevent = `<div><div class="card-body" style="padding: 0rem 1rem;">
             <div class="card mb-3">
                 <div class="d-flex">
                     <img src="images/${task.imageTask}" class="img-fluid rounded-start" alt="" style="max-height: 120px; min-width: 80px; max-width:180px;">
@@ -168,7 +184,7 @@ function showOnModal(resetType, task, perso = null) {
                     </div>
                 </div>
             </div>
-        </div>`;
+        </div></div>`;
 
     } else {
         htmlevent = `<div class="card-body" style="padding: 0rem 1rem;">
@@ -184,7 +200,7 @@ function showOnModal(resetType, task, perso = null) {
     $(`#section${resetType}`).append(htmlevent);
 }
 
-function showStatsOnModal(perso) {
+function showStatsOnModal(perso, div) {
     if (perso) {
         let dureeTotalWeeklyPerso = 0;
         let dureeTotalDailyPerso = 0;
@@ -210,7 +226,7 @@ function showStatsOnModal(perso) {
                         dureeDoneWeeklyPerso += parseInt(task.dureeTask);
                         nbDoneWeeklyTask++;
                     }
-                    
+
                 }
 
                 if (task.resetTask == 'Daily') {
@@ -254,7 +270,7 @@ function showStatsOnModal(perso) {
             </div>
         `;
 
-        $(`#sectionStatsPerso`).html(html);
+        $(`#${div}`).html(html);
     }
 }
 
@@ -425,6 +441,7 @@ function showPerso() {
                 <th scope="col">Niveau</th>
                 <th scope="col">Equipement</th>
                 <th scope="col">Image</th>
+                <th scope="col">Détail</th>
                 <th scope="col">Delete</th>
             </tr>
         </thead>
@@ -440,6 +457,7 @@ function showPerso() {
             <td><input type="number" class="form-control inputMajPerso" data-index="${index}" data-champs="level" value="${perso.level}"/></td>
             <td><input type="number" class="form-control inputMajPerso" data-index="${index}" data-champs="gearlevel" value="${perso.gearlevel}"/></td>
             <td><input type="text" class="form-control inputMajPerso" data-index="${index}" data-champs="imagePerso" value="${perso.imagePerso}"/></td>
+            <td><button class="btn btn-success modalDetailPerso" data-index="${index}" data-bs-toggle="modal" data-bs-target="#detailPersoModal"><i class="fa-solid fa-eye"></i></button></td>
             <td><button class="btn btn-danger deletePerso" data-index="${index}"><i class="fa-solid fa-minus"></i></button></td>
         </tr>`;
     });
@@ -447,6 +465,38 @@ function showPerso() {
     listeHtmlPerso += `</tbody></table>`;
 
     $('#sectionPersonnage').html(listeHtmlPerso);
+}
+
+function modalDetailPerso(index) {
+    let tasks = getTasksFromPersoIndex(index);
+    let html = '';
+
+    if (tasks) {
+        tasks.forEach((task, index) => {
+
+            html += `
+            <div style="flex-grow: 1;>
+                <div class="card-body" style="padding: 0rem 1rem;">
+                    <div class="card mb-3">
+                        <div class="d-flex">
+                            <div class="card-body">
+                                ${task.nomTask}<br>
+                                <i class="color-gray">${task.typeTask} - ${task.dureeTask} min - ${task.persoTask}</i>
+                                <div class="form-check form-switch float-end">
+                                    <input class="form-check-input switchMajTask" data-index="${index}" data-champs="statutTask" type="checkbox" id="statutTask${index}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+        });
+
+    }
+
+    $(`#divDetailPersoModal`).html(html);
+
+    showStatsOnModal(getPerso(tasks[0]), 'sectionStatsDetailPerso');
 }
 
 function addPerso() {

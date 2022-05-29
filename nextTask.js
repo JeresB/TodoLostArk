@@ -483,7 +483,7 @@ function modalDetailPerso(index) {
                                 ${task.nomTask}<br>
                                 <i class="color-gray">${task.typeTask} - ${task.dureeTask} min - ${task.persoTask}</i>
                                 <div class="form-check form-switch float-end">
-                                    <input class="form-check-input switchMajTask" data-index="${index}" data-champs="statutTask" type="checkbox" id="statutTask${index}">
+                                    <input class="form-check-input switchMajTask" data-index="${index}" data-champs="statutTask" type="checkbox" id="statutTask${index}" ${task.statutTask ? 'checked' : ''}>
                                 </div>
                             </div>
                         </div>

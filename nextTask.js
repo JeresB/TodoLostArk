@@ -484,6 +484,10 @@ function modalDetailPerso(index) {
     let html = '';
 
     if (tasks) {
+        tasks.sort((a, b) => {
+            return a.prioTask - b.prioTask;
+        });
+        
         tasks.forEach((task, i) => {
             if (!task.statutTask) {
                 let j = getIndexTask(task);

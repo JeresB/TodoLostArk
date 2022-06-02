@@ -430,7 +430,7 @@ function resetDaily(resetVar, resetType) {
 
     let html = `
             <div>
-                <div style="padding: 10px;background-color: green;color: white">Main -> ${main.typePerso}</div>
+                <div style="padding: 10px;background-color: green;color: white">Main -> ${main.typePerso ? main.typePerso : ''}</div>
                 <hr>
                 <div style="padding: 10px;color: white;${ parseInt(db.get("groupeEnCours").value()) == 1 ? 'background-color: green;' : 'background-color: darkgoldenrod;' }">${htmlg1}</div>
                 <hr>

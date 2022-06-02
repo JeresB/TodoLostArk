@@ -8,8 +8,8 @@ var prioTaskEnCoursMax = 130;
 
 $(document).ready(function () {
     // SHOW MODAL NEXT EVENT
-    let nextTaskModal = new bootstrap.Modal(document.getElementById('nextTaskModal'), {});
-    nextTaskModal.show();
+    // let nextTaskModal = new bootstrap.Modal(document.getElementById('nextTaskModal'), {});
+    // nextTaskModal.show();
 
     // RESET DAILY
     if (db.get("resetDaily").value() === undefined) db.set("resetDaily", "").save();
@@ -437,6 +437,9 @@ function resetDaily(resetVar, resetType) {
                 <div style="padding: 10px;color: white;${ parseInt(db.get("groupeEnCours").value()) == 2 ? 'background-color: green;' : 'background-color: darkgoldenrod;' }">${htmlg2}</div>
                 <hr>
                 <div style="padding: 10px;color: white;${ parseInt(db.get("groupeEnCours").value()) == 3 ? 'background-color: green;' : 'background-color: darkgoldenrod;' }">${htmlg3}</div>
+            </div>
+
+            <div>
             </div>
         `;
 

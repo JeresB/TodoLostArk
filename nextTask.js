@@ -31,6 +31,9 @@ $(document).ready(function () {
     if (db.get("times").value() === undefined) db.set("times", []).save();
     else if (db.get("times").value().length > 0) showTimes();
 
+    // GROUPE
+    if (db.get("groupeEnCours").value() === undefined) db.set("groupeEnCours", 1).save();
+
     // SHOW TIME ON MODAL
     showTime();
 
@@ -366,7 +369,78 @@ function resetDaily(resetVar, resetType) {
         });
 
         showTask();
+
+        let groupeEnCours = parseInt(db.get("groupeEnCours").value());
+
+        groupeEnCours++;
+        if (groupeEnCours > 3) {
+            groupeEnCours = 1;
+        }
+
+        db.get('groupeEnCours').set(groupeEnCours);
+        db.save();
     }
+
+    let main = null;
+    let groupe1 = [];
+    let groupe2 = [];
+    let groupe3 = [];
+
+    db.get("personnages").value().forEach(function (p, i) {
+
+        switch (p.groupePerso) {
+            case 'Main':
+                main = p;
+                break;
+
+            case '1':
+                groupe1.push(p);
+                break;
+
+            case '2':
+                groupe2.push(p);
+                break;
+
+            case '3':
+                groupe3.push(p);
+                break;
+
+            default:
+                break;
+        }
+    });
+
+    let htmlg1 = 'Groupe 1 :<br>';
+
+    groupe1.forEach(function (p, i) {
+        htmlg1 += `&nbsp;- ${p.typePerso}<br>`;
+    });
+
+    let htmlg2 = 'Groupe 2 :<br>';
+
+    groupe2.forEach(function (p, i) {
+        htmlg2 += `&nbsp;- ${p.typePerso}<br>`;
+    });
+
+    let htmlg3 = 'Groupe 3 :<br>';
+
+    groupe3.forEach(function (p, i) {
+        htmlg3 += `&nbsp;- ${p.typePerso}<br>`;
+    });
+
+    let html = `
+            <div>
+                <div style="padding: 10px;background-color: green;color: white">Main -> ${main.typePerso}</div>
+                <hr>
+                <div style="padding: 10px;color: white;${ parseInt(db.get("groupeEnCours").value()) == 1 ? 'background-color: green;' : 'background-color: darkgoldenrod;' }">${htmlg1}</div>
+                <hr>
+                <div style="padding: 10px;color: white;${ parseInt(db.get("groupeEnCours").value()) == 2 ? 'background-color: green;' : 'background-color: darkgoldenrod;' }">${htmlg2}</div>
+                <hr>
+                <div style="padding: 10px;color: white;${ parseInt(db.get("groupeEnCours").value()) == 3 ? 'background-color: green;' : 'background-color: darkgoldenrod;' }">${htmlg3}</div>
+            </div>
+        `;
+
+    $('#sectionGroupe').html(html);
 }
 
 function resetWeekly() {
@@ -440,6 +514,7 @@ function showPerso() {
                 <th scope="col">Priorité</th>
                 <th scope="col">Niveau</th>
                 <th scope="col">Equipement</th>
+                <th scope="col">Groupe</th>
                 <th scope="col">Image</th>
                 <th scope="col">Détail</th>
                 <th scope="col">Delete</th>
@@ -456,6 +531,7 @@ function showPerso() {
             <td><input type="number" class="form-control inputMajPerso" data-index="${index}" data-champs="prioPerso" value="${perso.prioPerso}"/></td>
             <td><input type="number" class="form-control inputMajPerso" data-index="${index}" data-champs="level" value="${perso.level}"/></td>
             <td><input type="number" class="form-control inputMajPerso" data-index="${index}" data-champs="gearlevel" value="${perso.gearlevel}"/></td>
+            <td><input list="groupeOptions" class="form-control inputMajPerso" data-index="${index}" data-champs="groupePerso" value="${perso.groupePerso}"/></td>
             <td><input type="text" class="form-control inputMajPerso" data-index="${index}" data-champs="imagePerso" value="${perso.imagePerso}"/></td>
             <td><button class="btn btn-success modalDetailPerso" data-index="${index}" data-bs-toggle="modal" data-bs-target="#detailPersoModal"><i class="fa-solid fa-eye"></i></button></td>
             <td><button class="btn btn-danger deletePerso" data-index="${index}"><i class="fa-solid fa-minus"></i></button></td>
@@ -487,7 +563,7 @@ function modalDetailPerso(index) {
         tasks.sort((a, b) => {
             return a.prioTask - b.prioTask;
         });
-        
+
         tasks.forEach((task, i) => {
             if (!task.statutTask) {
                 let j = getIndexTask(task);
@@ -524,6 +600,7 @@ function addPerso() {
     let prioPerso = $('#prioPerso').val();
     let level = $('#level').val();
     let gearlevel = $('#gearlevel').val();
+    let groupePerso = $('#groupePerso').val();
     let imagePerso = $('#imagePerso').val();
 
     let perso = {
@@ -532,6 +609,7 @@ function addPerso() {
         'prioPerso': prioPerso,
         'level': level,
         'gearlevel': gearlevel,
+        'groupePerso': groupePerso,
         'imagePerso': imagePerso,
     };
 

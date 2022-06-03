@@ -63,7 +63,7 @@ $(document).on('click', '.deleteTimes', function () { deleteTimes($(this)) });
 $(document).on('click', '#saveTime', function () { addTimes() });
 
 // IMPORT EXPORT JSON DATA
-$(document).on('click', '#btnExportJson', function () { exportToJsonFile({ personnage: db.get("personnages").value(), tasks: db.get("tasks").value() }) });
+$(document).on('click', '#btnExportJson', function () { exportToJsonFile({ personnage: db.get("personnages").value(), tasks: db.get("tasks").value(), times: db.get("times").value() }) });
 $(document).on('change', '#importFile', function (e) { startRead(e); });
 
 function nextEventTask() {
@@ -500,6 +500,7 @@ function loaded(evt) {
 
     db.get("personnages").set(fileJSON.personnage);
     db.get("tasks").set(fileJSON.tasks);
+    db.get("times").set(fileJSON.times);
 
     db.save();
 

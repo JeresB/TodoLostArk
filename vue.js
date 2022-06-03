@@ -25,13 +25,13 @@ $(document).ready(function () {
     if (db.get("groupeEnCours").value() === undefined) db.set("groupeEnCours", 1).save();
 
     // COMPTEUR UNA
-    if (db.get("counterUna").value() === undefined) db.set("counterUna", 1).save();
+    if (db.get("counterUna").value() === undefined || db.get("counterUna").value() == null)  db.set("counterUna", 0).save();
 
     // COMPTEUR CHAOS
-    if (db.get("counterChaos").value() === undefined) db.set("counterChaos", 1).save();
+    if (db.get("counterChaos").value() === undefined || db.get("counterChaos").value() == null) db.set("counterChaos", 0).save();
 
     // COMPTEUR RAID
-    if (db.get("counterRaid").value() === undefined) db.set("counterRaid", 1).save();
+    if (db.get("counterRaid").value() === undefined || db.get("counterRaid").value() == null) db.set("counterRaid", 0).save();
 
     showPersos();
     showEvents();

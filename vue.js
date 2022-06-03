@@ -40,7 +40,7 @@ $(document).ready(function () {
     showCounter();
 
     $('.selectionPerso').on('click', function () {
-        showSelection();
+        showSelection($(this));
     });
 });
 
@@ -261,9 +261,10 @@ function showCounter() {
     $('#counterRaid').html(db.get('counterRaid').value());
 }
 
-function showSelection() {
-    let typePerso = $(this).data('perso');
+function showSelection(data) {
+    let typePerso = data.data('perso');
     let htmlSelection = '';
+    console.log(typePerso)
     let perso = getPersoFromType(typePerso);
     let tasks = getTachesActiveFromPerso(perso);
 

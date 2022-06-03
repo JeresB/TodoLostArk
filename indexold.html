@@ -1,0 +1,737 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>TODO Lost Ark</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="fontawesome/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+
+<body>
+
+    <div class="clock-container">
+        <div class="clock-col">
+            <p class="clock-day clock-timer">
+            </p>
+            <p class="clock-label">
+                Day
+            </p>
+        </div>
+        <div class="clock-col">
+            <p class="clock-hours clock-timer">
+            </p>
+            <p class="clock-label">
+                Hours
+            </p>
+        </div>
+        <div class="clock-col">
+            <p class="clock-minutes clock-timer">
+            </p>
+            <p class="clock-label">
+                Minutes
+            </p>
+        </div>
+        <div class="clock-col">
+            <p class="clock-seconds clock-timer">
+            </p>
+            <p class="clock-label">
+                Seconds
+            </p>
+        </div>
+    </div>
+
+    <div hidden><button id="forceResetDaily" class="btn btn-danger">RESET DAILY</button></div>
+
+    <section class="d-flex p-2 bd-highlight justify-content-center gap-3">
+        <!-- <table class="table table-bordered table-responsive" style="max-width: 0px!important;white-space: nowrap;">
+            <tbody>
+                <tr><td><input id="addLien" name="newLien" class="form-control"/></td></tr>
+            </tbody>
+        </table>
+        <div>
+            <a href="https://tooki.app" class="btn btn-light" target="_blank">TOOKI.APP</a>
+        </div> -->
+        <table class="table table-bordered table-responsive" style="max-width: 0px!important;white-space: nowrap;">
+            <thead style="background-color: #6AA84F;">
+                <tr style="text-align: center!important;">
+                    <th></th>
+                    <th
+                        style="background-color: #6AA84F;position: sticky;position: -webkit-sticky;top: 0px;z-index: 2;">
+                        <img src="images/deathblade.png" alt=""><br><span style="color: white;"><span id="igeardeathblade"></span>&nbsp;&nbsp;&nbsp;<button class="plusigear btn btn-sm btn-primary" data-igear="igeardeathblade">+</button></span>
+                    </th>
+                    <th
+                        style="background-color: #6AA84F;position: sticky;position: -webkit-sticky;top: 0px;z-index: 2;">
+                        <img src="images/shadowhunter.png" alt=""><br><span style="color: white;"><span id="igearshadowhunter"></span>&nbsp;&nbsp;&nbsp;<button class="plusigear btn btn-sm btn-primary" data-igear="igearshadowhunter">+</button></span>
+                    </th>
+                    <th
+                        style="background-color: #6AA84F;position: sticky;position: -webkit-sticky;top: 0px;z-index: 2;">
+                        <img src="images/summoner.png" alt=""><br><span style="color: white;"><span id="igearsorceress"></span>&nbsp;&nbsp;&nbsp;<button class="plusigear btn btn-sm btn-primary" data-igear="igearsorceress">+</button></span>
+                    </th>
+                    <th
+                        style="background-color: #6AA84F;position: sticky;position: -webkit-sticky;top: 0px;z-index: 2;">
+                        <img src="images/paladin.png" alt=""><br><span style="color: white;"><span id="igearpaladin"></span>&nbsp;&nbsp;&nbsp;<button class="plusigear btn btn-sm btn-primary" data-igear="igearpaladin">+</button></span>
+                    </th>
+                    <th
+                        style="background-color: #6AA84F;position: sticky;position: -webkit-sticky;top: 0px;z-index: 2;">
+                        <img src="images/bard.png" alt=""><br><span style="color: white;"><span id="igearbard"></span>&nbsp;&nbsp;&nbsp;<button class="plusigear btn btn-sm btn-primary" data-igear="igearbard">+</button></span>
+                    </th>
+                    <th
+                        style="background-color: #6AA84F;position: sticky;position: -webkit-sticky;top: 0px;z-index: 2;">
+                        <img src="images/sharpshooter.png" alt=""><br><span style="color: white;"><span id="igearsharpshooter"></span>&nbsp;&nbsp;&nbsp;<button class="plusigear btn btn-sm btn-primary" data-igear="igearsharpshooter">+</button></span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="background-color: #6AA84F;text-align: center!important;">
+                    <th id="resetdaily">
+
+                    </th>
+                    <th colspan="6">
+                        DAILY<br>
+                        <div class="progress">
+                            <div id="progressBarDaily" class="progress-bar" role="progressbar" style="width: 25%"
+                                aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </th>
+                </tr>
+                <tr>
+                    <td style="background-color: #93C47D;"><img src="images/una daily.png" alt="">&nbsp;&nbsp;&nbsp;Una
+                    </td>
+                    <td style="background-color: #D9EAD3;">
+                        <span class="checkbox-span"><input class="form-check-input daily input-prio" type="checkbox" value="" id="una1deathblade"></span>
+                        <span class="checkbox-span"><input class="form-check-input daily input-prio" type="checkbox" value="" id="una2deathblade"></span>
+                        <span class="checkbox-span"><input class="form-check-input daily input-prio" type="checkbox" value="" id="una3deathblade"></span>
+                    </td>
+                    <td style="background-color: #D9EAD3;">
+                        <span class="checkbox-span"><input class="form-check-input daily input-prio" type="checkbox" value="" id="una1shadowhunter"></span>
+                        <span class="checkbox-span"><input class="form-check-input daily input-prio" type="checkbox" value="" id="una2shadowhunter"></span>
+                        <span class="checkbox-span"><input class="form-check-input daily input-prio" type="checkbox" value="" id="una3shadowhunter"></span>
+                    </td>
+                    <td style="background-color: #D9EAD3;">
+                        <span class="checkbox-span"><input class="form-check-input daily input-prio" type="checkbox" value="" id="una1sorceress"></span>
+                        <span class="checkbox-span"><input class="form-check-input daily input-prio" type="checkbox" value="" id="una2sorceress"></span>
+                        <span class="checkbox-span"><input class="form-check-input daily input-prio" type="checkbox" value="" id="una3sorceress"></span>
+                    </td>
+                    <td style="background-color: #D9EAD3;">
+                        <span class="checkbox-span"><input class="form-check-input daily input-prio" type="checkbox" value="" id="una1paladin"></span>
+                        <span class="checkbox-span"><input class="form-check-input daily input-prio" type="checkbox" value="" id="una2paladin"></span>
+                        <span class="checkbox-span"><input class="form-check-input daily input-prio" type="checkbox" value="" id="una3paladin"></span>
+                    </td>
+                    <td style="background-color: #D9EAD3;">
+                        <span class="checkbox-span"><input class="form-check-input daily input-prio" type="checkbox" value="" id="una1bard"></span>
+                        <span class="checkbox-span"><input class="form-check-input daily input-prio" type="checkbox" value="" id="una2bard"></span>
+                        <span class="checkbox-span"><input class="form-check-input daily input-prio" type="checkbox" value="" id="una3bard"></span>
+                    </td>
+                    <td style="background-color: #D9EAD3;">
+                        <span class="checkbox-span"><input class="form-check-input daily input-prio" type="checkbox" value="" id="una1sharpshooter"></span>
+                        <span class="checkbox-span"><input class="form-check-input daily input-prio" type="checkbox" value="" id="una2sharpshooter"></span>
+                        <span class="checkbox-span"><input class="form-check-input daily input-prio" type="checkbox" value="" id="una3sharpshooter"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="background-color: #93C47D;"><img src="images/chaos dungeon.png"
+                            alt="">&nbsp;&nbsp;&nbsp;Chaos</td>
+                    <td style="background-color: #D9EAD3;">
+                        <span class="checkbox-span"><input class="form-check-input daily input-important" type="checkbox" value="" id="choas1deathblade"></span>
+                        <span class="checkbox-span"><input class="form-check-input daily input-important" type="checkbox" value="" id="choas2deathblade"></span>
+                    </td>
+                    <td style="background-color: #D9EAD3;">
+                        <span class="checkbox-span"><input class="form-check-input daily input-important" type="checkbox" value=""
+                            id="chaos1shadowhunter"></span>
+                        <span class="checkbox-span"><input class="form-check-input daily input-important" type="checkbox" value=""
+                            id="chaos2shadowhunter"></span>
+                    </td>
+                    <td style="background-color: #D9EAD3;">
+                        <span class="checkbox-span"><input class="form-check-input daily input-important" type="checkbox" value="" id="chaos1sorceress"></span>
+                        <span class="checkbox-span"><input class="form-check-input daily input-important" type="checkbox" value="" id="chaos2sorceress"></span>
+                    </td>
+                    <td style="background-color: #D9EAD3;">
+                        <span class="checkbox-span"><input class="form-check-input daily input-important" type="checkbox" value="" id="chaos1paladin"></span>
+                        <span class="checkbox-span"><input class="form-check-input daily input-important" type="checkbox" value="" id="chaos2paladin"></span>
+                    </td>
+                    <td style="background-color: #D9EAD3;">
+                        <span class="checkbox-span"><input class="form-check-input daily input-important" type="checkbox" value="" id="chaos1bard"></span>
+                        <span class="checkbox-span"><input class="form-check-input daily input-important" type="checkbox" value="" id="chaos2bard"></span>
+                    </td>
+                    <td style="background-color: #D9EAD3;">
+                        <span class="checkbox-span"><input class="form-check-input daily input-important" type="checkbox" value=""
+                            id="chaos1sharpshooter"></span>
+                        <span class="checkbox-span"><input class="form-check-input daily input-important" type="checkbox" value=""
+                            id="chaos2sharpshooter"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="background-color: #93C47D;"><img src="images/guardian raids.png"
+                            alt="">&nbsp;&nbsp;&nbsp;Raid</td>
+                    <td style="background-color: #D9EAD3;">
+                        <span class="checkbox-span"><input class="form-check-input daily input-secondaire" type="checkbox" value="" id="raid1deathblade" data-progress="reposraiddeathblade"></span>
+                        <span class="checkbox-span"><input class="form-check-input daily input-secondaire" type="checkbox" value="" id="raid2deathblade" data-progress="reposraiddeathblade"></span>
+                        <br>
+                        <div class="progress" style="margin-top: 5px;" hidden>
+                            <div id="reposraiddeathblade" class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25"
+                                aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </td>
+                    <td style="background-color: #D9EAD3;">
+                        <span class="checkbox-span"><input class="form-check-input daily input-secondaire" type="checkbox" value=""
+                            id="raid1shadowhunter" data-progress="reposraidshadowhunter"></span>
+                        <span class="checkbox-span"><input class="form-check-input daily input-secondaire" type="checkbox" value=""
+                            id="raid2shadowhunter" data-progress="reposraidshadowhunter"></span>
+                            <br>
+                        <div class="progress" style="margin-top: 5px;" hidden>
+                            <div id="reposraidshadowhunter" class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25"
+                                aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </td>
+                    <td style="background-color: #D9EAD3;">
+                        <span class="checkbox-span"><input class="form-check-input daily input-secondaire" type="checkbox" value="" id="raid1sorceress" data-progress="reposraidsorceress"></span>
+                        <span class="checkbox-span"><input class="form-check-input daily input-secondaire" type="checkbox" value="" id="raid2sorceress" data-progress="reposraidsorceress"></span>
+                        <br>
+                        <div class="progress" style="margin-top: 5px;" hidden>
+                            <div id="reposraidsorceress" class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25"
+                                aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </td>
+                    <td style="background-color: #D9EAD3;">
+                        <span class="checkbox-span"><input class="form-check-input daily input-secondaire" type="checkbox" value="" id="raid1paladin" data-progress="reposraidpaladin"></span>
+                        <span class="checkbox-span"><input class="form-check-input daily input-secondaire" type="checkbox" value="" id="raid2paladin" data-progress="reposraidpaladin"></span>
+                        <br>
+                        <div class="progress" style="margin-top: 5px;" hidden>
+                            <div id="reposraidpaladin" class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25"
+                                aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </td>
+                    <td style="background-color: #D9EAD3;">
+                        <span class="checkbox-span"><input class="form-check-input daily input-secondaire" type="checkbox" value="" id="raid1bard" data-progress="reposraidbard"></span>
+                        <span class="checkbox-span"><input class="form-check-input daily input-secondaire" type="checkbox" value="" id="raid2bard" data-progress="reposraidbard"></span>
+                        <br>
+                        <div class="progress" style="margin-top: 5px;" hidden>
+                            <div id="reposraidbard" class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25"
+                                aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </td>
+                    <td style="background-color: #D9EAD3;">
+                        <span class="checkbox-span"><input class="form-check-input daily input-secondaire" type="checkbox" value=""
+                            id="raid1sharpshooter" data-progress="reposraidsharpshooter"></span>
+                        <span class="checkbox-span"><input class="form-check-input daily input-secondaire" type="checkbox" value=""
+                            id="raid2sharpshooter" data-progress="reposraidsharpshooter"></span>
+                        <br>
+                        <div class="progress" style="margin-top: 5px;" hidden>
+                            <div id="reposraidsharpshooter" class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25"
+                                aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="background-color: #93C47D;"><img src="images/winter.png" style="width: 24px;"
+                            alt="">&nbsp;&nbsp;&nbsp;Raid Event 1 465</td>
+                    <td style="background-color: #D9EAD3;">
+                        <span class="checkbox-span"><input class="form-check-input daily " type="checkbox" value="" id="raidedeathblade"></span>
+                    </td>
+                    <td style="background-color: #D9EAD3;">
+                        <span class="checkbox-span"><input class="form-check-input daily " type="checkbox" value="" id="raideshadowhunter"></span>
+                    </td>
+                    <td style="background-color: #D9EAD3;">
+                        <span class="checkbox-span"><input class="form-check-input daily " type="checkbox" value="" id="raidesorceress"></span>
+                    </td>
+                    <td style="background-color: #D9EAD3;">
+                        <span class="checkbox-span"><input class="form-check-input daily " type="checkbox" value="" id="raidepaladin"></span>
+                    </td>
+                    <td style="background-color: #D9EAD3;">
+                        <span class="checkbox-span"><input class="form-check-input daily " type="checkbox" value="" id="raidebard"></span>
+                    </td>
+                    <td style="background-color: #D9EAD3;">
+                        <span class="checkbox-span"><input class="form-check-input daily " type="checkbox" value="" id="raidesharpshooter"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="background-color: #93C47D;"><img src="images/guild.png" style="width: 24px;"
+                            alt="">&nbsp;&nbsp;&nbsp;Guild</td>
+                    <td style="background-color: #D9EAD3;">
+                        <span class="checkbox-span"><input class="form-check-input daily input-important" type="checkbox" value="" id="guilddeathblade"></span>
+                    </td>
+                    <td style="background-color: #D9EAD3;">
+                        <!-- <span class="checkbox-span"><input class="form-check-input daily input-important" type="checkbox" value="" id="guilddeathblade"></span> -->
+                    </td>
+                    <td style="background-color: #D9EAD3;">
+                        <!-- <span class="checkbox-span"><input class="form-check-input daily input-important" type="checkbox" value="" id="guilddeathblade"></span> -->
+                    </td>
+                    <td style="background-color: #D9EAD3;">
+                        <span class="checkbox-span"><input class="form-check-input daily input-important" type="checkbox" value="" id="guildpaladin"></span>
+                    </td>
+                    <td style="background-color: #D9EAD3;">
+                        <span class="checkbox-span"><input class="form-check-input daily input-important" type="checkbox" value="" id="guildbard"></span>
+                    </td>
+                    <td style="background-color: #D9EAD3;">
+                        <!-- <span class="checkbox-span"><input class="form-check-input daily input-important" type="checkbox" value="" id="guilddeathblade"></span> -->
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="1" style="background-color: #93C47D;">
+                        <img src="images/gathering.png" alt="" style="width: 24px;">
+                        &nbsp;&nbsp;&nbsp;Métier&nbsp;&nbsp;&nbsp;
+                        <span class="checkbox-span"><input class="form-check-input daily input-prio" type="checkbox" value="" id="lifeskill"></span>
+                    </td>
+                    <td colspan="2" style="background-color: #93C47D;">
+                        <img src="images/chaos gate.png" alt="">
+                        &nbsp;&nbsp;&nbsp;Chaos Gate&nbsp;&nbsp;&nbsp;
+                        <span class="checkbox-span"><input class="form-check-input daily input-important" type="checkbox" value="" id="chaosgate"></span>
+                    </td>
+                    <td colspan="2" style="background-color: #93C47D;">
+                        <img src="images/world boss.png" alt="">
+                        &nbsp;&nbsp;&nbsp;World Boss&nbsp;&nbsp;&nbsp;
+                        <span class="checkbox-span"><input class="form-check-input daily input-important" type="checkbox" value="" id="worldboss"></span>
+                    </td>
+                    <td colspan="2" style="background-color: #93C47D;">
+                        <img src="images/island.png" alt="">
+                        &nbsp;&nbsp;&nbsp;Adventure Island&nbsp;&nbsp;&nbsp;
+                        <span class="checkbox-span"><input class="form-check-input daily input-prio" type="checkbox" value="" id="adventureisland1"></span>
+                        <span class="checkbox-span"><input class="form-check-input daily " type="checkbox" value="" id="adventureisland2"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="background-color: #93C47D;">
+                        <img src="images/rapport.png" alt="">
+                        &nbsp;&nbsp;&nbsp;Neria&nbsp;&nbsp;&nbsp;
+                        <span class="checkbox-span"><input class="form-check-input daily input-prio" type="checkbox" value="" id="emote1"></span>
+                        <span class="checkbox-span"><input class="form-check-input daily input-prio" type="checkbox" value="" id="song1"></span>
+                    </td>
+                    <td colspan="2" style="background-color: #93C47D;">
+                        <img src="images/rapport.png" alt="">
+                        &nbsp;&nbsp;&nbsp;Ryeon's ghost&nbsp;&nbsp;&nbsp;
+                        <span class="checkbox-span"><input class="form-check-input daily input-prio" type="checkbox" value="" id="emote4"></span>
+                        <span class="checkbox-span"><input class="form-check-input daily input-prio" type="checkbox" value="" id="song4"></span>
+                    </td>
+                    <td colspan="2" style="background-color: #93C47D;">
+                        <img src="images/rapport.png" alt="">
+                        &nbsp;&nbsp;&nbsp;Thirain&nbsp;&nbsp;&nbsp;
+                        <span class="checkbox-span"><input class="form-check-input daily input-prio" type="checkbox" value="" id="emote2"></span>
+                        <span class="checkbox-span"><input class="form-check-input daily input-prio" type="checkbox" value="" id="emote3"></span>
+                        <span class="checkbox-span"><input class="form-check-input daily input-prio" type="checkbox" value="" id="song2"></span>
+                        <span class="checkbox-span"><input class="form-check-input daily input-prio" type="checkbox" value="" id="song3"></span>
+                    </td>
+                    <td style="background-color: #93C47D;">
+                        <img src="images/rapport.png" alt="">
+                        &nbsp;&nbsp;&nbsp;Azena&nbsp;&nbsp;&nbsp;
+                        <span class="checkbox-span"><input class="form-check-input daily input-prio" type="checkbox" value="" id="emote5"></span>
+                        <span class="checkbox-span"><input class="form-check-input daily input-prio" type="checkbox" value="" id="song5"></span>
+                    </td>
+                    <td style="background-color: #93C47D;">
+                        <img src="images/rapport.png" alt="">
+                        &nbsp;&nbsp;&nbsp;Mokamoka&nbsp;&nbsp;&nbsp;
+                        <span class="checkbox-span"><input class="form-check-input daily input-prio" type="checkbox" value="" id="emote6"></span>
+                        <span class="checkbox-span"><input class="form-check-input daily input-prio" type="checkbox" value="" id="song6"></span>
+                    </td>
+                </tr>
+                <!-- <tr style="background-color: #ff8b8b;text-align: center!important;">
+                    <th colspan="7">STORY LINE</th>
+                </tr>
+                <tr>
+                    <td style="background-color: #ffacac;"></td>
+                    <td style="background-color: #ffacac;">
+                        <img src="images/World_Quest_Icon.webp" alt="">
+                        &nbsp;&nbsp;&nbsp;South Vern&nbsp;&nbsp;&nbsp;
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="southverndeathblade"></span>
+                    </td>
+                    <td style="background-color: #ffacac;"></td>
+                    <td style="background-color: #ffacac;">
+                        <img src="images/World_Quest_Icon.webp" alt="">
+                        &nbsp;&nbsp;&nbsp;Papunika&nbsp;&nbsp;&nbsp;
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="feitonsorceress"></span>
+                    </td>
+                    <td style="background-color: #ffacac;">
+                        <img src="images/World_Quest_Icon.webp" alt="">
+                        &nbsp;&nbsp;&nbsp;Papunika&nbsp;&nbsp;&nbsp;
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="papunikapaladin"></span>
+                    </td>
+                    <td style="background-color: #ffacac;">
+                        <img src="images/World_Quest_Icon.webp" alt="">
+                        &nbsp;&nbsp;&nbsp;Papunika&nbsp;&nbsp;&nbsp;
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="papunikabard"></span>
+                    </td>
+                    <td style="background-color: #ffacac;">
+                        <img src="images/World_Quest_Icon.webp" alt="">
+                        &nbsp;&nbsp;&nbsp;Feiton&nbsp;&nbsp;&nbsp;
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="feitonsharpshooter"></span>
+                    </td>
+                </tr> -->
+                <tr style="background-color: #6261FF;text-align: center!important;">
+                    <th id="resetweekly">
+                    </th>
+                    <th colspan="6">WEEKLY<br>
+                        <div class="progress">
+                            <div id="progressBarWeekly" class="progress-bar" role="progressbar" style="width: 0%"
+                                aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </th>
+                </tr>
+                <tr>
+                    <td colspan="1" style="background-color: #84A3FF;">
+                        <img src="images/ghost_ship.png" alt="">
+                        &nbsp;&nbsp;&nbsp;Ghost ship&nbsp;&nbsp;&nbsp;
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="ghostship"></span>
+                    </td>
+                    <td colspan="3" style="background-color: #84A3FF;">
+                        <img src="images/merchant.png" alt="" style="width: 24px;">
+                        &nbsp;&nbsp;&nbsp;Marchant Event T2&nbsp;&nbsp;&nbsp;
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="marchanteventt2"></span>
+                    </td>
+                    <td colspan="3" style="background-color: #84A3FF;">
+                        <img src="images/merchant.png" alt="" style="width: 24px;">
+                        &nbsp;&nbsp;&nbsp;Marchant Event T3&nbsp;&nbsp;&nbsp;
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="marchanteventt3"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="background-color: #84A3FF;"><img src="images/una_weekly.png"
+                            alt="">&nbsp;&nbsp;&nbsp;Récupération Una Weekly
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="unawg1deathblade"></span>
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="unawg2deathblade"></span>
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="unawg3deathblade"></span>
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="unawg1shadowhunter"></span>
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="unawg2shadowhunter"></span>
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="unawg3shadowhunter"></span>
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="unawg1sorceress"></span>
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="unawg2sorceress"></span>
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="unawg3sorceress"></span>
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="unawg1paladin"></span>
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="unawg2paladin"></span>
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="unawg3paladin"></span>
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="unawg1bard"></span>
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="unawg2bard"></span>
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="unawg3bard"></span>
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="unawg1sharpshooter"></span>
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="unawg2sharpshooter"></span>
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="unawg3sharpshooter"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="background-color: #84A3FF;"><img src="images/una_weekly.png" alt="">&nbsp;&nbsp;&nbsp;Una
+                        Weekly
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="unaw1deathblade"></span>
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="unaw2deathblade"></span>
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="unaw3deathblade"></span>
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="unaw1shadowhunter"></span>
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="unaw2shadowhunter"></span>
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="unaw3shadowhunter"></span>
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="unaw1sorceress"></span>
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="unaw2sorceress"></span>
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="unaw3sorceress"></span>
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="unaw1paladin"></span>
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="unaw2paladin"></span>
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="unaw3paladin"></span>
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="unaw1bard"></span>
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="unaw2bard"></span>
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="unaw3bard"></span>
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="unaw1sharpshooter"></span>
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="unaw2sharpshooter"></span>
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="unaw3sharpshooter"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="background-color: #84A3FF;"><img src="images/merchant.png" alt=""
+                            style="width: 24px;">&nbsp;&nbsp;&nbsp;Tri inventaire complet
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="cubedeathblade"></span>
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="cubeshadowhunter"></span>
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="cubesorceress"></span>
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="cubepaladin"></span>
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="cubebard"></span>
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="cubesharpshooter"></span>
+                    </td>
+                </tr>
+                <tr style="background-color: #6261FF;text-align: center!important;">
+                    <th colspan="7">Raid Abyssal</th>
+                </tr>
+                <tr>
+                    <td style="background-color: #84A3FF;"><img src="images/abyssal.png" alt=""
+                            style="width: 24px;">&nbsp;&nbsp;&nbsp;Argos
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                        P1&nbsp;<span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="argosp1deathblade">
+                        <!-- P2&nbsp;<span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="argosp2deathblade"></span> -->
+                        <!-- P3&nbsp;<span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="argosp3deathblade"></span> -->
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                        <!-- P1&nbsp;<span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="argosp1shadowhunter"></span> -->
+                        <!-- P2&nbsp;<span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="argosp2shadowhunter"></span> -->
+                        <!-- P3&nbsp;<span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="argosp3shadowhunter"></span> -->
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                    </td>
+                </tr>
+                <tr style="background-color: #6261FF;text-align: center!important;">
+                    <th colspan="7">Abyssal Dungeons</th>
+                </tr>
+                <tr>
+                    <td style="background-color: #84A3FF;"><img src="images/abyss_dungeon.png" alt=""
+                            style="width: 24px;">&nbsp;&nbsp;&nbsp;T3 Aira's Oculus
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="t3haodeathblade"></span>
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="t3naoshadowhunter"></span>
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="t3naosorceress"></span>
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="t3naopaladin"></span>
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="t3naobard"></span>
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                    </td>
+                </tr>
+                <tr>
+                    <td style="background-color: #84A3FF;"><img src="images/abyss_dungeon.png" alt=""
+                            style="width: 24px;">&nbsp;&nbsp;&nbsp;T3 Oreha Preveza
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="t3hopdeathblade"></span>
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                        <!-- <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="t3nopshadowhunter"></span> -->
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                    </td>
+                </tr>
+                <!-- <tr>
+                    <td style="background-color: #84A3FF;"><img src="images/abyss_dungeon.png" alt=""
+                            style="width: 24px;">&nbsp;&nbsp;&nbsp;T2 Road of Lament
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="t2rlsorceress"></span>
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="t2rlsharpshooter"></span>
+                    </td>
+                </tr> -->
+                <!-- <tr>
+                    <td style="background-color: #84A3FF;"><img src="images/abyss_dungeon.png" alt=""
+                            style="width: 24px;">&nbsp;&nbsp;&nbsp;T2 Forge of Fallen Pride
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="t2ffpsorceress"></span>
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="t2ffpsharpshooter"></span>
+                    </td>
+                </tr> -->
+                <tr>
+                    <td style="background-color: #84A3FF;"><img src="images/abyss_dungeon.png" alt=""
+                            style="width: 24px;">&nbsp;&nbsp;&nbsp;T2 Sea of Indolence
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                        <!-- <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="t2sisorceress"></span> -->
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                        <!-- <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="t2sipaladin"></span> -->
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                        <!-- <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="t2sibard"></span> -->
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="t2sisharpshooter"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="background-color: #84A3FF;"><img src="images/abyss_dungeon.png" alt=""
+                            style="width: 24px;">&nbsp;&nbsp;&nbsp;T2 Tranquil Karkosa
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                        <!-- <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="t2tksorceress"></span> -->
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                        <!-- <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="t2tkpaladin"></span> -->
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                        <!-- <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="t2tkbard"></span> -->
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="t2tksharpshooter"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="background-color: #84A3FF;"><img src="images/abyss_dungeon.png" alt=""
+                            style="width: 24px;">&nbsp;&nbsp;&nbsp;T2 Alaric's Santuary
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                        <!-- <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="t2assorceress"></span> -->
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                        <!-- <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="t2aspaladin"></span> -->
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                        <!-- <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="t2asbard"></span> -->
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                        <span class="checkbox-span"><input class="form-check-input" type="checkbox" value="" id="t2assharpshooter"></span>
+                    </td>
+                </tr>
+                <!-- <tr>
+                    <td style="background-color: #84A3FF;"><img src="images/abyss_dungeon.png" alt=""
+                            style="width: 24px;">&nbsp;&nbsp;&nbsp;T1 Demon Beast Canyon
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                    </td>
+                </tr>
+                <tr>
+                    <td style="background-color: #84A3FF;"><img src="images/abyss_dungeon.png" alt=""
+                            style="width: 24px;">&nbsp;&nbsp;&nbsp;T1 Necromancer's Origin
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                    </td>
+                </tr>
+                <tr>
+                    <td style="background-color: #84A3FF;"><img src="images/abyss_dungeon.png" alt=""
+                            style="width: 24px;">&nbsp;&nbsp;&nbsp;T1 Hall of the Twisted Warlord
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                    </td>
+                </tr>
+                <tr>
+                    <td style="background-color: #84A3FF;"><img src="images/abyss_dungeon.png" alt=""
+                            style="width: 24px;">&nbsp;&nbsp;&nbsp;T1 Hildebrandt Palace
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                    </td>
+                    <td style="background-color: #A7BDFF;">
+                    </td>
+                </tr> -->
+            </tbody>
+        </table>
+        <!-- <div class="card">
+            <div class="card-body">
+                Una Liste
+            </div>
+        </div> -->
+    </section>
+</body>
+
+<script src="jquery.min.js"></script>
+<script src="moment.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+<script src="script.js"></script>
+
+</html>

@@ -4,17 +4,104 @@ const db = new StormDB(engine);
 var persoEnCours = [];
 
 $(document).ready(function () {
+    // RESET DAILY
+    if (db.get("resetDaily").value() === undefined) db.set("resetDaily", "").save();
+    else resetDaily();
+
+    // RESET WEEKLY
+    if (db.get("resetWeekly").value() === undefined) db.set("resetWeekly", "").save();
+    else resetWeekly();
+
+    // SHOW PERSOS
+    if (db.get("personnages").value() === undefined) db.set("personnages", []).save();
+
+    // SHOW TASKS
+    if (db.get("tasks").value() === undefined) db.set("tasks", []).save();
+
+    // SHOW TIMES
+    if (db.get("times").value() === undefined) db.set("times", []).save();
+
+    // GROUPE
+    if (db.get("groupeEnCours").value() === undefined) db.set("groupeEnCours", 1).save();
+
+    // COMPTEUR UNA
+    if (db.get("counterUna").value() === undefined) db.set("counterUna", 1).save();
+
+    // COMPTEUR CHAOS
+    if (db.get("counterChaos").value() === undefined) db.set("counterChaos", 1).save();
+
+    // COMPTEUR RAID
+    if (db.get("counterRaid").value() === undefined) db.set("counterRaid", 1).save();
+
     showPersos();
     showEvents();
     showRapport();
     showImportantFromOtherPerso();
     showCounter();
+
+    $('.selectionPerso').on('click', function () {
+        showSelection();
+    });
 });
 
 $(document).on('click', '.cardEvent', function () {
     checkTask($(this).data('id'));
     $(this).hide();
 });
+
+function resetDaily(resetVar, resetType) {
+    if (db.get('resetDaily').value() != moment().format('DD/MM/YYYY') && moment().format("HH") > 11) {
+        db.get('resetDaily').set(moment().format('DD/MM/YYYY'));
+        db.save();
+
+        let tasks = db.get("tasks").value();
+
+        tasks.forEach(function (task, i) {
+            if (task.resetTask == 'Daily') {
+                db.get("tasks")
+                    .get(i)
+                    .get('statutTask')
+                    .set(false);
+
+                db.save();
+            }
+        });
+
+        let groupeEnCours = parseInt(db.get("groupeEnCours").value());
+
+        groupeEnCours++;
+        if (groupeEnCours > 3) {
+            groupeEnCours = 1;
+        }
+
+        db.get('groupeEnCours').set(groupeEnCours);
+        db.save();
+
+        window.location.reload();
+    }
+}
+
+function resetWeekly() {
+    if (db.get('resetWeekly').value() != moment().format('DD/MM/YYYY') && moment().format('E') == 4) {
+        db.get('resetWeekly').set(moment().format('DD/MM/YYYY'));
+        db.save();
+
+        let tasks = db.get("tasks").value();
+
+        tasks.forEach(function (task, i) {
+            if (task.resetTask == 'Weekly') {
+                db.get("tasks")
+                    .get(i)
+                    .get('statutTask')
+                    .set(false);
+
+                db.save();
+            }
+        });
+
+        showTask();
+    }
+}
 
 function showPersos() {
     let htmlPersos = '';
@@ -36,9 +123,9 @@ function showPersos() {
             let color = getColorFromTask(t);
 
             htmlTaches += `
-            <div class="card mb-3 cardEvent" data-id="${i}" style="cursor: pointer;">
+            <div class="card mb-3 cardEvent box-shadow ${color}" data-id="${i}" style="cursor: pointer;">
                 <div class="d-flex">
-                    <div class="card-body ${color}">
+                    <div class="card-body">
                         ${t.nomTask}
                     </div>
                 </div>
@@ -47,20 +134,20 @@ function showPersos() {
 
         if (p.groupePerso == 'Main') {
             htmlEntete = `
-                <div class="card mb-3">
+                <div class="card mb-3 box-shadow text-gray">
                     <div class="d-flex">
                         <div class="card-body">
-                            Perso -> <strong><i>MAIN</i></strong>
+                            <strong><i>MAIN</i></strong> - ${p.typePerso}
                         </div>
                     </div>
                 </div>
             `;
         } else {
             htmlEntete = `
-                <div class="card mb-3">
+                <div class="card mb-3 box-shadow text-gray">
                     <div class="d-flex">
                         <div class="card-body">
-                            Perso groupe -> <strong><i>${p.groupePerso}</i></strong>
+                            <strong><i>${p.groupePerso}</i></strong> - ${p.typePerso}<span class="float-end">${p.gearlevel}</span>
                         </div>
                     </div>
                 </div>
@@ -90,7 +177,9 @@ function showEvents() {
         db.get("times").value().forEach(function (time) {
             if (task.openingTask == time.typeEvent) {
                 if (moment().isoWeekday() == time.day && !task.statutTask) {
-                    eventTasksDaily.push(task);
+                    if (!eventTasksDaily.some(t => t.nomTask === task.nomTask)) {
+                        eventTasksDaily.push(task);
+                    }
                 }
             }
         });
@@ -100,7 +189,7 @@ function showEvents() {
         let i = getIndexTask(t);
 
         htmlTachesEvent += `
-        <div class="card mb-3 cardEvent" data-id="${i}" style="cursor: pointer;flex-grow: 1;">
+        <div class="card mb-3 cardEvent box-shadow text-gray" data-id="${i}" style="cursor: pointer;flex-grow: 1;">
             <div class="d-flex">
                 <div class="card-body">
                     ${t.nomTask}
@@ -121,7 +210,7 @@ function showRapport() {
             let i = getIndexTask(task);
 
             htmlTachesRapport += `
-                <div class="card mb-3 cardEvent" data-id="${i}" style="cursor: pointer;flex-grow: 1;">
+                <div class="card mb-3 cardEvent box-shadow text-gray" data-id="${i}" style="cursor: pointer;flex-grow: 1;">
                     <div class="d-flex">
                         <div class="card-body">
                             ${task.nomTask}
@@ -151,7 +240,7 @@ function showImportantFromOtherPerso() {
             let i = getIndexTask(t);
 
             htmlOtherTask += `
-            <div class="card mb-3 cardEvent" data-id="${i}" style="cursor: pointer;flex-grow: 1;">
+            <div class="card mb-3 cardEvent box-shadow text-gray" data-id="${i}" style="cursor: pointer;flex-grow: 1;">
                 <div class="d-flex">
                     <div class="card-body">
                         ${t.nomTask}<br>
@@ -166,9 +255,37 @@ function showImportantFromOtherPerso() {
 }
 
 function showCounter() {
+    console.log(db.get('counterUna').value())
     $('#counterUna').html(db.get('counterUna').value());
     $('#counterChaos').html(db.get('counterChaos').value());
     $('#counterRaid').html(db.get('counterRaid').value());
+}
+
+function showSelection() {
+    let typePerso = $(this).data('perso');
+    let htmlSelection = '';
+    let perso = getPersoFromType(typePerso);
+    let tasks = getTachesActiveFromPerso(perso);
+
+    tasks.sort((a, b) => {
+        return a.prioTask - b.prioTask;
+    });
+
+    tasks.forEach(function (t) {
+        let i = getIndexTask(t);
+        let color = getColorFromTask(t);
+
+        htmlSelection += `
+        <div class="card mb-3 cardEvent box-shadow ${color}" data-id="${i}" style="cursor: pointer;">
+            <div class="d-flex">
+                <div class="card-body">
+                    ${t.nomTask}
+                </div>
+            </div>
+        </div>`;
+    });
+
+    $('#persoSelectionner').html(htmlSelection);
 }
 
 function getPersoFromGroupe(g) {
@@ -181,7 +298,7 @@ function getPersoFromGroupe(g) {
 
 function getPersoFromGroupeInactif() {
     let persos = [];
-    
+
     db.get("personnages").value().forEach(function (p) {
         if (p.groupePerso != 'Main' && p.groupePerso != db.get("groupeEnCours").value()) {
             persos.push(p);
@@ -189,6 +306,18 @@ function getPersoFromGroupeInactif() {
     });
 
     return persos;
+}
+
+function getPersoFromType(type) {
+    let perso = null;
+
+    db.get("personnages").value().forEach(function (p) {
+        if (p.typePerso == type) {
+            perso = p;
+        }
+    });
+
+    return perso;
 }
 
 function getTachesActiveFromPerso(p) {
@@ -228,11 +357,11 @@ function getIndexTask(task) {
 function getColorFromTask(task) {
     switch (task.resetTask) {
         case 'Daily':
-            return 'taskRed';
+            return 'text-red';
         case 'Weekly':
-            return 'taskBlue';
+            return 'text-blue';
         default:
-            return 'taskGray';
+            return 'text-gray';
     }
 }
 

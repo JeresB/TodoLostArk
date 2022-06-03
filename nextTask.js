@@ -34,6 +34,15 @@ $(document).ready(function () {
     // GROUPE
     if (db.get("groupeEnCours").value() === undefined) db.set("groupeEnCours", 1).save();
 
+    // COMPTEUR UNA
+    if (db.get("counterUna").value() === undefined) db.set("counterUna", 1).save();
+
+    // COMPTEUR CHAOS
+    if (db.get("counterChaos").value() === undefined) db.set("counterChaos", 1).save();
+
+    // COMPTEUR RAID
+    if (db.get("counterRaid").value() === undefined) db.set("counterRaid", 1).save();
+
     // SHOW TIME ON MODAL
     showTime();
 

@@ -11,13 +11,160 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.12.0/css/jquery.dataTables.min.css">
 </head>
 
-<body>
-    <section id="sectionPersoEnCours">
-        <section id="main" style="background-color: red;width: 60vw;height: 100vh;">
-            <img id="main-image" src="" alt="" style="width: 18vw;">
+<style>
+    .taskRed {
+        background-color: #fdb8b8;
+    }
 
-            <section id="main-taches" style="width: 18vw;background-color: blue;"></section>
+    .taskBlue {
+        background-color: #dfe6ff;
+    }
+
+    .taskGray {
+        background-color: #e3e3e3;
+    }
+
+    .counter {
+        font-family: 'Open Sans', sans-serif;
+        color: #fff;
+        background: #fff;
+        text-align: center;
+        width: 190px;
+        padding: 25px 30px 10px;
+        margin: 0 auto;
+        border-radius: 30px 0;
+        box-shadow: 10px 10px 0 rgba(0, 0, 0, 0.05);
+        position: relative;
+        z-index: 1;
+    }
+
+    .counter:before {
+        content: "";
+        background: #51d658;
+        border-radius: 15px 0 30px 0;
+        box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.15);
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        right: 12px;
+        bottom: 27px;
+        z-index: -1;
+    }
+
+    .counter .counter-icon {
+        font-size: 35px;
+        margin: 0 0 10px;
+        transform: rotateX(0deg);
+        transition: all 0.3s ease 0s;
+    }
+
+    .counter:hover .counter-icon {
+        transform: rotateX(360deg);
+        text-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+    }
+
+    .counter h3 {
+        font-size: 17px;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin: 0 0 20px;
+    }
+
+    .counter .counter-value {
+        color: #666;
+        background: #fff;
+        font-size: 33px;
+        font-weight: 600;
+        text-align: right;
+        line-height: 60px;
+        width: 90%;
+        height: 50px;
+        padding: 0 15px;
+        margin: 0 0 0 -20px;
+        display: block;
+    }
+
+    .counter.lime:before {
+        background-color: lime;
+    }
+
+    .counter.deepskyblue:before {
+        background-color: deepskyblue;
+    }
+
+    .counter.orangered:before {
+        background-color: orangered;
+    }
+
+    @media screen and (max-width:990px) {
+        .counter {
+            margin-bottom: 40px;
+        }
+    }
+</style>
+
+<body style="display: flex; gap: 10px;margin: 20px;;">
+    <section id="sectionPersoEnCours" style="display: flex; gap: 10px;width: 60vw;">
+
+    </section>
+    <section style="width: 100%;">
+        <section style="display: flex;">
+
+            <div class="counter lime">
+                <div class="counter-icon">
+                    <i class="fa-solid fa-clipboard-check"></i>
+                </div>
+                <h3>Daily Una Tasks</h3>
+                <span id="counterUna" class="counter-value"></span>
+            </div>
+
+            <div class="counter deepskyblue">
+                <div class="counter-icon">
+                    <i class="fa-solid fa-bugs"></i>
+                </div>
+                <h3>Chaos Dungeon</h3>
+                <span id="counterChaos" class="counter-value"></span>
+            </div>
+
+            <div class="counter orangered">
+                <div class="counter-icon">
+                    <i class="fa-solid fa-dragon"></i>
+                </div>
+                <h3>Guardian Raid</h3>
+                <span id="counterRaid" class="counter-value"></span>
+            </div>
+
         </section>
+
+        <div><br></div>
+
+        <div class="card mb-3" style="border-color: darkgreen;">
+            <div class="d-flex">
+                <div class="card-body" style="background-color: green;color: white;width: 100%;">
+                    Evénements de la journée
+                </div>
+            </div>
+        </div>
+        <section id="sectionEvent" style="display: flex;gap: 10px;flex-wrap: wrap;"></section>
+
+        <div class="card mb-3" style="border-color: darkred;">
+            <div class="d-flex">
+                <div class="card-body" style="background-color: pink;color: red;width: 100%;">
+                    Rapport en cours
+                </div>
+            </div>
+        </div>
+        <section id="sectionRapport" style="display: flex;gap: 10px;flex-wrap: wrap;"></section>
+
+        <div class="card mb-3" style="border-color: darkslateblue;">
+            <div class="d-flex">
+                <div class="card-body" style="background-color: blue;color: white;width: 100%;">
+                    Taches importantes persos secondaires
+                </div>
+            </div>
+        </div>
+        <section id="sectionOtherPersos" style="display: flex;gap: 10px;flex-wrap: wrap;"></section>
     </section>
 </body>
 

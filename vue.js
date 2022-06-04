@@ -138,7 +138,7 @@ function showPersos() {
                 <div class="card mb-3 box-shadow text-gray">
                     <div class="d-flex">
                         <div class="card-body">
-                            <strong><i>MAIN</i></strong> - ${p.typePerso}
+                            <strong><i>MAIN</i></strong> - ${p.typePerso}<span class="float-end">${p.gearlevel}</span>
                         </div>
                     </div>
                 </div>

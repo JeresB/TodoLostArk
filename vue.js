@@ -239,9 +239,10 @@ function showImportantFromOtherPerso() {
 
         tasks.forEach(function (t) {
             let i = getIndexTask(t);
+            let color = getColorFromTask(t);
 
             htmlOtherTask += `
-            <div class="card mb-3 cardEvent box-shadow text-gray" data-id="${i}" style="cursor: pointer;flex-grow: 1;">
+            <div class="card mb-3 cardEvent box-shadow ${color}" data-id="${i}" style="cursor: pointer;flex-grow: 1;">
                 <div class="d-flex">
                     <div class="card-body">
                         ${t.nomTask}<br>
@@ -267,9 +268,10 @@ function showTachesRooster() {
 
     tasks.forEach(function (t) {
         let i = getIndexTask(t);
+        let color = getColorFromTask(t);
 
         htmlRooster += `
-        <div class="card mb-3 cardEvent box-shadow text-gray" data-id="${i}" style="cursor: pointer;flex-grow: 1;">
+        <div class="card mb-3 cardEvent box-shadow ${color}" data-id="${i}" style="cursor: pointer;flex-grow: 1;">
             <div class="d-flex">
                 <div class="card-body">
                     ${t.nomTask} - ${t.typeTask}

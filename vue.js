@@ -25,7 +25,7 @@ $(document).ready(function () {
     if (db.get("groupeEnCours").value() === undefined) db.set("groupeEnCours", 1).save();
 
     // COMPTEUR UNA
-    if (db.get("counterUna").value() === undefined || db.get("counterUna").value() == null)  db.set("counterUna", 0).save();
+    if (db.get("counterUna").value() === undefined || db.get("counterUna").value() == null) db.set("counterUna", 0).save();
 
     // COMPTEUR CHAOS
     if (db.get("counterChaos").value() === undefined || db.get("counterChaos").value() == null) db.set("counterChaos", 0).save();
@@ -263,30 +263,47 @@ function showCounter() {
 
 function showSelection(data) {
     let typePerso = data.data('perso');
+    let idImg = data.data('idimg');
     let htmlSelection = '';
     console.log(typePerso)
     let perso = getPersoFromType(typePerso);
-    let tasks = getTachesActiveFromPerso(perso);
 
-    tasks.sort((a, b) => {
-        return a.prioTask - b.prioTask;
-    });
+    $('.imgSelection').css('filter', 'brightness(0.5)');
+    
+    $('#' + idImg).css('filter', 'brightness(1)');
 
-    tasks.forEach(function (t) {
-        let i = getIndexTask(t);
-        let color = getColorFromTask(t);
+    if (perso) {
+        let tasks = getTachesActiveFromPerso(perso);
 
-        htmlSelection += `
-        <div class="card mb-3 cardEvent box-shadow ${color}" data-id="${i}" style="cursor: pointer;">
+        tasks.sort((a, b) => {
+            return a.prioTask - b.prioTask;
+        });
+
+        tasks.forEach(function (t) {
+            let i = getIndexTask(t);
+            let color = getColorFromTask(t);
+
+            htmlSelection += `
+            <div class="card mb-3 cardEvent box-shadow ${color}" data-id="${i}" style="cursor: pointer;">
+                <div class="d-flex">
+                    <div class="card-body">
+                        ${t.nomTask}
+                    </div>
+                </div>
+            </div>`;
+        });
+
+        $('#persoSelectionner').html(htmlSelection);
+    } else {
+        $('#persoSelectionner').html(`
+        <div class="card mb-3 box-shadow text-gray">
             <div class="d-flex">
                 <div class="card-body">
-                    ${t.nomTask}
+                    Perso non existant
                 </div>
             </div>
-        </div>`;
-    });
-
-    $('#persoSelectionner').html(htmlSelection);
+        </div>`);
+    }
 }
 
 function getPersoFromGroupe(g) {

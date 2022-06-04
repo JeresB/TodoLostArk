@@ -38,6 +38,7 @@ $(document).ready(function () {
     showRapport();
     showImportantFromOtherPerso();
     showCounter();
+    showTachesRooster();
 
     $('.selectionPerso').on('click', function () {
         showSelection($(this));
@@ -254,6 +255,32 @@ function showImportantFromOtherPerso() {
     $('#sectionOtherPersos').html(htmlOtherTask);
 }
 
+function showTachesRooster() {
+    let tasks = getTachesFromRooster();
+    let htmlRooster = '';
+
+    tasks.sort((a, b) => {
+        return a.prioTask - b.prioTask;
+    });
+
+    console.log('showTachesRooster => ', tasks)
+
+    tasks.forEach(function (t) {
+        let i = getIndexTask(t);
+
+        htmlRooster += `
+        <div class="card mb-3 cardEvent box-shadow text-gray" data-id="${i}" style="cursor: pointer;flex-grow: 1;">
+            <div class="d-flex">
+                <div class="card-body">
+                    ${t.nomTask} - ${t.typeTask}
+                </div>
+            </div>
+        </div>`;
+    });
+
+    $('#sectionTachesRooster').html(htmlRooster);
+}
+
 function showCounter() {
     console.log(db.get('counterUna').value())
     $('#counterUna').html(db.get('counterUna').value());
@@ -355,6 +382,18 @@ function getTachesImportanteFromPerso(p) {
 
     db.get("tasks").value().forEach(function (t) {
         if (t.persoTask == p.typePerso && !t.statutTask && (t.typeTask == 'Guild Activities' || t.typeTask == 'Daily Una Task' || t.typeTask == 'Récupération Weekly Una Task')) {
+            tasks.push(t);
+        }
+    });
+
+    return tasks;
+}
+
+function getTachesFromRooster() {
+    let tasks = [];
+
+    db.get("tasks").value().forEach(function (t) {
+        if (t.persoTask == 'Rooster' && !t.statutTask && t.typeTask !== "Procyon's compass" && t.typeTask !== 'Rapport') {
             tasks.push(t);
         }
     });

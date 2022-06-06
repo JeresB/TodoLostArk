@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.12.0/css/jquery.dataTables.min.css">
 </head>
 
-<body class="container">
+<body class="container-fluid">
 
     <div><br></div>
 
@@ -20,6 +20,7 @@
             Caractère</button>
         <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addTaskModal">Add Task</button>
         <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addTimeModal">Add Time</button>
+        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addBifrostModal">Add Bifrost</button>
         <button id="btnNextTask" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#nextTaskModal">Next
             Task</button>
     </div>
@@ -39,6 +40,10 @@
     <div><br></div>
 
     <section id="sectionTimes"></section>
+
+    <div><br></div>
+
+    <section id="sectionBifrost"></section>
 
     <div><br></div>
 
@@ -200,6 +205,11 @@
                     </div>
 
                     <div class="mb-3">
+                        <label for="importanceTask" class="form-label">Importance</label>
+                        <input type="number" class="form-control" id="importanceTask" placeholder="0 : non & 1 : oui">
+                    </div>
+
+                    <div class="mb-3">
                         <label for="openingTask" class="form-label">Ouverture</label>
                         <input class="form-control" list="openingOptions" id="openingTask" placeholder="Daily">
                         <datalist id="openingOptions">
@@ -254,6 +264,44 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i
                             class="fa-solid fa-xmark"></i></button>
                     <button id="saveTime" type="button" class="btn btn-success" data-bs-dismiss="modal"><i
+                            class="fa-solid fa-check"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="addBifrostModal" class="modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Ajout d'un bifrost</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="nomPersoBifrost" class="form-label">Nom du personnage associé au bifrost</label>
+                        <input type="text" class="form-control" id="nomPersoBifrost" placeholder="nomPersoBifrost">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="continentBifrost" class="form-label">Continent du bifrost</label>
+                        <input type="text" class="form-control" id="continentBifrost" placeholder="continentBifrost">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="regionBifrost" class="form-label">Région du bifrost</label>
+                        <input type="text" class="form-control" id="regionBifrost" placeholder="regionBifrost">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="raisonBifrost" class="form-label">Raison du bifrost</label>
+                        <input type="text" class="form-control" id="raisonBifrost" placeholder="raisonBifrost">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i
+                            class="fa-solid fa-xmark"></i></button>
+                    <button id="saveBifrost" type="button" class="btn btn-success" data-bs-dismiss="modal"><i
                             class="fa-solid fa-check"></i></button>
                 </div>
             </div>

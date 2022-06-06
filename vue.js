@@ -21,6 +21,9 @@ $(document).ready(function () {
     // SHOW TIMES
     if (db.get("times").value() === undefined) db.set("times", []).save();
 
+    // SET BIFROST
+    if (db.get("bifrosts").value() === undefined) db.set("bifrosts", []).save();
+
     // GROUPE
     if (db.get("groupeEnCours").value() === undefined) db.set("groupeEnCours", 1).save();
 
@@ -228,7 +231,7 @@ function showRapport() {
 function showImportantFromOtherPerso() {
     let persos = getPersoFromGroupeInactif();
     let htmlOtherTask = '';
-    console.log(persos);
+    // console.log(persos);
 
     persos.forEach(function (p) {
         let tasks = getTachesImportanteFromPerso(p);
@@ -264,7 +267,7 @@ function showTachesRooster() {
         return a.prioTask - b.prioTask;
     });
 
-    console.log('showTachesRooster => ', tasks)
+    // console.log('showTachesRooster => ', tasks)
 
     tasks.forEach(function (t) {
         let i = getIndexTask(t);
@@ -284,7 +287,6 @@ function showTachesRooster() {
 }
 
 function showCounter() {
-    console.log(db.get('counterUna').value())
     $('#counterUna').html(db.get('counterUna').value());
     $('#counterChaos').html(db.get('counterChaos').value());
     $('#counterRaid').html(db.get('counterRaid').value());
@@ -294,8 +296,15 @@ function showSelection(data) {
     let typePerso = data.data('perso');
     let idImg = data.data('idimg');
     let htmlSelection = '';
-    console.log(typePerso)
+    let hoverBifrost = '';
     let perso = getPersoFromType(typePerso);
+    let bifrosts = getBifrostFromPerso(perso);
+
+    bifrosts.forEach(function (b) {
+        hoverBifrost += `### ${b.continentBifrost} - ${b.regionBifrost} - ${b.raisonBifrost} `;
+    });
+
+    data.attr('title', hoverBifrost)
 
     $('.imgSelection').css('filter', 'brightness(0.5)');
     
@@ -383,7 +392,7 @@ function getTachesImportanteFromPerso(p) {
     let tasks = [];
 
     db.get("tasks").value().forEach(function (t) {
-        if (t.persoTask == p.typePerso && !t.statutTask && (t.typeTask == 'Guild Activities' || t.typeTask == 'Daily Una Task' || t.typeTask == 'Récupération Weekly Una Task')) {
+        if (t.persoTask == p.typePerso && !t.statutTask && (t.typeTask == 'Guild Activities' || t.typeTask == 'Daily Una Task' || t.typeTask == 'Récupération Weekly Una Task' || t.importanceTask == '1')) {
             tasks.push(t);
         }
     });
@@ -483,4 +492,14 @@ function incrementeCounter(counter) {
     db.save();
 
     showCounter();
+}
+
+function getBifrostFromPerso(perso) {
+    let bifrosts = [];
+
+    db.get("bifrosts").value().forEach(function (bifrost) {
+        if (bifrost.nomPersoBifrost == perso.nom) bifrosts.push(bifrost);
+    });
+
+    return bifrosts;
 }

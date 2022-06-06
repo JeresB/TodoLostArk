@@ -31,6 +31,10 @@ $(document).ready(function () {
     if (db.get("times").value() === undefined) db.set("times", []).save();
     else if (db.get("times").value().length > 0) showTimes();
 
+    // SHOW BIFROST
+    if (db.get("bifrosts").value() === undefined) db.set("bifrosts", []).save();
+    else if (db.get("bifrosts").value().length > 0) showBifrosts();
+
     // GROUPE
     if (db.get("groupeEnCours").value() === undefined) db.set("groupeEnCours", 1).save();
 
@@ -70,6 +74,12 @@ $(document).on('click', '#saveTask', function () { addTask() });
 $(document).on('change', '.inputMajTimes', function () { updateTimes($(this)) });
 $(document).on('click', '.deleteTimes', function () { deleteTimes($(this)) });
 $(document).on('click', '#saveTime', function () { addTimes() });
+
+// AJOUT, MAJ, SUPPRESSION D'UN BIFROST
+$(document).on('change', '.inputMajBifrost', function () { updateBifrost($(this)) });
+$(document).on('click', '.deleteBifrost', function () { deleteBifrost($(this)) });
+$(document).on('click', '#saveBifrost', function () { addBifrost() });
+
 
 // IMPORT EXPORT JSON DATA
 $(document).on('click', '#btnExportJson', function () { exportToJsonFile({ personnage: db.get("personnages").value(), tasks: db.get("tasks").value(), times: db.get("times").value() }) });
@@ -666,6 +676,7 @@ function showTask() {
                 <th scope="col">Nom</th>
                 <th scope="col">Priorité</th>
                 <th scope="col">Durée</th>
+                <th scope="col">Importance</th>
                 <th scope="col">Ouverture</th>
                 <th scope="col">Image</th>
                 <th scope="col">Statut</th>
@@ -684,6 +695,7 @@ function showTask() {
             <td><input type="text" class="form-control inputMajTask" data-index="${index}" data-champs="nomTask" value="${task.nomTask}"/></td>
             <td><input type="number" class="form-control inputMajTask" data-index="${index}" data-champs="prioTask" value="${task.prioTask}"/></td>
             <td><input type="number" class="form-control inputMajTask" data-index="${index}" data-champs="dureeTask" value="${task.dureeTask}"/></td>
+            <td><input type="number" class="form-control inputMajTask" data-index="${index}" data-champs="importanceTask" value="${task.importanceTask}"/></td>
             <td><input list="openingOptions" class="form-control inputMajTask" data-index="${index}" data-champs="openingTask" value="${task.openingTask}"/></td>
             <td><input type="text" class="form-control inputMajTask" data-index="${index}" data-champs="imageTask" value="${task.imageTask}"/></td>
             <td>
@@ -710,6 +722,7 @@ function addTask() {
     let nomTask = $('#nomTask').val();
     let prioTask = $('#prioTask').val();
     let dureeTask = $('#dureeTask').val();
+    let importanceTask = $('#importanceTask').val();
     let openingTask = $('#openingTask').val();
     let imageTask = $(`option[value="${typeTask}"]`).data('image');
 
@@ -720,6 +733,7 @@ function addTask() {
         'nomTask': nomTask,
         'prioTask': prioTask,
         'dureeTask': dureeTask,
+        'importanceTask': importanceTask,
         'imageTask': imageTask,
         'openingTask': openingTask,
         'statutTask': false
@@ -871,6 +885,80 @@ function deleteTimes(data) {
 
     showTimes();
 }
+
+function showBifrosts() {
+    console.log('show bifrost')
+    let listeHtmlBifrosts = `
+    <table id="tableBifrost" class="table">
+        <thead>
+            <tr>
+                <th scope="col">Nom du personnage associé au bifrost</th>
+                <th scope="col">Continent du bifrost</th>
+                <th scope="col">Région du bifrost</th>
+                <th scope="col">Raison du bifrost</th>
+            </tr>
+        </thead>
+        <tbody>`;
+
+    db.get("bifrosts").value().forEach((bifrost, index) => {
+
+        listeHtmlBifrosts += `
+        <tr>
+            <th scope="row">${bifrost.nomPersoBifrost}</th>
+            <td><input type="text" class="form-control inputMajBifrost" data-index="${index}" data-champs="continentBifrost" value="${bifrost.continentBifrost}"/></td>
+            <td><input type="text" class="form-control inputMajBifrost" data-index="${index}" data-champs="regionBifrost" value="${bifrost.regionBifrost}"/></td>
+            <td><input type="text" class="form-control inputMajBifrost" data-index="${index}" data-champs="raisonBifrost" value="${bifrost.raisonBifrost}"/></td>
+            <td><button class="btn btn-danger deleteBifrost" data-index="${index}"><i class="fa-solid fa-minus"></i></button></td>
+        </tr>`;
+    });
+
+    listeHtmlBifrosts += `</tbody></table>`;
+
+    $('#sectionBifrost').html(listeHtmlBifrosts);
+}
+
+function addBifrost() {
+    let nomPersoBifrost = $('#nomPersoBifrost').val();
+    let continentBifrost = $('#continentBifrost').val();
+    let regionBifrost = $('#regionBifrost').val();
+    let raisonBifrost = $('#raisonBifrost').val();
+
+    let bifrost = {
+        'nomPersoBifrost': nomPersoBifrost,
+        'continentBifrost': continentBifrost,
+        'regionBifrost': regionBifrost,
+        'raisonBifrost': raisonBifrost
+    };
+
+    db.get("bifrosts").push(bifrost).save();
+    db.save();
+
+    showBifrosts();
+}
+
+function updateBifrost(data) {
+    let value = data.val();
+    let index = data.data('index');
+    let champs = data.data('champs');
+
+    db.get("bifrosts")
+        .get(index)
+        .get(champs)
+        .set(value);
+    db.save();
+
+    showBifrosts();
+}
+
+function deleteBifrost(data) {
+    let index = data.data('index');
+
+    db.get("bifrosts").get(index).delete(true);
+    db.save();
+
+    showBifrosts();
+}
+
 
 function showTime() {
     let date = new Date();

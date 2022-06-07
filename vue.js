@@ -55,15 +55,40 @@ $(document).on('click', '.cardEvent', function () {
 
 $(document).on('click', '#startSound', function () {
     playCheckLostMerchant();
+    playEvent();
 });
 
 function playCheckLostMerchant() {
     if(moment().format("mm") > 30 && moment().format("mm") < 55) {
         var audio = new Audio('checkLostMerchant.ogg');
-	    audio.play();
+	audio.play();
     }
 	
-	setTimeout(playCheckLostMerchant, 5*60000);
+    setTimeout(playCheckLostMerchant, 5*60000);
+}
+
+function playEvent() {
+    let eventTasks = getEventTask();
+    let eventTasksDaily = [];
+
+    eventTasks.forEach(function (task) {
+        db.get("times").value().forEach(function (time) {
+            if (task.openingTask == time.typeEvent) {
+                if (moment().isoWeekday() == time.day && !task.statutTask) {
+                    if (!eventTasksDaily.some(t => t.nomTask === task.nomTask)) {
+                        eventTasksDaily.push(task);
+                    }
+                }
+            }
+        });
+    });
+	
+    if(eventTasksDaily.lenght > 0 && moment().format("mm") > 49 && moment().format("mm") <= 59) {
+	var audio = new Audio('eventToDo.ogg');
+	audio.play();
+    }
+	
+    setTimeout(playEvent, 2*60000);
 }
 
 function resetDaily(resetVar, resetType) {

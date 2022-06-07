@@ -2,6 +2,7 @@ const engine = new BrowserEngine("db");
 const db = new StormDB(engine);
 
 var persoEnCours = [];
+var eventTaskDailyForSound = null;
 
 $(document).ready(function () {
     // RESET DAILY
@@ -54,41 +55,41 @@ $(document).on('click', '.cardEvent', function () {
 });
 
 $(document).on('click', '#startSound', function () {
-    playCheckLostMerchant();
-    playEvent();
+    $(this).children().children().addClass('greenPlay');
+    playSound();
 });
 
-function playCheckLostMerchant() {
-    if(moment().format("mm") > 30 && moment().format("mm") < 55) {
-        var audio = new Audio('checkLostMerchant.ogg');
-	audio.play();
+function playSound() {
+    console.log('playSound')
+    console.log('Minutes => ', moment().format("mm"))
+    
+    if (moment().format("mm") > 30 && moment().format("mm") < 55) {
+        let lostMerchantSound = new Audio('checkLostMerchant.ogg');
+        lostMerchantSound.play();
     }
-	
-    setTimeout(playCheckLostMerchant, 5*60000);
-}
 
-function playEvent() {
-    let eventTasks = getEventTask();
-    let eventTasksDaily = [];
+    if (eventTaskDailyForSound == null) {
+        eventTaskDailyForSound = [];
+        let eventTasks = getEventTask();
+        let eventTasksDaily = [];
 
-    eventTasks.forEach(function (task) {
-        db.get("times").value().forEach(function (time) {
-            if (task.openingTask == time.typeEvent) {
-                if (moment().isoWeekday() == time.day && !task.statutTask) {
-                    if (!eventTasksDaily.some(t => t.nomTask === task.nomTask)) {
-                        eventTasksDaily.push(task);
+        eventTasks.forEach(function (task) {
+            db.get("times").value().forEach(function (time) {
+                if (task.openingTask == time.typeEvent) {
+                    if (moment().isoWeekday() == time.day && !task.statutTask) {
+                        if (!eventTasksDaily.some(t => t.nomTask === task.nomTask)) {
+                            eventTaskDailyForSound.push(task);
+                        }
                     }
                 }
-            }
+            });
         });
-    });
-	
-    if(eventTasksDaily.lenght > 0 && moment().format("mm") > 49 && moment().format("mm") <= 59) {
-	var audio = new Audio('eventToDo.ogg');
-	audio.play();
+    } else if (eventTaskDailyForSound.lenght > 0 && moment().format("mm") > 49 && moment().format("mm") <= 59) {
+        let eventSound = new Audio('eventToDo.ogg');
+        eventSound.play();
     }
-	
-    setTimeout(playEvent, 2*60000);
+
+    setTimeout(playSound, 3 * 60000);
 }
 
 function resetDaily(resetVar, resetType) {
@@ -348,7 +349,7 @@ function showSelection(data) {
     let bifrosts = getBifrostFromPerso(perso);
 
     hoverBifrost += `Continent - Région - Raison\n\n`;
-    
+
     bifrosts.forEach(function (b, i) {
         hoverBifrost += `${i + 1}. ${b.continentBifrost} - ${b.regionBifrost} - ${b.raisonBifrost}\n`;
     });
@@ -356,7 +357,7 @@ function showSelection(data) {
     data.attr('title', hoverBifrost)
 
     $('.imgSelection').css('filter', 'brightness(0.5)');
-    
+
     $('#' + idImg).css('filter', 'brightness(1)');
 
     if (perso) {

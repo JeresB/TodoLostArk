@@ -681,6 +681,8 @@ function showTask() {
                 <th scope="col">Image</th>
                 <th scope="col">Statut</th>
                 <th scope="col">Delete</th>
+                <th scope="col">resetType</th>
+				<th scope="col">nom</th>
             </tr>
         </thead>
         <tbody>`;
@@ -704,6 +706,8 @@ function showTask() {
                 </div>
             </td>
             <td><button class="btn btn-danger deleteTask" data-index="${index}"><i class="fa-solid fa-minus"></i></button></td>
+            <td>${task.resetTask}</td>
+			<td>${task.nomTask}</td>
         </tr>`;
     });
 
@@ -711,7 +715,15 @@ function showTask() {
 
     $('#sectionTasks').html(listeHtmlTask);
     table = $('#tableTask').DataTable({
-        stateSave: true
+        stateSave: true,
+		dom: 'Pfrtip',
+		columnDefs: [
+            {
+                target: [11, 12],
+                visible: false,
+                searchable: true,
+            }
+        ]
     });
 }
 

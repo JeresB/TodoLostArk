@@ -300,8 +300,10 @@ function showSelection(data) {
     let perso = getPersoFromType(typePerso);
     let bifrosts = getBifrostFromPerso(perso);
 
-    bifrosts.forEach(function (b) {
-        hoverBifrost += `### ${b.continentBifrost} - ${b.regionBifrost} - ${b.raisonBifrost} `;
+    hoverBifrost += `Continent - Région - Raison\n\n`;
+    
+    bifrosts.forEach(function (b, i) {
+        hoverBifrost += `${i + 1}. ${b.continentBifrost} - ${b.regionBifrost} - ${b.raisonBifrost}\n`;
     });
 
     data.attr('title', hoverBifrost)

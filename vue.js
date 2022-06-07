@@ -53,6 +53,19 @@ $(document).on('click', '.cardEvent', function () {
     $(this).hide();
 });
 
+$(document).on('click', '#startSound', function () {
+    playCheckLostMerchant();
+});
+
+function playCheckLostMerchant() {
+    if(moment().format("mm") > 30 && moment().format("mm") < 55) {
+        var audio = new Audio('checkLostMerchant.ogg');
+	    audio.play();
+    }
+	
+	setTimeout(playCheckLostMerchant, 5*60000);
+}
+
 function resetDaily(resetVar, resetType) {
     if (db.get('resetDaily').value() != moment().format('DD/MM/YYYY') && moment().format("HH") > 11) {
         db.get('resetDaily').set(moment().format('DD/MM/YYYY'));
@@ -138,13 +151,22 @@ function showPersos() {
 
         if (p.groupePerso == 'Main') {
             htmlEntete = `
-                <div class="card mb-3 box-shadow text-gray">
-                    <div class="d-flex">
-                        <div class="card-body">
-                            <strong><i>MAIN</i></strong> - ${p.typePerso}<span class="float-end">${p.gearlevel}</span>
+                <div style="display: flex;gap: 10px;">
+                    <div id="startSound" class="card mb-3 box-shadow text-gray" style="cursor: pointer;">
+                        <div class="d-flex">
+                            <div class="card-body">
+                                <i class="fa-solid fa-play"></i>
+                            </div>
                         </div>
                     </div>
-                </div>
+                    <div class="card mb-3 box-shadow text-gray" style="flex-grow: 1;">
+                        <div class="d-flex">
+                            <div class="card-body">
+                                <strong><i>MAIN</i></strong> - ${p.typePerso}<span class="float-end">${p.gearlevel}</span>
+                            </div>
+                        </div>
+                    </div>
+				</div>
             `;
         } else {
             htmlEntete = `

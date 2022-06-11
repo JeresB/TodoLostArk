@@ -88,8 +88,9 @@ function playSound() {
     }
     
     console.log('eventTaskDailyForSound => ', eventTaskDailyForSound)
+    console.log('eventTaskDailyForSound.length => ', eventTaskDailyForSound.length)
     
-    if (eventTaskDailyForSound.lenght > 0 && moment().format("mm") > 52 && moment().format("mm") <= 59) {
+    if (eventTaskDailyForSound.length > 0 && moment().format("mm") > 52 && moment().format("mm") <= 59) {
         console.log('eventSound => play')
         let eventSound = new Audio('eventToDo.ogg');
         eventSound.play();

@@ -64,6 +64,7 @@ function playSound() {
     console.log('Minutes => ', moment().format("mm"))
     
     if (moment().format("mm") > 30 && moment().format("mm") < 53) {
+        console.log('lostMerchantSound => play')
         let lostMerchantSound = new Audio('checkLostMerchant.ogg');
         lostMerchantSound.play();
     }
@@ -84,9 +85,12 @@ function playSound() {
                 }
             });
         });
-    } 
+    }
+    
+    console.log('eventTaskDailyForSound => ', eventTaskDailyForSound)
     
     if (eventTaskDailyForSound.lenght > 0 && moment().format("mm") > 52 && moment().format("mm") <= 59) {
+        console.log('eventSound => play')
         let eventSound = new Audio('eventToDo.ogg');
         eventSound.play();
     }

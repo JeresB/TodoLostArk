@@ -63,7 +63,7 @@ function playSound() {
     console.log('playSound')
     console.log('Minutes => ', moment().format("mm"))
     
-    if (moment().format("mm") > 30 && moment().format("mm") < 55) {
+    if (moment().format("mm") > 30 && moment().format("mm") < 53) {
         let lostMerchantSound = new Audio('checkLostMerchant.ogg');
         lostMerchantSound.play();
     }
@@ -84,7 +84,9 @@ function playSound() {
                 }
             });
         });
-    } else if (eventTaskDailyForSound.lenght > 0 && moment().format("mm") > 49 && moment().format("mm") <= 59) {
+    } 
+    
+    if (eventTaskDailyForSound.lenght > 0 && moment().format("mm") > 52 && moment().format("mm") <= 59) {
         let eventSound = new Audio('eventToDo.ogg');
         eventSound.play();
     }

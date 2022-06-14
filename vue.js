@@ -173,7 +173,7 @@ function showPersos() {
             let color = getColorFromTask(t);
 
             htmlTaches += `
-            <div class="card mb-3 cardEvent box-shadow ${color}" data-id="${i}" style="cursor: pointer;">
+            <div class="card mb-3 cardEvent box-shadow-task ${color}" data-id="${i}" style="cursor: pointer;width: 90%;margin: auto;">
                 <div class="d-flex">
                     <div class="card-body">
                         ${t.nomTask}
@@ -185,14 +185,14 @@ function showPersos() {
         if (p.groupePerso == 'Main') {
             htmlEntete = `
                 <div style="display: flex;gap: 10px;">
-                    <div id="startSound" class="card mb-3 box-shadow text-gray" style="cursor: pointer;">
+                    <div id="startSound" class="card mb-3 box-shadow-concave text-gray" style="cursor: pointer;">
                         <div class="d-flex">
                             <div class="card-body">
                                 <i class="fa-solid fa-play"></i>
                             </div>
                         </div>
                     </div>
-                    <div class="card mb-3 box-shadow text-gray" style="flex-grow: 1;">
+                    <div class="card mb-3 box-shadow-concave text-gray" style="flex-grow: 1;">
                         <div class="d-flex">
                             <div class="card-body">
                                 <strong><i>MAIN</i></strong> - ${p.typePerso}<span class="float-end">${p.gearlevel}</span>
@@ -203,7 +203,7 @@ function showPersos() {
             `;
         } else {
             htmlEntete = `
-                <div class="card mb-3 box-shadow text-gray">
+                <div class="card mb-3 box-shadow-concave text-gray">
                     <div class="d-flex">
                         <div class="card-body">
                             <strong><i>${p.groupePerso}</i></strong> - ${p.typePerso}<span class="float-end">${p.gearlevel}</span>
@@ -214,9 +214,9 @@ function showPersos() {
         }
 
         htmlPersos += `
-            <section style="width: 18vw;">
+            <section style="flex-grow: 1;">
                 ${htmlEntete}
-                <img src="images/${p.imagePerso}" alt="" style="width: 100%;height: 38vh;margin-bottom: 20px;border-radius: 5px;">
+                <img src="images/${p.imagePerso}" alt="" class="box-shadow-concave" style="width: 100%;margin-bottom: 20px;border-radius: 5px;">
 
                 <section id="main-taches" style="width: 100%">
                     ${htmlTaches}
@@ -246,9 +246,10 @@ function showEvents() {
 
     eventTasksDaily.forEach(function (t) {
         let i = getIndexTask(t);
+        let color = getColorFromTask(t);
 
         htmlTachesEvent += `
-        <div class="card mb-3 cardEvent box-shadow text-gray" data-id="${i}" style="cursor: pointer;flex-grow: 1;">
+        <div class="card mb-3 cardEvent box-shadow-task ${color}" data-id="${i}" style="cursor: pointer;flex-grow: 1;">
             <div class="d-flex">
                 <div class="card-body">
                     ${t.nomTask}
@@ -267,9 +268,10 @@ function showRapport() {
     rapportTasks.forEach(function (task) {
         if (!task.statutTask) {
             let i = getIndexTask(task);
+            let color = getColorFromTask(task);
 
             htmlTachesRapport += `
-                <div class="card mb-3 cardEvent box-shadow text-gray" data-id="${i}" style="cursor: pointer;flex-grow: 1;">
+                <div class="card mb-3 cardEvent box-shadow-task ${color}" data-id="${i}" style="cursor: pointer;flex-grow: 1;">
                     <div class="d-flex">
                         <div class="card-body">
                             ${task.nomTask}
@@ -300,7 +302,7 @@ function showImportantFromOtherPerso() {
             let color = getColorFromTask(t);
 
             htmlOtherTask += `
-            <div class="card mb-3 cardEvent box-shadow ${color}" data-id="${i}" style="cursor: pointer;flex-grow: 1;">
+            <div class="card mb-3 cardEvent box-shadow-task ${color}" data-id="${i}" style="cursor: pointer;flex-grow: 1;">
                 <div class="d-flex">
                     <div class="card-body">
                         ${t.nomTask}<br>
@@ -329,7 +331,7 @@ function showTachesRooster() {
         let color = getColorFromTask(t);
 
         htmlRooster += `
-        <div class="card mb-3 cardEvent box-shadow ${color}" data-id="${i}" style="cursor: pointer;flex-grow: 1;">
+        <div class="card mb-3 cardEvent box-shadow-task ${color}" data-id="${i}" style="cursor: pointer;flex-grow: 1;">
             <div class="d-flex">
                 <div class="card-body">
                     ${t.nomTask} - ${t.typeTask}
@@ -379,7 +381,7 @@ function showSelection(data) {
             let color = getColorFromTask(t);
 
             htmlSelection += `
-            <div class="card mb-3 cardEvent box-shadow ${color}" data-id="${i}" style="cursor: pointer;">
+            <div class="card mb-3 cardEvent box-shadow ${color}" data-id="${i}" style="cursor: pointer;flex-grow: 1;">
                 <div class="d-flex">
                     <div class="card-body">
                         ${t.nomTask}
@@ -391,7 +393,7 @@ function showSelection(data) {
         $('#persoSelectionner').html(htmlSelection);
     } else {
         $('#persoSelectionner').html(`
-        <div class="card mb-3 box-shadow text-gray">
+        <div class="card mb-3 box-shadow text-gray" style="flex-grow: 1;">
             <div class="d-flex">
                 <div class="card-body">
                     Perso non existant
@@ -480,6 +482,16 @@ function getIndexTask(task) {
 }
 
 function getColorFromTask(task) {
+    if (task.typeTask == 'Daily Una Task') {
+        return 'text-green';
+    } else if (task.typeTask == 'Chaos Dungeon') {
+        return 'text-darkblue';
+    } else if (task.typeTask == 'Guild Activities') {
+        return 'text-purple';
+    } else if (task.typeTask == 'Guardian Raid') {
+        return 'text-darkred';
+    }
+
     switch (task.resetTask) {
         case 'Daily':
             return 'text-red';

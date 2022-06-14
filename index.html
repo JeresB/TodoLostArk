@@ -23,6 +23,34 @@
             -5px -5px 6px #303030 !important;
     }
 
+    .box-shadow-task {
+        border-radius: 100px !important;
+        background: #272727 !important;
+        box-shadow: 5px 5px 4px #181818,
+            -5px -5px 4px #363636 !important;
+    }
+
+    .box-shadow-inset {
+        border-radius: 5px !important;
+        background: #272727 !important;
+        box-shadow: inset 5px 5px 6px #1e1e1e,
+            inset -5px -5px 6px #303030 !important;
+    }
+
+    .box-shadow-concave {
+        border-radius: 5px !important;
+        background: linear-gradient(145deg, #232323, #2a2a2a) !important;
+        box-shadow: 5px 5px 6px #1e1e1e,
+            -5px -5px 6px #303030 !important;
+    }
+
+    .box-shadow-convex {
+        border-radius: 5px !important;
+        background: linear-gradient(145deg, #2a2a2a, #232323) !important;
+        box-shadow: 5px 5px 6px #1e1e1e,
+            -5px -5px 6px #303030 !important;
+    }
+
     .box-shadow-entete {
         border-radius: 5px !important;
         background: #272727 !important;
@@ -55,8 +83,23 @@
         font-weight: 700;
     }
 
+    .text-darkblue {
+        color: #1562b9;
+        font-weight: 700;
+    }
+
+    .text-purple {
+        color: #7824d8;
+        font-weight: 700;
+    }
+
     .text-red {
         color: #c77171;
+        font-weight: 700;
+    }
+
+    .text-darkred {
+        color: #a14949;
         font-weight: 700;
     }
 
@@ -78,9 +121,9 @@
     }
 
     .greenPlay {
-        background-color: darkgreen!important;
-        border-radius: 5px!important;
-        color: white!important;
+        background-color: darkgreen !important;
+        border-radius: 5px !important;
+        color: white !important;
     }
 
     .counter {
@@ -165,129 +208,152 @@
     }
 </style>
 
-<body style="display: flex; gap: 10px;margin: 20px;;">
-    <section id="sectionPersoEnCours" style="display: flex; gap: 10px;width: 60vw;">
+<body class="container-fluid">
+    <section class="row">
 
+        <div class="col-lg-12 col-xl-8">
+            <section id="sectionPersoEnCours" class="box-shadow-inset" style="display: flex; gap: 10px;margin-top: 20px;padding: 20px;">
+
+            </section>
+        </div>
+
+        <div class="col-lg-12 col-xl-4">
+            <section class="box-shadow-inset" style="width: 100%;margin-top: 20px;padding: 20px;">
+                <section style="display: flex;gap: 20px;">
+
+                    <div class="counter lime box-shadow-concave">
+                        <div class="counter-icon">
+                            <i class="fa-solid fa-clipboard-check"></i>
+                        </div>
+                        <h3>Daily Una<br>Tasks</h3>
+                        <span id="counterUna" class="counter-value"></span>
+                    </div>
+
+                    <div class="counter deepskyblue box-shadow-concave">
+                        <div class="counter-icon">
+                            <i class="fa-solid fa-bugs"></i>
+                        </div>
+                        <h3>Chaos<br>Dungeon</h3>
+                        <span id="counterChaos" class="counter-value"></span>
+                    </div>
+
+                    <div class="counter orangered box-shadow-concave">
+                        <div class="counter-icon">
+                            <i class="fa-solid fa-dragon"></i>
+                        </div>
+                        <h3>Guardian<br>Raid</h3>
+                        <span id="counterRaid" class="counter-value"></span>
+                    </div>
+
+                </section>
+
+                <div><br></div>
+
+                <div class="card mb-3 box-shadow-concave text-green">
+                    <div class="d-flex">
+                        <div class="card-body" style="width: 100%;text-align: center;">
+                            Evénements de la journée
+                        </div>
+                    </div>
+                </div>
+                <section id="sectionEvent" style="display: flex;gap: 10px;flex-wrap: wrap;"></section>
+                <div><br></div>
+                <div class="card mb-3 box-shadow-concave text-darkmagenta">
+                    <div class="d-flex">
+                        <div class="card-body" style="width: 100%;text-align: center;">
+                            Rapport en cours
+                        </div>
+                    </div>
+                </div>
+                <section id="sectionRapport" style="display: flex;gap: 10px;flex-wrap: wrap;"></section>
+                <div><br></div>
+                <div class="card mb-3 box-shadow-concave text-lightblue">
+                    <div class="d-flex">
+                        <div class="card-body" style="width: 100%;text-align: center;">
+                            Taches importantes persos secondaires
+                        </div>
+                    </div>
+                </div>
+                <section id="sectionOtherPersos" style="display: flex;gap: 10px;flex-wrap: wrap;"></section>
+                <div><br></div>
+                <div class="card mb-3 box-shadow-concave text-orange">
+                    <div class="d-flex">
+                        <div class="card-body" style="width: 100%;text-align: center;">
+                            Taches Rooster
+                        </div>
+                    </div>
+                </div>
+                <section id="sectionTachesRooster" style="display: flex;gap: 10px;flex-wrap: wrap;"></section>
+            </section>
+        </div>
     </section>
 
-    <section style="width: 100%;">
-        <section style="display: flex;gap: 20px;">
-
-            <div class="counter lime box-shadow-entete">
-                <div class="counter-icon">
-                    <i class="fa-solid fa-clipboard-check"></i>
-                </div>
-                <h3>Daily Una<br>Tasks</h3>
-                <span id="counterUna" class="counter-value"></span>
-            </div>
-
-            <div class="counter deepskyblue box-shadow-entete">
-                <div class="counter-icon">
-                    <i class="fa-solid fa-bugs"></i>
-                </div>
-                <h3>Chaos<br>Dungeon</h3>
-                <span id="counterChaos" class="counter-value"></span>
-            </div>
-
-            <div class="counter orangered box-shadow-entete">
-                <div class="counter-icon">
-                    <i class="fa-solid fa-dragon"></i>
-                </div>
-                <h3>Guardian<br>Raid</h3>
-                <span id="counterRaid" class="counter-value"></span>
-            </div>
-
-        </section>
-
-        <div><br></div>
-
-        <div class="card mb-3 box-shadow-entete text-green">
-            <div class="d-flex">
-                <div class="card-body" style="width: 100%;text-align: center;">
-                    Evénements de la journée
-                </div>
-            </div>
-        </div>
-        <section id="sectionEvent" style="display: flex;gap: 10px;flex-wrap: wrap;"></section>
-        <div><br></div>
-        <div class="card mb-3 box-shadow-entete text-darkmagenta">
-            <div class="d-flex">
-                <div class="card-body" style="width: 100%;text-align: center;">
-                    Rapport en cours
-                </div>
-            </div>
-        </div>
-        <section id="sectionRapport" style="display: flex;gap: 10px;flex-wrap: wrap;"></section>
-        <div><br></div>
-        <div class="card mb-3 box-shadow-entete text-lightblue">
-            <div class="d-flex">
-                <div class="card-body" style="width: 100%;text-align: center;">
-                    Taches importantes persos secondaires
-                </div>
-            </div>
-        </div>
-        <section id="sectionOtherPersos" style="display: flex;gap: 10px;flex-wrap: wrap;"></section>
-        <div><br></div>
-        <div class="card mb-3 box-shadow-entete text-orange">
-            <div class="d-flex">
-                <div class="card-body" style="width: 100%;text-align: center;">
-                    Taches Rooster
-                </div>
-            </div>
-        </div>
-        <section id="sectionTachesRooster" style="display: flex;gap: 10px;flex-wrap: wrap;"></section>
-    </section>
-
-    <section>
-        <section id="listPerso" style="display: flex;gap: 10px;">
-            <div class="card mb-3 box-shadow-entete text-gray selectionPerso" data-perso="Deathblade" data-idimg="imgSelecDb" data-bs-toggle="tooltip" data-bs-placement="bottom" title=""
-                style="cursor: pointer;">
+    <div><br></div>
+    <section class="box-shadow-inset" style="padding: 20px;">
+        <section id="listPerso"  style="display: flex;gap: 10px;flex-wrap: wrap;">
+            <div class="card mb-3 box-shadow-entete text-gray selectionPerso" data-perso="Deathblade"
+                data-idimg="imgSelecDb" data-bs-toggle="tooltip" data-bs-placement="bottom" title=""
+                style="cursor: pointer;flex-grow: 1;">
                 <div class="d-flex">
-                    <div class="card-body" style="width: 100%;text-align: center;padding: 2px;"><img id="imgSelecDb" class="imgSelection" src="images/dblogo.png" alt="" style="width: 48px;"></div>
+                    <div class="card-body" style="width: 100%;text-align: center;padding: 2px;margin-right:6px;margin-left:6px;"><img id="imgSelecDb"
+                            class="imgSelection" src="images/dblogo.png" alt="" style="width: 48px;">&nbsp;&nbsp;&nbsp;DEATHBLADE</div>
                 </div>
             </div>
-            <div class="card mb-3 box-shadow-entete text-gray selectionPerso" data-perso="Bard" data-idimg="imgSelecBard" data-bs-toggle="tooltip" data-bs-placement="bottom" title=""
-                style="cursor: pointer;">
+            <div class="card mb-3 box-shadow-entete text-gray selectionPerso" data-perso="Bard"
+                data-idimg="imgSelecBard" data-bs-toggle="tooltip" data-bs-placement="bottom" title=""
+                style="cursor: pointer;flex-grow: 1;">
                 <div class="d-flex">
-                    <div class="card-body" style="width: 100%;text-align: center;padding: 2px;"><img id="imgSelecBard" class="imgSelection" src="images/bardlogo.png" alt="" style="width: 48px;"></div>
+                    <div class="card-body" style="width: 100%;text-align: center;padding: 2px;margin-right:6px;margin-left:6px;"><img id="imgSelecBard"
+                            class="imgSelection" src="images/bardlogo.png" alt="" style="width: 48px;">&nbsp;&nbsp;&nbsp;BARD</div>
                 </div>
             </div>
-            <div class="card mb-3 box-shadow-entete text-gray selectionPerso" data-perso="Paladin" data-idimg="imgSelecPala" data-bs-toggle="tooltip" data-bs-placement="bottom" title=""
-                style="cursor: pointer;">
+            <div class="card mb-3 box-shadow-entete text-gray selectionPerso" data-perso="Paladin"
+                data-idimg="imgSelecPala" data-bs-toggle="tooltip" data-bs-placement="bottom" title=""
+                style="cursor: pointer;flex-grow: 1;">
                 <div class="d-flex">
-                    <div class="card-body" style="width: 100%;text-align: center;padding: 2px;"><img id="imgSelecPala" class="imgSelection" src="images/palalogo.png" alt="" style="width: 48px;"></div>
+                    <div class="card-body" style="width: 100%;text-align: center;padding: 2px;margin-right:6px;margin-left:6px;"><img id="imgSelecPala"
+                            class="imgSelection" src="images/palalogo.png" alt="" style="width: 48px;">&nbsp;&nbsp;&nbsp;PALADIN</div>
                 </div>
             </div>
-            <div class="card mb-3 box-shadow-entete text-gray selectionPerso" data-perso="Shadowhunter" data-idimg="imgSelecSh" data-bs-toggle="tooltip" data-bs-placement="bottom" title=""
-                style="cursor: pointer;">
+            <div class="card mb-3 box-shadow-entete text-gray selectionPerso" data-perso="Shadowhunter"
+                data-idimg="imgSelecSh" data-bs-toggle="tooltip" data-bs-placement="bottom" title=""
+                style="cursor: pointer;flex-grow: 1;">
                 <div class="d-flex">
-                    <div class="card-body" style="width: 100%;text-align: center;padding: 2px;"><img id="imgSelecSh" class="imgSelection" src="images/shlogo.png" alt="" style="width: 48px;"></div>
+                    <div class="card-body" style="width: 100%;text-align: center;padding: 2px;margin-right:6px;margin-left:6px;"><img id="imgSelecSh"
+                            class="imgSelection" src="images/shlogo.png" alt="" style="width: 48px;">&nbsp;&nbsp;&nbsp;SHADOWHUNTER</div>
                 </div>
             </div>
-            <div class="card mb-3 box-shadow-entete text-gray selectionPerso" data-perso="Sorceress" data-idimg="imgSelecSorc" data-bs-toggle="tooltip" data-bs-placement="bottom" title=""
-                style="cursor: pointer;">
+            <div class="card mb-3 box-shadow-entete text-gray selectionPerso" data-perso="Sorceress"
+                data-idimg="imgSelecSorc" data-bs-toggle="tooltip" data-bs-placement="bottom" title=""
+                style="cursor: pointer;flex-grow: 1;">
                 <div class="d-flex">
-                    <div class="card-body" style="width: 100%;text-align: center;padding: 2px;"><img id="imgSelecSorc" class="imgSelection" src="images/sorclogo.png" alt="" style="width: 48px;"></div>
+                    <div class="card-body" style="width: 100%;text-align: center;padding: 2px;margin-right:6px;margin-left:6px;"><img id="imgSelecSorc"
+                            class="imgSelection" src="images/sorclogo.png" alt="" style="width: 48px;">&nbsp;&nbsp;&nbsp;SORCERESS</div>
                 </div>
             </div>
-            <div class="card mb-3 box-shadow-entete text-gray selectionPerso" data-perso="Sharpshooter" data-idimg="imgSelecSharp" data-bs-toggle="tooltip" data-bs-placement="bottom" title=""
-                style="cursor: pointer;">
+            <div class="card mb-3 box-shadow-entete text-gray selectionPerso" data-perso="Sharpshooter"
+                data-idimg="imgSelecSharp" data-bs-toggle="tooltip" data-bs-placement="bottom" title=""
+                style="cursor: pointer;flex-grow: 1;">
                 <div class="d-flex">
-                    <div class="card-body" style="width: 100%;text-align: center;padding: 2px;"><img id="imgSelecSharp" class="imgSelection" src="images/sharplogo.png" alt="" style="width: 48px;"></div>
+                    <div class="card-body" style="width: 100%;text-align: center;padding: 2px;margin-right:6px;margin-left:6px;"><img id="imgSelecSharp"
+                            class="imgSelection" src="images/sharplogo.png" alt="" style="width: 48px;">&nbsp;&nbsp;&nbsp;SHARPSHOOTER</div>
                 </div>
             </div>
-            <div class="card mb-3 box-shadow-entete text-gray selectionPerso" data-perso="Berserker" data-idimg="imgSelecZerk" data-bs-toggle="tooltip" data-bs-placement="bottom" title=""
-                style="cursor: pointer;">
+            <div class="card mb-3 box-shadow-entete text-gray selectionPerso" data-perso="Berserker"
+                data-idimg="imgSelecZerk" data-bs-toggle="tooltip" data-bs-placement="bottom" title=""
+                style="cursor: pointer;flex-grow: 1;">
                 <div class="d-flex">
-                    <div class="card-body" style="width: 100%;text-align: center;padding: 2px;"><img id="imgSelecZerk" class="imgSelection" src="images/zerklogo.png" alt="" style="width: 48px;"></div>
+                    <div class="card-body" style="width: 100%;text-align: center;padding: 2px;margin-right:6px;margin-left:6px;"><img id="imgSelecZerk"
+                            class="imgSelection" src="images/zerklogo.png" alt="" style="width: 48px;">&nbsp;&nbsp;&nbsp;BERSERKER</div>
                 </div>
             </div>
         </section>
-
-        <section id="persoSelectionner">
+        <div><br></div>
+        <section id="persoSelectionner" style="display: flex;gap: 10px;flex-wrap: wrap;">
 
         </section>
     </section>
+    <div><br></div>
 </body>
 
 <script src="jquery.min.js"></script>

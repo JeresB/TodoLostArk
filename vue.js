@@ -175,7 +175,7 @@ function showPersos() {
             htmlTaches += `
             <div class="card mb-3 cardEvent box-shadow-task ${color}" data-id="${i}" style="cursor: pointer;width: 90%;margin: auto;">
                 <div class="d-flex">
-                    <div class="card-body">
+                    <div class="card-body" style="text-align: center;">
                         ${t.nomTask}
                     </div>
                 </div>

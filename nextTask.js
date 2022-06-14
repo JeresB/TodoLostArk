@@ -82,7 +82,16 @@ $(document).on('click', '#saveBifrost', function () { addBifrost() });
 
 
 // IMPORT EXPORT JSON DATA
-$(document).on('click', '#btnExportJson', function () { exportToJsonFile({ personnage: db.get("personnages").value(), tasks: db.get("tasks").value(), times: db.get("times").value() }) });
+$(document).on('click', '#btnExportJson', function () { exportToJsonFile({ 
+    personnage: db.get("personnages").value(), 
+    tasks: db.get("tasks").value(), 
+    times: db.get("times").value(), 
+    bifrosts: db.get("bifrosts").value(), 
+    groupeEnCours: db.get("groupeEnCours").value(), 
+    counterUna: db.get("counterUna").value(), 
+    counterChaos: db.get("counterChaos").value(), 
+    counterRaid: db.get("counterRaid").value() 
+}) });
 $(document).on('change', '#importFile', function (e) { startRead(e); });
 
 function nextEventTask() {
@@ -520,6 +529,11 @@ function loaded(evt) {
     db.get("personnages").set(fileJSON.personnage);
     db.get("tasks").set(fileJSON.tasks);
     db.get("times").set(fileJSON.times);
+    db.get("bifrosts").set(fileJSON.bifrosts);
+    db.get("groupeEnCours").set(fileJSON.groupeEnCours);
+    db.get("counterUna").set(fileJSON.counterUna);
+    db.get("counterChaos").set(fileJSON.counterChaos);
+    db.get("counterRaid").set(fileJSON.counterRaid);
 
     db.save();
 

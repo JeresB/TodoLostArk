@@ -172,14 +172,26 @@ function showPersos() {
             let i = getIndexTask(t);
             let color = getColorFromTask(t);
 
-            htmlTaches += `
-            <div class="card mb-3 cardEvent box-shadow-task ${color}" data-id="${i}" style="cursor: pointer;width: 90%;margin: auto;">
-                <div class="d-flex">
-                    <div class="card-body" style="text-align: center;">
-                        ${t.nomTask}
-                    </div>
-                </div>
-            </div>`;
+            if (t.imageTask) {
+                htmlTaches += `
+                    <div class="card mb-3 cardEvent box-shadow-task ${color}" data-id="${i}" style="cursor: pointer;flex-grow: 1;max-width:200px;">
+                        <div class="d-flex">
+                            <div class="card-body" title="${t.nomTask}" style="text-align: center;padding: 0px!important;">
+                                <img src="images/${t.imageTask}" style="border-radius: 85px;width: 100%;" />
+                            </div>
+                        </div>
+                    </div>`;
+            } else {
+                htmlTaches += `
+                    <div class="card mb-3 cardEvent box-shadow-task ${color}" data-id="${i}" style="cursor: pointer;flex-grow: 1;">
+                        <div class="d-flex">
+                            <div class="card-body" style="text-align: center;">
+                                ${t.nomTask}
+                            </div>
+                        </div>
+                    </div>`;
+            }
+
         });
 
         if (p.groupePerso == 'Main') {
@@ -214,12 +226,14 @@ function showPersos() {
         }
 
         htmlPersos += `
-            <section style="flex-grow: 1;">
+            <section class="col-md-4" style="">
                 ${htmlEntete}
-                <img src="images/${p.imagePerso}" alt="" class="box-shadow-concave" style="width: 100%;margin-bottom: 20px;border-radius: 5px;">
+                <img src="images/${p.imagePerso}" alt="" class="box-shadow-concave" style="width: 100%;margin-bottom: 20px;border-radius: 5px;height: 590px;">
 
                 <section id="main-taches" style="width: 100%">
-                    ${htmlTaches}
+                    <div style="display: flex;gap: 15px;flex-wrap: wrap;width: 90%;margin: auto;">
+                        ${htmlTaches}
+                    </div>
                 </section>
             </section>`;
     });
@@ -319,6 +333,7 @@ function showImportantFromOtherPerso() {
 function showTachesRooster() {
     let tasks = getTachesFromRooster();
     let htmlRooster = '';
+    let reset = '';
 
     tasks.sort((a, b) => {
         return a.prioTask - b.prioTask;
@@ -329,6 +344,14 @@ function showTachesRooster() {
     tasks.forEach(function (t) {
         let i = getIndexTask(t);
         let color = getColorFromTask(t);
+
+        if(reset != t.resetTask) {
+            if (reset != '') {
+                htmlRooster += `<hr style="width: 80%;margin: 0 auto;margin-bottom: 1rem;color: white;height: 3px;">`;
+            }
+
+            reset = t.resetTask;
+        }
 
         htmlRooster += `
         <div class="card mb-3 cardEvent box-shadow-task ${color}" data-id="${i}" style="cursor: pointer;flex-grow: 1;">
@@ -352,7 +375,10 @@ function showCounter() {
 function showSelection(data) {
     let typePerso = data.data('perso');
     let idImg = data.data('idimg');
-    let htmlSelection = '';
+    let htmlSelectionDaily = '';
+    let htmlSelectionWeekly = '';
+    let htmlSelectionUnique = '';
+    let htmlSelectionBifrost = '';
     let hoverBifrost = '';
     let perso = getPersoFromType(typePerso);
     let bifrosts = getBifrostFromPerso(perso);
@@ -361,6 +387,15 @@ function showSelection(data) {
 
     bifrosts.forEach(function (b, i) {
         hoverBifrost += `${i + 1}. ${b.continentBifrost} - ${b.regionBifrost} - ${b.raisonBifrost}\n`;
+
+        htmlSelectionBifrost += `
+            <div class="card mb-3 cardEvent box-shadow text-gray" style="flex-grow: 1;">
+                <div class="d-flex">
+                    <div class="card-body">
+                        ${i + 1}. ${b.continentBifrost} - ${b.regionBifrost} - ${b.raisonBifrost}
+                    </div>
+                </div>
+            </div>`;
     });
 
     data.attr('title', hoverBifrost)
@@ -380,15 +415,96 @@ function showSelection(data) {
             let i = getIndexTask(t);
             let color = getColorFromTask(t);
 
-            htmlSelection += `
-            <div class="card mb-3 cardEvent box-shadow ${color}" data-id="${i}" style="cursor: pointer;flex-grow: 1;">
-                <div class="d-flex">
-                    <div class="card-body">
-                        ${t.nomTask}
+            switch (t.resetTask) {
+                case 'Daily':
+                    htmlSelectionDaily += `
+                    <div class="card mb-3 cardEvent box-shadow-task ${color}" data-id="${i}" style="cursor: pointer;flex-grow: 1;">
+                        <div class="d-flex">
+                            <div class="card-body">
+                                ${t.nomTask}
+                            </div>
+                        </div>
+                    </div>`;
+                    break;
+
+                case 'Weekly':
+                    htmlSelectionWeekly += `
+                    <div class="card mb-3 cardEvent box-shadow-task ${color}" data-id="${i}" style="cursor: pointer;flex-grow: 1;">
+                        <div class="d-flex">
+                            <div class="card-body">
+                                ${t.nomTask}
+                            </div>
+                        </div>
+                    </div>`;
+                    break;
+
+                case 'Unique':
+                    htmlSelectionUnique += `
+                    <div class="card mb-3 cardEvent box-shadow-task ${color}" data-id="${i}" style="cursor: pointer;flex-grow: 1;">
+                        <div class="d-flex">
+                            <div class="card-body">
+                                ${t.nomTask}
+                            </div>
+                        </div>
+                    </div>`;
+                    break;
+            
+                default:
+                    break;
+            }
+
+        });
+
+        htmlSelection = `
+            <div class="" style="border-right: 3px solid gray;padding-right: 10px;">
+                <div class="card mb-3 box-shadow-concave text-red">
+                    <div class="d-flex">
+                        <div class="card-body" style="width: 100%;text-align: center;">
+                            Daily
+                        </div>
                     </div>
                 </div>
-            </div>`;
-        });
+                <div style="display: flex;gap: 10px;flex-wrap: wrap;">
+                    ${htmlSelectionDaily}
+                </div>
+            </div>
+            <div class="" style="border-right: 3px solid gray;padding-right: 10px;">
+                <div class="card mb-3 box-shadow-concave text-blue">
+                    <div class="d-flex">
+                        <div class="card-body" style="width: 100%;text-align: center;">
+                            Weekly
+                        </div>
+                    </div>
+                </div>
+                <div style="display: flex;gap: 10px;flex-wrap: wrap;">
+                    ${htmlSelectionWeekly}
+                </div>
+            </div>
+            <div class="" style="border-right: 3px solid gray;padding-right: 10px;">
+                <div class="card mb-3 box-shadow-concave text-gray">
+                    <div class="d-flex">
+                        <div class="card-body" style="width: 100%;text-align: center;">
+                            Unique
+                        </div>
+                    </div>
+                </div>
+                <div style="display: flex;gap: 10px;flex-wrap: wrap;">
+                    ${htmlSelectionUnique}
+                </div>
+            </div>
+            <div class="">
+                <div class="card mb-3 box-shadow-concave text-orange">
+                    <div class="d-flex">
+                        <div class="card-body" style="width: 100%;text-align: center;">
+                            Bifrosts
+                        </div>
+                    </div>
+                </div>
+                <div style="display: flex;gap: 10px;flex-wrap: wrap;">
+                    ${htmlSelectionBifrost}
+                </div>
+            </div>
+        `;
 
         $('#persoSelectionner').html(htmlSelection);
     } else {

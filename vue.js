@@ -43,6 +43,7 @@ $(document).ready(function () {
     showImportantFromOtherPerso();
     showCounter();
     showTachesRooster();
+    showTachesWeekly();
 
     $('.selectionPerso').on('click', function () {
         showSelection($(this));
@@ -519,6 +520,40 @@ function showSelection(data) {
     }
 }
 
+function showTachesWeekly() {
+    let tasks = getTasksWeekly();
+    let html = '';
+    let type = '';
+
+    tasks.sort((a, b) => {
+        return a.prioTask - b.prioTask;
+    });
+
+    tasks.forEach(function (t) {
+        let i = getIndexTask(t);
+        let color = getColorFromTask(t);
+
+        if(type != t.typeTask) {
+            if (type != '') {
+                html += `<hr style="width: 80%;margin: 0 auto;margin-bottom: 1rem;color: white;height: 3px;">`;
+            }
+
+            type = t.typeTask;
+        }
+
+        html += `
+        <div class="card mb-3 cardEvent box-shadow-task ${color}" data-id="${i}" style="cursor: pointer;flex-grow: 1;">
+            <div class="d-flex">
+                <div class="card-body">
+                    ${t.nomTask} - ${t.persoTask}
+                </div>
+            </div>
+        </div>`;
+    });
+
+    $('#listTaskWeeklyByPrio').html(html);
+}
+
 function getPersoFromGroupe(g) {
     db.get("personnages").value().forEach(function (p) {
         if (g == p.groupePerso) {
@@ -556,6 +591,18 @@ function getTachesActiveFromPerso(p) {
 
     db.get("tasks").value().forEach(function (t) {
         if (t.persoTask == p.typePerso && !t.statutTask && t.typeTask != 'Rapport') {
+            tasks.push(t);
+        }
+    });
+
+    return tasks;
+}
+
+function getTasksWeekly() {
+    let tasks = [];
+
+    db.get("tasks").value().forEach(function (t) {
+        if (!t.statutTask && t.resetTask == 'Weekly') {
             tasks.push(t);
         }
     });

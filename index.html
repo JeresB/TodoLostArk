@@ -283,76 +283,111 @@
                         </div>
                     </div>
                 </div>
-                <section id="sectionTachesRooster" class="row" style="padding-left: 10px;padding-right: 10px;"></section>
+                <section id="sectionTachesRooster" class="row" style="padding-left: 10px;padding-right: 10px;">
+                </section>
             </section>
         </div>
     </section>
 
     <div><br></div>
-    <section class="box-shadow-inset" style="padding: 20px;">
-        <section id="listPerso"  style="display: flex;gap: 10px;flex-wrap: wrap;">
-            <div class="card mb-3 box-shadow-entete text-gray selectionPerso" data-perso="Deathblade"
-                data-idimg="imgSelecDb" data-bs-toggle="tooltip" data-bs-placement="bottom" title=""
-                style="cursor: pointer;flex-grow: 1;">
-                <div class="d-flex">
-                    <div class="card-body" style="width: 100%;text-align: center;padding: 2px;margin-right:6px;margin-left:6px;"><img id="imgSelecDb"
-                            class="imgSelection" src="images/dblogo.png" alt="" style="width: 48px;">&nbsp;&nbsp;&nbsp;DEATHBLADE</div>
-                </div>
-            </div>
-            <div class="card mb-3 box-shadow-entete text-gray selectionPerso" data-perso="Bard"
-                data-idimg="imgSelecBard" data-bs-toggle="tooltip" data-bs-placement="bottom" title=""
-                style="cursor: pointer;flex-grow: 1;">
-                <div class="d-flex">
-                    <div class="card-body" style="width: 100%;text-align: center;padding: 2px;margin-right:6px;margin-left:6px;"><img id="imgSelecBard"
-                            class="imgSelection" src="images/bardlogo.png" alt="" style="width: 48px;">&nbsp;&nbsp;&nbsp;BARD</div>
-                </div>
-            </div>
-            <div class="card mb-3 box-shadow-entete text-gray selectionPerso" data-perso="Paladin"
-                data-idimg="imgSelecPala" data-bs-toggle="tooltip" data-bs-placement="bottom" title=""
-                style="cursor: pointer;flex-grow: 1;">
-                <div class="d-flex">
-                    <div class="card-body" style="width: 100%;text-align: center;padding: 2px;margin-right:6px;margin-left:6px;"><img id="imgSelecPala"
-                            class="imgSelection" src="images/palalogo.png" alt="" style="width: 48px;">&nbsp;&nbsp;&nbsp;PALADIN</div>
-                </div>
-            </div>
-            <div class="card mb-3 box-shadow-entete text-gray selectionPerso" data-perso="Shadowhunter"
-                data-idimg="imgSelecSh" data-bs-toggle="tooltip" data-bs-placement="bottom" title=""
-                style="cursor: pointer;flex-grow: 1;">
-                <div class="d-flex">
-                    <div class="card-body" style="width: 100%;text-align: center;padding: 2px;margin-right:6px;margin-left:6px;"><img id="imgSelecSh"
-                            class="imgSelection" src="images/shlogo.png" alt="" style="width: 48px;">&nbsp;&nbsp;&nbsp;SHADOWHUNTER</div>
-                </div>
-            </div>
-            <div class="card mb-3 box-shadow-entete text-gray selectionPerso" data-perso="Sorceress"
-                data-idimg="imgSelecSorc" data-bs-toggle="tooltip" data-bs-placement="bottom" title=""
-                style="cursor: pointer;flex-grow: 1;">
-                <div class="d-flex">
-                    <div class="card-body" style="width: 100%;text-align: center;padding: 2px;margin-right:6px;margin-left:6px;"><img id="imgSelecSorc"
-                            class="imgSelection" src="images/sorclogo.png" alt="" style="width: 48px;">&nbsp;&nbsp;&nbsp;SORCERESS</div>
-                </div>
-            </div>
-            <div class="card mb-3 box-shadow-entete text-gray selectionPerso" data-perso="Sharpshooter"
-                data-idimg="imgSelecSharp" data-bs-toggle="tooltip" data-bs-placement="bottom" title=""
-                style="cursor: pointer;flex-grow: 1;">
-                <div class="d-flex">
-                    <div class="card-body" style="width: 100%;text-align: center;padding: 2px;margin-right:6px;margin-left:6px;"><img id="imgSelecSharp"
-                            class="imgSelection" src="images/sharplogo.png" alt="" style="width: 48px;">&nbsp;&nbsp;&nbsp;SHARPSHOOTER</div>
-                </div>
-            </div>
-            <div class="card mb-3 box-shadow-entete text-gray selectionPerso" data-perso="Berserker"
-                data-idimg="imgSelecZerk" data-bs-toggle="tooltip" data-bs-placement="bottom" title=""
-                style="cursor: pointer;flex-grow: 1;">
-                <div class="d-flex">
-                    <div class="card-body" style="width: 100%;text-align: center;padding: 2px;margin-right:6px;margin-left:6px;"><img id="imgSelecZerk"
-                            class="imgSelection" src="images/zerklogo.png" alt="" style="width: 48px;">&nbsp;&nbsp;&nbsp;BERSERKER</div>
-                </div>
-            </div>
-        </section>
-        <div><br></div>
-        <section id="persoSelectionner" style="display: flex;gap: 10px;flex-wrap: no-wrap;">
 
-        </section>
-    </section>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2">
+                <section class="box-shadow-inset" style="padding: 20px;">
+                    <div class="card mb-3 box-shadow-concave text-blue">
+                        <div class="d-flex">
+                            <div class="card-body" style="width: 100%;text-align: center;">
+                                Taches Weekly
+                            </div>
+                        </div>
+                    </div>
+                    <div id="listTaskWeeklyByPrio"></div>
+                </section>
+            </div>
+            <div class="col-md-10">
+                <section class="box-shadow-inset" style="padding: 20px;">
+                    <section id="listPerso" style="display: flex;gap: 10px;flex-wrap: wrap;">
+                        <div class="card mb-3 box-shadow-entete text-gray selectionPerso" data-perso="Deathblade"
+                            data-idimg="imgSelecDb" data-bs-toggle="tooltip" data-bs-placement="bottom" title=""
+                            style="cursor: pointer;flex-grow: 1;">
+                            <div class="d-flex">
+                                <div class="card-body"
+                                    style="width: 100%;text-align: center;padding: 2px;margin-right:6px;margin-left:6px;">
+                                    <img id="imgSelecDb" class="imgSelection" src="images/dblogo.png" alt=""
+                                        style="width: 48px;">&nbsp;&nbsp;&nbsp;DEATHBLADE</div>
+                            </div>
+                        </div>
+                        <div class="card mb-3 box-shadow-entete text-gray selectionPerso" data-perso="Bard"
+                            data-idimg="imgSelecBard" data-bs-toggle="tooltip" data-bs-placement="bottom" title=""
+                            style="cursor: pointer;flex-grow: 1;">
+                            <div class="d-flex">
+                                <div class="card-body"
+                                    style="width: 100%;text-align: center;padding: 2px;margin-right:6px;margin-left:6px;">
+                                    <img id="imgSelecBard" class="imgSelection" src="images/bardlogo.png" alt=""
+                                        style="width: 48px;">&nbsp;&nbsp;&nbsp;BARD</div>
+                            </div>
+                        </div>
+                        <div class="card mb-3 box-shadow-entete text-gray selectionPerso" data-perso="Paladin"
+                            data-idimg="imgSelecPala" data-bs-toggle="tooltip" data-bs-placement="bottom" title=""
+                            style="cursor: pointer;flex-grow: 1;">
+                            <div class="d-flex">
+                                <div class="card-body"
+                                    style="width: 100%;text-align: center;padding: 2px;margin-right:6px;margin-left:6px;">
+                                    <img id="imgSelecPala" class="imgSelection" src="images/palalogo.png" alt=""
+                                        style="width: 48px;">&nbsp;&nbsp;&nbsp;PALADIN</div>
+                            </div>
+                        </div>
+                        <div class="card mb-3 box-shadow-entete text-gray selectionPerso" data-perso="Shadowhunter"
+                            data-idimg="imgSelecSh" data-bs-toggle="tooltip" data-bs-placement="bottom" title=""
+                            style="cursor: pointer;flex-grow: 1;">
+                            <div class="d-flex">
+                                <div class="card-body"
+                                    style="width: 100%;text-align: center;padding: 2px;margin-right:6px;margin-left:6px;">
+                                    <img id="imgSelecSh" class="imgSelection" src="images/shlogo.png" alt=""
+                                        style="width: 48px;">&nbsp;&nbsp;&nbsp;SHADOWHUNTER</div>
+                            </div>
+                        </div>
+                        <div class="card mb-3 box-shadow-entete text-gray selectionPerso" data-perso="Sorceress"
+                            data-idimg="imgSelecSorc" data-bs-toggle="tooltip" data-bs-placement="bottom" title=""
+                            style="cursor: pointer;flex-grow: 1;">
+                            <div class="d-flex">
+                                <div class="card-body"
+                                    style="width: 100%;text-align: center;padding: 2px;margin-right:6px;margin-left:6px;">
+                                    <img id="imgSelecSorc" class="imgSelection" src="images/sorclogo.png" alt=""
+                                        style="width: 48px;">&nbsp;&nbsp;&nbsp;SORCERESS</div>
+                            </div>
+                        </div>
+                        <div class="card mb-3 box-shadow-entete text-gray selectionPerso" data-perso="Sharpshooter"
+                            data-idimg="imgSelecSharp" data-bs-toggle="tooltip" data-bs-placement="bottom" title=""
+                            style="cursor: pointer;flex-grow: 1;">
+                            <div class="d-flex">
+                                <div class="card-body"
+                                    style="width: 100%;text-align: center;padding: 2px;margin-right:6px;margin-left:6px;">
+                                    <img id="imgSelecSharp" class="imgSelection" src="images/sharplogo.png" alt=""
+                                        style="width: 48px;">&nbsp;&nbsp;&nbsp;SHARPSHOOTER</div>
+                            </div>
+                        </div>
+                        <div class="card mb-3 box-shadow-entete text-gray selectionPerso" data-perso="Berserker"
+                            data-idimg="imgSelecZerk" data-bs-toggle="tooltip" data-bs-placement="bottom" title=""
+                            style="cursor: pointer;flex-grow: 1;">
+                            <div class="d-flex">
+                                <div class="card-body"
+                                    style="width: 100%;text-align: center;padding: 2px;margin-right:6px;margin-left:6px;">
+                                    <img id="imgSelecZerk" class="imgSelection" src="images/zerklogo.png" alt=""
+                                        style="width: 48px;">&nbsp;&nbsp;&nbsp;BERSERKER</div>
+                            </div>
+                        </div>
+                    </section>
+                    <div><br></div>
+                    <section id="persoSelectionner" style="display: flex;gap: 10px;flex-wrap: no-wrap;">
+
+                    </section>
+                </section>
+            </div>
+        </div>
+    </div>
+
     <div><br></div>
 </body>
 

@@ -28,6 +28,9 @@ $(document).ready(function () {
     // GROUPE
     if (db.get("groupeEnCours").value() === undefined) db.set("groupeEnCours", 1).save();
 
+    // GROUPE OPTIONEL
+    if (db.get("groupeOptionelEnCours").value() === undefined) db.set("groupeOptionelEnCours", 1).save();
+
     // COMPTEUR UNA
     if (db.get("counterUna").value() === undefined || db.get("counterUna").value() == null) db.set("counterUna", 0).save();
 
@@ -52,7 +55,8 @@ $(document).ready(function () {
 
 $(document).on('click', '.cardEvent', function () {
     checkTask($(this).data('id'));
-    $(this).hide();
+    // $(this).hide();
+    $(`.task${$(this).data('id')}`).hide();
 });
 
 $(document).on('click', '#startSound', function () {
@@ -133,7 +137,7 @@ function resetDaily(resetVar, resetType) {
 }
 
 function resetWeekly() {
-    if (db.get('resetWeekly').value() != moment().format('DD/MM/YYYY') && moment().format('E') == 4) {
+    if (db.get('resetWeekly').value() != moment().format('DD/MM/YYYY') && moment().format('E') == 3) {
         db.get('resetWeekly').set(moment().format('DD/MM/YYYY'));
         db.save();
 
@@ -150,15 +154,16 @@ function resetWeekly() {
             }
         });
 
-        showTask();
+        // window.location.reload();
     }
 }
 
 function showPersos() {
     let htmlPersos = '';
-
+    console.log('Groupe en cours => ', db.get("groupeEnCours").value())
     getPersoFromGroupe('Main');
     getPersoFromGroupe(db.get("groupeEnCours").value());
+    // getPersoFromGroupe(db.get("groupeOptionelEnCours").value());
 
     persoEnCours.forEach(function (p) {
         let htmlTaches = '';
@@ -175,7 +180,7 @@ function showPersos() {
 
             if (t.imageTask) {
                 htmlTaches += `
-                    <div class="card mb-3 cardEvent box-shadow-task ${color}" data-id="${i}" style="cursor: pointer;flex-grow: 1;max-width:200px;">
+                    <div class="card mb-3 cardEvent box-shadow-task ${color} task${i}" data-id="${i}" style="cursor: pointer;flex-grow: 1;max-width:200px;">
                         <div class="d-flex">
                             <div class="card-body" title="${t.nomTask}" style="text-align: center;padding: 0px!important;">
                                 <img src="images/${t.imageTask}" style="border-radius: 85px;width: 100%;" />
@@ -184,7 +189,7 @@ function showPersos() {
                     </div>`;
             } else {
                 htmlTaches += `
-                    <div class="card mb-3 cardEvent box-shadow-task ${color}" data-id="${i}" style="cursor: pointer;flex-grow: 1;">
+                    <div class="card mb-3 cardEvent box-shadow-task ${color} task${i}" data-id="${i}" style="cursor: pointer;flex-grow: 1;">
                         <div class="d-flex">
                             <div class="card-body" style="text-align: center;">
                                 ${t.nomTask}
@@ -264,7 +269,7 @@ function showEvents() {
         let color = getColorFromTask(t);
 
         htmlTachesEvent += `
-        <div class="card mb-3 cardEvent box-shadow-task ${color}" data-id="${i}" style="cursor: pointer;flex-grow: 1;">
+        <div class="card mb-3 cardEvent box-shadow-task ${color} task${i}" data-id="${i}" style="cursor: pointer;flex-grow: 1;">
             <div class="d-flex">
                 <div class="card-body">
                     ${t.nomTask}
@@ -286,7 +291,7 @@ function showRapport() {
             let color = getColorFromTask(task);
 
             htmlTachesRapport += `
-                <div class="card mb-3 cardEvent box-shadow-task ${color}" data-id="${i}" style="cursor: pointer;flex-grow: 1;">
+                <div class="card mb-3 cardEvent box-shadow-task ${color} task${i}" data-id="${i}" style="cursor: pointer;flex-grow: 1;">
                     <div class="d-flex">
                         <div class="card-body">
                             ${task.nomTask}
@@ -317,7 +322,7 @@ function showImportantFromOtherPerso() {
             let color = getColorFromTask(t);
 
             htmlOtherTask += `
-            <div class="card mb-3 cardEvent box-shadow-task ${color}" data-id="${i}" style="cursor: pointer;flex-grow: 1;">
+            <div class="card mb-3 cardEvent box-shadow-task ${color} task${i}" data-id="${i}" style="cursor: pointer;flex-grow: 1;">
                 <div class="d-flex">
                     <div class="card-body">
                         ${t.nomTask}<br>
@@ -355,7 +360,7 @@ function showTachesRooster() {
         }
 
         htmlRooster += `
-        <div class="card mb-3 cardEvent box-shadow-task ${color}" data-id="${i}" style="cursor: pointer;flex-grow: 1;">
+        <div class="card mb-3 cardEvent box-shadow-task ${color} task${i}" data-id="${i}" style="cursor: pointer;flex-grow: 1;">
             <div class="d-flex">
                 <div class="card-body">
                     ${t.nomTask} - ${t.typeTask}
@@ -419,7 +424,7 @@ function showSelection(data) {
             switch (t.resetTask) {
                 case 'Daily':
                     htmlSelectionDaily += `
-                    <div class="card mb-3 cardEvent box-shadow-task ${color}" data-id="${i}" style="cursor: pointer;flex-grow: 1;">
+                    <div class="card mb-3 cardEvent box-shadow-task ${color} task${i}" data-id="${i}" style="cursor: pointer;flex-grow: 1;">
                         <div class="d-flex">
                             <div class="card-body">
                                 ${t.nomTask}
@@ -430,7 +435,7 @@ function showSelection(data) {
 
                 case 'Weekly':
                     htmlSelectionWeekly += `
-                    <div class="card mb-3 cardEvent box-shadow-task ${color}" data-id="${i}" style="cursor: pointer;flex-grow: 1;">
+                    <div class="card mb-3 cardEvent box-shadow-task ${color} task${i}" data-id="${i}" style="cursor: pointer;flex-grow: 1;">
                         <div class="d-flex">
                             <div class="card-body">
                                 ${t.nomTask}
@@ -441,7 +446,7 @@ function showSelection(data) {
 
                 case 'Unique':
                     htmlSelectionUnique += `
-                    <div class="card mb-3 cardEvent box-shadow-task ${color}" data-id="${i}" style="cursor: pointer;flex-grow: 1;">
+                    <div class="card mb-3 cardEvent box-shadow-task ${color} task${i}" data-id="${i}" style="cursor: pointer;flex-grow: 1;">
                         <div class="d-flex">
                             <div class="card-body">
                                 ${t.nomTask}
@@ -542,7 +547,7 @@ function showTachesWeekly() {
         }
 
         html += `
-        <div class="card mb-3 cardEvent box-shadow-task ${color}" data-id="${i}" style="cursor: pointer;flex-grow: 1;">
+        <div class="card mb-3 cardEvent box-shadow-task ${color} task${i}" data-id="${i}" style="cursor: pointer;flex-grow: 1;">
             <div class="d-flex">
                 <div class="card-body">
                     ${t.nomTask} - ${t.persoTask}
@@ -564,9 +569,9 @@ function getPersoFromGroupe(g) {
 
 function getPersoFromGroupeInactif() {
     let persos = [];
-
+    
     db.get("personnages").value().forEach(function (p) {
-        if (p.groupePerso != 'Main' && p.groupePerso != db.get("groupeEnCours").value()) {
+        if (p.groupePerso != 'Main' && p.groupePerso != db.get("groupeEnCours").value() && p.groupePerso != db.get("groupeOptionelEnCours").value()) {
             persos.push(p);
         }
     });

@@ -38,6 +38,9 @@ $(document).ready(function () {
     // GROUPE
     if (db.get("groupeEnCours").value() === undefined) db.set("groupeEnCours", 1).save();
 
+    // GROUPE
+    if (db.get("groupeOptionelEnCours").value() === undefined) db.set("groupeOptionelEnCours", 1).save();
+
     // COMPTEUR UNA
     if (db.get("counterUna").value() === undefined) db.set("counterUna", 1).save();
 
@@ -88,6 +91,7 @@ $(document).on('click', '#btnExportJson', function () { exportToJsonFile({
     times: db.get("times").value(), 
     bifrosts: db.get("bifrosts").value(), 
     groupeEnCours: db.get("groupeEnCours").value(), 
+    groupeOptionelEnCours: db.get("groupeOptionelEnCours").value(), 
     counterUna: db.get("counterUna").value(), 
     counterChaos: db.get("counterChaos").value(), 
     counterRaid: db.get("counterRaid").value() 
@@ -531,6 +535,7 @@ function loaded(evt) {
     db.get("times").set(fileJSON.times);
     db.get("bifrosts").set(fileJSON.bifrosts);
     db.get("groupeEnCours").set(fileJSON.groupeEnCours);
+    db.get("groupeOptionelEnCours").set(fileJSON.groupeOptionelEnCours);
     db.get("counterUna").set(fileJSON.counterUna);
     db.get("counterChaos").set(fileJSON.counterChaos);
     db.get("counterRaid").set(fileJSON.counterRaid);

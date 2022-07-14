@@ -29,7 +29,7 @@ $(document).ready(function () {
     if (db.get("groupeEnCours").value() === undefined) db.set("groupeEnCours", 1).save();
 
     // GROUPE OPTIONEL
-    if (db.get("groupeOptionelEnCours").value() === undefined) db.set("groupeOptionelEnCours", 1).save();
+    if (db.get("groupeOptionelEnCours").value() === undefined || db.get("groupeOptionelEnCours").value() < 3) db.set("groupeOptionelEnCours", 4).save();
 
     // COMPTEUR UNA
     if (db.get("counterUna").value() === undefined || db.get("counterUna").value() == null) db.set("counterUna", 0).save();

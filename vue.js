@@ -64,6 +64,20 @@ $(document).on('click', '#startSound', function () {
     playSound();
 });
 
+$(document).on('click', '#incrementGroupeOptionelEnCours', function () {
+    let groupeOptionelEnCours = parseInt(db.get("groupeOptionelEnCours").value());
+
+    groupeOptionelEnCours++;
+    if (groupeOptionelEnCours > 6) {
+        groupeOptionelEnCours = 4;
+    }
+
+    db.get('groupeOptionelEnCours').set(groupeOptionelEnCours);
+    db.save();
+
+    window.location.reload();
+});
+
 function playSound() {
     console.log('playSound')
     console.log('Minutes => ', moment().format("mm"))
@@ -161,9 +175,10 @@ function resetWeekly() {
 function showPersos() {
     let htmlPersos = '';
     console.log('Groupe en cours => ', db.get("groupeEnCours").value())
+    
     getPersoFromGroupe('Main');
     getPersoFromGroupe(db.get("groupeEnCours").value());
-    // getPersoFromGroupe(db.get("groupeOptionelEnCours").value());
+    getPersoFromGroupe(db.get("groupeOptionelEnCours").value());
 
     persoEnCours.forEach(function (p) {
         let htmlTaches = '';
@@ -219,6 +234,25 @@ function showPersos() {
                     </div>
 				</div>
             `;
+        } else if (p.groupePerso > 3) {
+            htmlEntete = `
+                <div style="display: flex;gap: 10px;">
+                    <div id="incrementGroupeOptionelEnCours" class="card mb-3 box-shadow-concave text-gray" style="cursor: pointer;">
+                        <div class="d-flex">
+                            <div class="card-body">
+                                <i class="fa-solid fa-angles-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-3 box-shadow-concave text-gray" style="flex-grow: 1;">
+                        <div class="d-flex">
+                            <div class="card-body">
+                                <strong><i>${p.groupePerso}</i></strong> - ${p.typePerso}<span class="float-end">${p.gearlevel}</span>
+                            </div>
+                        </div>
+                    </div>
+				</div>
+            `;
         } else {
             htmlEntete = `
                 <div class="card mb-3 box-shadow-concave text-gray">
@@ -232,7 +266,7 @@ function showPersos() {
         }
 
         htmlPersos += `
-            <section class="col-md-4" style="">
+            <section class="col-md-3" style="">
                 ${htmlEntete}
                 <img src="images/${p.imagePerso}" alt="" class="box-shadow-concave" style="width: 100%;margin-bottom: 20px;border-radius: 5px;height: 590px;">
 
@@ -571,7 +605,7 @@ function getPersoFromGroupeInactif() {
     let persos = [];
     
     db.get("personnages").value().forEach(function (p) {
-        if (p.groupePerso != 'Main' && p.groupePerso != db.get("groupeEnCours").value() && p.groupePerso != db.get("groupeOptionelEnCours").value()) {
+        if (p.groupePerso != 'Main' && p.groupePerso != db.get("groupeEnCours").value() && p.groupePerso < 4) {
             persos.push(p);
         }
     });

@@ -479,7 +479,7 @@ function resetDaily(resetVar, resetType) {
 }
 
 function resetWeekly() {
-    if (db.get('resetWeekly').value() != moment().format('DD/MM/YYYY') && moment().format('E') == 4) {
+    if (db.get('resetWeekly').value() != moment().format('DD/MM/YYYY') && moment().format('E') == 3) {
         db.get('resetWeekly').set(moment().format('DD/MM/YYYY'));
         db.save();
 

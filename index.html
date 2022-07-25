@@ -206,6 +206,10 @@
             margin-bottom: 40px;
         }
     }
+
+    .selectedTypeDailies {
+        color: white !important;
+    }
 </style>
 
 <body class="container-fluid">
@@ -315,7 +319,8 @@
                                 <div class="card-body"
                                     style="width: 100%;text-align: center;padding: 2px;margin-right:6px;margin-left:6px;">
                                     <img id="imgSelecDb" class="imgSelection" src="images/dblogo.png" alt=""
-                                        style="width: 48px;">&nbsp;&nbsp;&nbsp;DEATHBLADE</div>
+                                        style="width: 48px;">&nbsp;&nbsp;&nbsp;DEATHBLADE
+                                </div>
                             </div>
                         </div>
                         <div class="card mb-3 box-shadow-entete text-gray selectionPerso" data-perso="Bard"
@@ -325,7 +330,8 @@
                                 <div class="card-body"
                                     style="width: 100%;text-align: center;padding: 2px;margin-right:6px;margin-left:6px;">
                                     <img id="imgSelecBard" class="imgSelection" src="images/bardlogo.png" alt=""
-                                        style="width: 48px;">&nbsp;&nbsp;&nbsp;BARD</div>
+                                        style="width: 48px;">&nbsp;&nbsp;&nbsp;BARD
+                                </div>
                             </div>
                         </div>
                         <div class="card mb-3 box-shadow-entete text-gray selectionPerso" data-perso="Paladin"
@@ -335,7 +341,8 @@
                                 <div class="card-body"
                                     style="width: 100%;text-align: center;padding: 2px;margin-right:6px;margin-left:6px;">
                                     <img id="imgSelecPala" class="imgSelection" src="images/palalogo.png" alt=""
-                                        style="width: 48px;">&nbsp;&nbsp;&nbsp;PALADIN</div>
+                                        style="width: 48px;">&nbsp;&nbsp;&nbsp;PALADIN
+                                </div>
                             </div>
                         </div>
                         <div class="card mb-3 box-shadow-entete text-gray selectionPerso" data-perso="Shadowhunter"
@@ -345,7 +352,8 @@
                                 <div class="card-body"
                                     style="width: 100%;text-align: center;padding: 2px;margin-right:6px;margin-left:6px;">
                                     <img id="imgSelecSh" class="imgSelection" src="images/shlogo.png" alt=""
-                                        style="width: 48px;">&nbsp;&nbsp;&nbsp;SHADOWHUNTER</div>
+                                        style="width: 48px;">&nbsp;&nbsp;&nbsp;SHADOWHUNTER
+                                </div>
                             </div>
                         </div>
                         <div class="card mb-3 box-shadow-entete text-gray selectionPerso" data-perso="Sorceress"
@@ -355,7 +363,8 @@
                                 <div class="card-body"
                                     style="width: 100%;text-align: center;padding: 2px;margin-right:6px;margin-left:6px;">
                                     <img id="imgSelecSorc" class="imgSelection" src="images/sorclogo.png" alt=""
-                                        style="width: 48px;">&nbsp;&nbsp;&nbsp;SORCERESS</div>
+                                        style="width: 48px;">&nbsp;&nbsp;&nbsp;SORCERESS
+                                </div>
                             </div>
                         </div>
                         <div class="card mb-3 box-shadow-entete text-gray selectionPerso" data-perso="Sharpshooter"
@@ -365,7 +374,8 @@
                                 <div class="card-body"
                                     style="width: 100%;text-align: center;padding: 2px;margin-right:6px;margin-left:6px;">
                                     <img id="imgSelecSharp" class="imgSelection" src="images/sharplogo.png" alt=""
-                                        style="width: 48px;">&nbsp;&nbsp;&nbsp;SHARPSHOOTER</div>
+                                        style="width: 48px;">&nbsp;&nbsp;&nbsp;SHARPSHOOTER
+                                </div>
                             </div>
                         </div>
                         <div class="card mb-3 box-shadow-entete text-gray selectionPerso" data-perso="Berserker"
@@ -375,7 +385,8 @@
                                 <div class="card-body"
                                     style="width: 100%;text-align: center;padding: 2px;margin-right:6px;margin-left:6px;">
                                     <img id="imgSelecZerk" class="imgSelection" src="images/zerklogo.png" alt=""
-                                        style="width: 48px;">&nbsp;&nbsp;&nbsp;BERSERKER</div>
+                                        style="width: 48px;">&nbsp;&nbsp;&nbsp;BERSERKER
+                                </div>
                             </div>
                         </div>
                     </section>
@@ -389,6 +400,64 @@
     </div>
 
     <div><br></div>
+
+    <div class="modal fade" id="detailJourneeModal" tabindex="-1" aria-labelledby="detailJourneeModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content" style="background: #272727 !important;">
+                <div class="modal-body">
+                    <div class="card mb-3 box-shadow-concave text-gray">
+                        <div class="d-flex">
+                            <div class="card-body" style="width: 100%;text-align: center;">
+                                Today Dailies
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display: flex;gap: 10px;flex-wrap: no-wrap;">
+                        <div class="card mb-3 box-shadow-concave text-gray selectTodayDailies" data-importance="1" style="cursor: pointer;flex-grow: 1;">
+                            <div class="d-flex">
+                                <div class="card-body">
+                                    None
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mb-3 box-shadow-concave text-gray selectTodayDailies" data-importance="2" style="cursor: pointer;flex-grow: 1;">
+                            <div class="d-flex">
+                                <div class="card-body">
+                                    Una & Guilde
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mb-3 box-shadow-concave text-gray selectTodayDailies" data-importance="3" style="cursor: pointer;flex-grow: 1;">
+                            <div class="d-flex">
+                                <div class="card-body">
+                                    Chaos
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mb-3 box-shadow-concave text-gray selectTodayDailies" data-importance="4" style="cursor: pointer;flex-grow: 1;">
+                            <div class="d-flex">
+                                <div class="card-body">
+                                    Raid
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mb-3 box-shadow-concave text-gray selectTodayDailies" data-importance="5" style="cursor: pointer;flex-grow: 1;">
+                            <div class="d-flex">
+                                <div class="card-body">
+                                    More
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div><br></div>
+                    <div id="listeTaskJournee" style="display: flex;gap: 12px;flex-wrap: wrap;">
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 
 <script src="jquery.min.js"></script>

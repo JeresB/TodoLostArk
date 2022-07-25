@@ -81,7 +81,7 @@ $(document).on('click', '#incrementGroupeOptionelEnCours', function () {
 function playSound() {
     console.log('playSound')
     console.log('Minutes => ', moment().format("mm"))
-    
+
     if (moment().format("mm") > 30 && moment().format("mm") < 53) {
         console.log('lostMerchantSound => play')
         let lostMerchantSound = new Audio('checkLostMerchant.ogg');
@@ -105,10 +105,10 @@ function playSound() {
             });
         });
     }
-    
+
     console.log('eventTaskDailyForSound => ', eventTaskDailyForSound)
     console.log('eventTaskDailyForSound.length => ', eventTaskDailyForSound.length)
-    
+
     if (eventTaskDailyForSound.length > 0 && moment().format("mm") > 52 && moment().format("mm") <= 59) {
         console.log('eventSound => play')
         let eventSound = new Audio('eventToDo.ogg');
@@ -175,7 +175,7 @@ function resetWeekly() {
 function showPersos() {
     let htmlPersos = '';
     console.log('Groupe en cours => ', db.get("groupeEnCours").value())
-    
+
     getPersoFromGroupe('Main');
     getPersoFromGroupe(db.get("groupeEnCours").value());
     getPersoFromGroupe(db.get("groupeOptionelEnCours").value());
@@ -222,6 +222,13 @@ function showPersos() {
                         <div class="d-flex">
                             <div class="card-body">
                                 <i class="fa-solid fa-play"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="modalDetail" class="card mb-3 box-shadow-concave text-gray" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#detailJourneeModal">
+                        <div class="d-flex">
+                            <div class="card-body">
+                                <i class="fa-solid fa-asterisk"></i>
                             </div>
                         </div>
                     </div>
@@ -385,7 +392,7 @@ function showTachesRooster() {
         let i = getIndexTask(t);
         let color = getColorFromTask(t);
 
-        if(reset != t.resetTask) {
+        if (reset != t.resetTask) {
             if (reset != '') {
                 htmlRooster += `<hr style="width: 80%;margin: 0 auto;margin-bottom: 1rem;color: white;height: 3px;">`;
             }
@@ -488,7 +495,7 @@ function showSelection(data) {
                         </div>
                     </div>`;
                     break;
-            
+
                 default:
                     break;
             }
@@ -572,7 +579,7 @@ function showTachesWeekly() {
         let i = getIndexTask(t);
         let color = getColorFromTask(t);
 
-        if(type != t.typeTask) {
+        if (type != t.typeTask) {
             if (type != '') {
                 html += `<hr style="width: 80%;margin: 0 auto;margin-bottom: 1rem;color: white;height: 3px;">`;
             }
@@ -603,7 +610,7 @@ function getPersoFromGroupe(g) {
 
 function getPersoFromGroupeInactif() {
     let persos = [];
-    
+
     db.get("personnages").value().forEach(function (p) {
         if (p.groupePerso != 'Main' && p.groupePerso != db.get("groupeEnCours").value() && p.groupePerso < 4) {
             persos.push(p);
@@ -734,6 +741,26 @@ function getTasksEventDaily() {
     return tasks
 }
 
+function getTasksFromImportance(importance) {
+    let persos = [];
+
+    db.get("personnages").value().forEach(function (p) {
+        if (p.typePerso == 'Rooster' || p.groupePerso == 'Main' || p.groupePerso == db.get("groupeEnCours").value()) {
+            persos.push(p.typePerso);
+        }
+    });
+
+    console.log(persos)
+
+    let tasks = [];
+
+    db.get("tasks").value().forEach(function (task) {
+        if (task.importanceTask != '' && task.importanceTask <= importance && (persos.includes(task.persoTask) || importance >= 5) && !task.statutTask) tasks.push(task);
+    });
+
+    return tasks;
+}
+
 function checkTask(index) {
 
     if (db.get('tasks').get(index).get('resetTask').value() == 'Unique') {
@@ -774,3 +801,51 @@ function getBifrostFromPerso(perso) {
 
     return bifrosts;
 }
+
+
+// MODAL TODAY DAILIES 
+$(document).on('click', '.selectTodayDailies', function () {
+    $('.selectTodayDailies').removeClass('selectedTypeDailies');
+    $(this).addClass('selectedTypeDailies');
+
+    let importance = $(this).data('importance');
+    console.log(importance)
+
+    tasks = getTasksFromImportance(importance);
+
+    console.log(tasks);
+
+    let htmlModalJournee = '';
+
+    // tasks.sort((a, b) => {
+    //     return a.persoTask - b.persoTask;
+    // });
+
+    tasks.sort((a, b) => a.persoTask.localeCompare(b.persoTask))
+
+    let perso = '';
+
+    tasks.forEach(function (t) {
+        let i = getIndexTask(t);
+        let color = getColorFromTask(t);
+
+        if (perso != t.persoTask) {
+            // if (perso != '') {
+                htmlModalJournee += `<hr style="width: 95%;margin: 0 auto;color: white;height: 3px;"><h3 class="text-center text-gray" style="width: 100%;margin-bottom: 1rem;">${t.persoTask}</h3>`;
+            // }
+
+            perso = t.persoTask;
+        }
+
+        htmlModalJournee += `
+        <div class="card mb-3 cardEvent box-shadow-task ${color} task${i}" data-id="${i}" style="cursor: pointer;flex-grow: 1;">
+            <div class="d-flex">
+                <div class="card-body">
+                    ${t.nomTask}
+                </div>
+            </div>
+        </div>`;
+    });
+
+    $('#listeTaskJournee').html(htmlModalJournee);
+});

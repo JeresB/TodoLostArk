@@ -56,7 +56,7 @@ $(document).ready(function () {
 $(document).on('click', '.cardEvent', function () {
     checkTask($(this).data('id'));
     // $(this).hide();
-    $(`.task${$(this).data('id')}`).hide();
+    $(`.task${$(this).data('id')}`).remove();
 });
 
 $(document).on('click', '#startSound', function () {
@@ -699,6 +699,8 @@ function getColorFromTask(task) {
         return 'text-purple';
     } else if (task.typeTask == 'Guardian Raid') {
         return 'text-darkred';
+    } else if (task.typeTask == "Procyon's compass") {
+        return 'text-orange';
     }
 
     switch (task.resetTask) {
@@ -742,20 +744,55 @@ function getTasksEventDaily() {
 }
 
 function getTasksFromImportance(importance) {
-    let persos = [];
+    let persosPrincipaux = [];
+    let persosSecondaire = [];
+    let persosTertiaire = [];
 
     db.get("personnages").value().forEach(function (p) {
         if (p.typePerso == 'Rooster' || p.groupePerso == 'Main' || p.groupePerso == db.get("groupeEnCours").value()) {
-            persos.push(p.typePerso);
+            persosPrincipaux.push(p.typePerso);
+        } else if (p.groupePerso <= 3) {
+            persosSecondaire.push(p.typePerso);
+        } else {
+            persosTertiaire.push(p.typePerso);
         }
     });
 
-    console.log(persos)
+    console.log(persosPrincipaux)
+    console.log(persosSecondaire)
+    console.log(persosTertiaire)
+
+    let eventTasks = getEventTask();
+    let eventTasksDaily = [];
+
+    eventTasks.forEach(function (task) {
+        db.get("times").value().forEach(function (time) {
+            if (task.openingTask == time.typeEvent) {
+                if (moment().isoWeekday() == time.day && !task.statutTask) {
+                    if (!eventTasksDaily.some(t => t.nomTask === task.nomTask)) {
+                        eventTasksDaily.push(task);
+                    }
+                }
+            }
+        });
+    });
 
     let tasks = [];
 
     db.get("tasks").value().forEach(function (task) {
-        if (task.importanceTask != '' && task.importanceTask <= importance && (persos.includes(task.persoTask) || importance >= 5) && !task.statutTask) tasks.push(task);
+        if (task.importanceTask != '' && task.importanceTask <= importance && (persosPrincipaux.includes(task.persoTask) || importance >= 7) && !task.statutTask) tasks.push(task);
+
+        if (importance >= 5 && persosSecondaire.includes(task.persoTask) && (task.typeTask == 'Daily Una Task' || task.typeTask == 'Guild Activities') && !task.statutTask) {
+            tasks.push(task);
+        }
+
+        if (importance >= 6 && task.resetTask == 'Weekly' && !task.statutTask) {
+            tasks.push(task);
+        }
+    });
+
+    eventTasksDaily.forEach(function (task) {
+        tasks.push(task);
     });
 
     return tasks;
@@ -831,7 +868,7 @@ $(document).on('click', '.selectTodayDailies', function () {
 
         if (perso != t.persoTask) {
             // if (perso != '') {
-                htmlModalJournee += `<hr style="width: 95%;margin: 0 auto;color: white;height: 3px;"><h3 class="text-center text-gray" style="width: 100%;margin-bottom: 1rem;">${t.persoTask}</h3>`;
+            htmlModalJournee += `<hr style="width: 95%;margin: 0 auto;color: white;height: 3px;"><h3 class="text-center text-gray" style="width: 100%;margin-bottom: 1rem;">${t.persoTask}</h3>`;
             // }
 
             perso = t.persoTask;
@@ -849,3 +886,102 @@ $(document).on('click', '.selectTodayDailies', function () {
 
     $('#listeTaskJournee').html(htmlModalJournee);
 });
+
+// LOST ARK SIMPLE 
+$(document).on('click', '.selectLostArkSimple', function () {
+    $('.selectLostArkSimple').removeClass('selectedTypeDailies');
+    $(this).addClass('selectedTypeDailies');
+
+    let importance = $(this).data('importance');
+    affichageLostArkSimple(importance);
+});
+
+function affichageLostArkSimple(importance) {
+
+    console.log(importance)
+
+    tasks = getTasksFromImportance(importance);
+
+    console.log(tasks);
+
+    let htmlModalJournee = '';
+
+    // tasks.sort((a, b) => {
+    //     return a.persoTask - b.persoTask;
+    // });
+
+    tasks.sort((a, b) => a.persoTask.localeCompare(b.persoTask))
+
+    let perso = '';
+
+    tasks.forEach(function (t) {
+        let i = getIndexTask(t);
+        let color = getColorFromTask(t);
+
+        if (perso != t.persoTask) {
+            if (perso != '') {
+                htmlModalJournee += `</div>`;
+
+                // htmlModalJournee += `<hr style="width: 95%;margin: 0 auto;color: white;height: 3px;"><h3 class="text-center text-gray" style="width: 100%;margin-bottom: 1rem;">${t.persoTask}</h3>`;
+            }
+
+            htmlModalJournee += `
+                <div>
+                    <div class="card mb-3 box-shadow-concave text-gray">
+                        <div class="d-flex">
+                            <div class="card-body" style="width: 100%;text-align: center;">
+                            ${t.persoTask}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-3 box-shadow-concave text-gray">
+                        <div class="d-flex">
+                            <div class="card-body" style="width: 100%;text-align: center;">
+                            <img alt="images/class_icons/${t.persoTask}.png" src="images/class_icons/${t.persoTask}.png" style="width: 144px;" />
+                            </div>
+                        </div>
+                    </div>
+                    `;
+
+            perso = t.persoTask;
+        }
+
+        // if (prio > t.prioTask) {
+        //     prio = t.prioTask;
+        //     id = i;
+        // }
+
+        htmlModalJournee += `
+        <div id="task${i}" class="card mb-3 cardEvent box-shadow-task ${color} task${i}" data-id="${i}" data-prio="${t.prioTask}" style="cursor: pointer;flex-grow: 1;">
+            <div class="d-flex">
+                <div class="card-body">
+                    ${t.nomTask}
+                </div>
+            </div>
+        </div>`;
+    });
+
+    $('#listeTaskJournee').html(htmlModalJournee);
+
+    selectedMostPrioTask();
+}
+
+$(document).on('click', '.box-shadow-task', function () {
+    selectedMostPrioTask();
+});
+
+function selectedMostPrioTask() {
+    let prio = 99999;
+    let id = null;
+
+    $('.box-shadow-task').each(function (i, task) {
+        if (prio > $(this).data('prio')) {
+            prio = $(this).data('prio');
+            id = $(this).data('id');
+        }
+    });
+
+    $(`#task${id}`).addClass('selectedTask');
+}
+
+affichageLostArkSimple(4)

@@ -782,7 +782,7 @@ function getTasksFromImportance(importance) {
     db.get("tasks").value().forEach(function (task) {
         if (task.importanceTask != '' && task.importanceTask <= importance && (persosPrincipaux.includes(task.persoTask) || importance >= 7) && !task.statutTask) tasks.push(task);
 
-        if (importance >= 5 && persosSecondaire.includes(task.persoTask) && (task.typeTask == 'Daily Una Task' || task.typeTask == 'Guild Activities') && !task.statutTask) {
+        if (importance >= 5 && persosSecondaire.includes(task.persoTask) && (task.typeTask == 'Chaos Dungeon' || task.typeTask == 'Daily Una Task' || task.typeTask == 'Guild Activities') && !task.statutTask) {
             tasks.push(task);
         }
 
@@ -924,13 +924,15 @@ function affichageLostArkSimple(importance) {
 
                 // htmlModalJournee += `<hr style="width: 95%;margin: 0 auto;color: white;height: 3px;"><h3 class="text-center text-gray" style="width: 100%;margin-bottom: 1rem;">${t.persoTask}</h3>`;
             }
+            
+            let p = getPersoFromType(t.persoTask);
 
             htmlModalJournee += `
                 <div>
                     <div class="card mb-3 box-shadow-concave text-gray">
                         <div class="d-flex">
                             <div class="card-body" style="width: 100%;text-align: center;">
-                            ${t.persoTask}
+                            ${t.persoTask} - ${p.gearlevel}
                             </div>
                         </div>
                     </div>

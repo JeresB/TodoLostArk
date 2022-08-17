@@ -780,15 +780,13 @@ function getTasksFromImportance(importance) {
     let tasks = [];
 
     db.get("tasks").value().forEach(function (task) {
-        if (task.importanceTask != '' && task.importanceTask <= importance && (persosPrincipaux.includes(task.persoTask) || importance >= 7) && !task.statutTask) tasks.push(task);
-
-        if (importance >= 5 && persosSecondaire.includes(task.persoTask) && (task.typeTask == 'Chaos Dungeon' || task.typeTask == 'Daily Una Task' || task.typeTask == 'Guild Activities') && !task.statutTask) {
-            tasks.push(task);
-        }
-
-        if (importance >= 6 && task.resetTask == 'Weekly' && !task.statutTask) {
-            tasks.push(task);
-        }
+        if (
+            (task.importanceTask != '' && task.importanceTask <= importance && (persosPrincipaux.includes(task.persoTask) || importance >= 8) && !task.statutTask)
+            || (importance >= 3 && task.typeTask == 'Récupération Weekly Una Task' && !task.statutTask)
+            || (importance >= 5 && persosSecondaire.includes(task.persoTask) && (task.typeTask == 'Chaos Dungeon' || task.typeTask == 'Daily Una Task' || task.typeTask == 'Guild Activities') && !task.statutTask)
+            || (importance >= 6 && task.prioTask < 200 && !task.statutTask)
+            || (importance >= 7 && task.resetTask == 'Weekly' && !task.statutTask && task.typeTask != 'Récupération Weekly Una Task')
+        ) tasks.push(task);
     });
 
     eventTasksDaily.forEach(function (task) {

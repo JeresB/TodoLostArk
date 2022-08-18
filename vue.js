@@ -782,9 +782,13 @@ function getTasksFromImportance(importance) {
     db.get("tasks").value().forEach(function (task) {
         if (
             (task.importanceTask != '' && task.importanceTask <= importance && (persosPrincipaux.includes(task.persoTask) || importance >= 8) && !task.statutTask)
+            // Récupération Weekly Una Task
             || (importance >= 3 && task.typeTask == 'Récupération Weekly Una Task' && !task.statutTask)
+            // Other
             || (importance >= 5 && persosSecondaire.includes(task.persoTask) && (task.typeTask == 'Chaos Dungeon' || task.typeTask == 'Daily Una Task' || task.typeTask == 'Guild Activities') && !task.statutTask)
+            // More
             || (importance >= 6 && task.prioTask < 200 && task.resetTask != 'Weekly' && !task.statutTask)
+            // Weekly
             || (importance >= 7 && task.resetTask == 'Weekly' && !task.statutTask && task.typeTask != 'Récupération Weekly Una Task')
         ) tasks.push(task);
     });

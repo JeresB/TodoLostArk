@@ -912,7 +912,8 @@ function affichageLostArkSimple(importance) {
     //     return a.persoTask - b.persoTask;
     // });
 
-    tasks.sort((a, b) => a.persoTask.localeCompare(b.persoTask))
+    // tasks.sort((a, b) => a.persoTask.localeCompare(b.persoTask));
+    tasks.sort((a, b) => a.persoTask.localeCompare(b.persoTask) || a.nomTask.localeCompare(b.nomTask));
 
     let perso = '';
 

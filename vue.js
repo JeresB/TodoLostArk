@@ -40,6 +40,9 @@ $(document).ready(function () {
     // COMPTEUR RAID
     if (db.get("counterRaid").value() === undefined || db.get("counterRaid").value() == null) db.set("counterRaid", 0).save();
 
+    // PROGRESS BAR
+    if (db.get("progressBarDaily").value() === undefined || db.get("progressBarDaily").value() == null) db.set("progressBarDaily", [{ type: 'chaos', nb: 0, max: 12, color: '#1562b9' }, { type: 'raid', nb: 0, max: 4, color: '#a14949' }, { type: 'una', nb: 0, max: 24, color: 'green' }]).save();
+
     showPersos();
     showEvents();
     showRapport();
@@ -47,6 +50,7 @@ $(document).ready(function () {
     showCounter();
     showTachesRooster();
     showTachesWeekly();
+    showProgressBar();
 
     $('.selectionPerso').on('click', function () {
         showSelection($(this));
@@ -146,6 +150,12 @@ function resetDaily(resetVar, resetType) {
         db.get('groupeEnCours').set(groupeEnCours);
         db.save();
 
+        db.get("progressBarDaily").value().forEach(function (bar, i) {
+            db.get("progressBarDaily").get(i).get('nb').set(0);
+        });
+
+        db.save();
+    
         window.location.reload();
     }
 }
@@ -699,7 +709,7 @@ function getColorFromTask(task) {
         return 'text-purple';
     } else if (task.typeTask == 'Guardian Raid') {
         return 'text-darkred';
-    } else if (task.typeTask == "Procyon's compass") {
+    } else if (task.typeTask == "Procyon's compass" || task.typeTask == "Event") {
         return 'text-orange';
     }
 
@@ -816,10 +826,13 @@ function checkTask(index) {
 
         if (task.typeTask == 'Daily Una Task') {
             incrementeCounter('counterUna');
+            incrementerProgressBar('una');
         } else if (task.typeTask == 'Chaos Dungeon') {
             incrementeCounter('counterChaos');
+            incrementerProgressBar('chaos');
         } else if (task.typeTask == 'Guardian Raid') {
             incrementeCounter('counterRaid');
+            incrementerProgressBar('raid');
         }
     }
 }
@@ -829,6 +842,35 @@ function incrementeCounter(counter) {
     db.save();
 
     showCounter();
+}
+
+function incrementerProgressBar(type) {
+    let index = -1;
+    let nb = 0
+
+    db.get("progressBarDaily").value().forEach(function (bar, i) {
+        console.log(bar, type)
+        if (bar.type == type) {
+            index = i;
+            nb = bar.nb + 1;
+        }
+    });
+
+    // console.log(index, nb)
+
+    // console.log(db.get("progressBarDaily").get(index).get('nb').value())
+
+    if (index >= 0) {
+        db.get("progressBarDaily")
+            .get(index)
+            .get('nb')
+            .set(nb);
+        db.save();
+    }
+
+    // console.log(db.get("progressBarDaily").value())
+
+    showProgressBar();
 }
 
 function getBifrostFromPerso(perso) {
@@ -927,11 +969,11 @@ function affichageLostArkSimple(importance) {
 
                 // htmlModalJournee += `<hr style="width: 95%;margin: 0 auto;color: white;height: 3px;"><h3 class="text-center text-gray" style="width: 100%;margin-bottom: 1rem;">${t.persoTask}</h3>`;
             }
-            
+
             let p = getPersoFromType(t.persoTask);
 
             htmlModalJournee += `
-                <div>
+                <div class="${t.persoTask}">
                     <div class="card mb-3 box-shadow-concave text-gray">
                         <div class="d-flex">
                             <div class="card-body" style="width: 100%;text-align: center;">
@@ -956,8 +998,12 @@ function affichageLostArkSimple(importance) {
         //     id = i;
         // }
 
+        if (t.typeTask == "Procyon's compass") {
+            t.typeTask = "Event";
+        }
+
         htmlModalJournee += `
-        <div id="task${i}" class="card mb-3 cardEvent box-shadow-task ${color} task${i}" data-id="${i}" data-prio="${t.prioTask}" style="cursor: pointer;flex-grow: 1;">
+        <div id="task${i}" class="card mb-3 cardEvent box-shadow-task ${t.resetTask} ${t.typeTask.replace(/ /g, "_")} ${color} task${i}" data-id="${i}" data-prio="${t.prioTask}" style="cursor: pointer;flex-grow: 1;">
             <div class="d-flex">
                 <div class="card-body">
                     ${t.nomTask}
@@ -990,3 +1036,99 @@ function selectedMostPrioTask() {
 }
 
 affichageLostArkSimple(4)
+
+
+
+// ---------------------------------------------------------
+// GESTION FILTRES LOST ARK SIMPLE
+// ---------------------------------------------------------
+$(document).on('click', '.filtreLostArkSimple', function () {
+    let filtre = $(this).data('filtre');
+    $(this).toggleClass('inset');
+    $(`.${filtre}`).toggleClass('hidden');
+
+    console.log(filtre);
+});
+
+// ---------------------------------------------------------
+// ---------------------------------------------------------
+// ---------------------------------------------------------
+
+// ---------------------------------------------------------
+// AJOUT DYNAMIQUE DES FILTRES TYPE TASK
+// ---------------------------------------------------------
+function getListeTypeTask() {
+    let types = [];
+
+    db.get("tasks").value().forEach(function (task) {
+        if (!types.includes(task.typeTask)) types.push(task.typeTask);
+    });
+
+    return types;
+}
+
+function showFiltresTypeTask() {
+    let types = getListeTypeTask();
+    let html = '';
+
+    types.sort();
+
+    types.forEach(function (type) {
+        html += `
+            <div class="card mb-3 box-shadow-concave inset text-gray filtreLostArkSimple" data-filtre="${type.replace(/ /g, "_")}"
+                style="cursor: pointer;flex-grow: 1;">
+                <div class="d-flex">
+                    <div class="card-body">
+                        ${type}
+                    </div>
+                </div>
+            </div>`;
+    });
+
+    $('#filtresTypeTask').html(html);
+}
+
+showFiltresTypeTask();
+// console.log(getListeTypeTask());
+
+
+// ---------------------------------------------------------
+// ---------------------------------------------------------
+// ---------------------------------------------------------
+
+
+
+// ---------------------------------------------------------
+// AJOUT DYNAMIQUE DES FILTRES TYPE TASK
+// ---------------------------------------------------------
+function showProgressBar() {
+    let html = '';
+
+    db.get("progressBarDaily").value().forEach(function (bar) {
+        console.log(bar);
+
+        let width = (bar.nb * 100) / bar.max;
+
+        if (width > 100) {
+            width = 100;
+        }
+
+        html += `
+            <div style="flex-grow: 1;color:gray;text-align:center;">
+                <div><strong>${(bar.type).toUpperCase()}</strong></div>
+                <div class="progress progress-moved">
+                    <div class="progress-bar" style="width: ${width}%; background-color: ${bar.color};">
+                    </div>                       
+                </div>
+            </div>`;
+    });
+
+    html += '';
+
+    console.log(html)
+
+    $('#progress-section').html(html);
+}
+// ---------------------------------------------------------
+// ---------------------------------------------------------
+// ---------------------------------------------------------

@@ -44,6 +44,11 @@
             -5px -5px 6px #303030 !important;
     }
 
+    .inset {
+        box-shadow: inset 5px 5px 6px #1e1e1e,
+            inset -5px -5px 6px #303030 !important;
+    }
+
     .box-shadow-convex {
         border-radius: 5px !important;
         background: linear-gradient(145deg, #2a2a2a, #232323) !important;
@@ -215,16 +220,156 @@
         /* border: solid 2px #920101 !important; */
         box-shadow: 5px 5px 4px #6c1313, -5px -5px 4px #852727 !important;
     }
+
+    .hidden {
+        display: none !important;
+    }
+
+    .container-progress-bar {
+        margin: 100px auto;
+        /* width: 500px; */
+        text-align: center;
+    }
+
+    .progress {
+        /* flex-grow: 1; */
+        height: 30px;
+        padding: 6px;
+        border-radius: 6px;
+        background: rgba(0, 0, 0, 0.25);
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25), 0 1px rgba(255, 255, 255, 0.08);
+    }
+
+    .progress-bar {
+        height: 18px;
+        border-radius: 4px;
+        background-image:
+            linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.05));
+        transition: 0.4s linear;
+        transition-property: width, background-color;
+    }
+
+    /* .progress-moved .progress-bar { */
+        /* width: 85%; */
+        /* background-color: #EF476F; */
+    /* } */
 </style>
 
 <body class="container-fluid">
     <div><br></div>
 
-    <section class="container">
+    <section>
         <div class="card mb-3 box-shadow-concave text-gray">
             <div class="d-flex">
                 <div class="card-body" style="width: 100%;text-align: center;">
                     LOST ARK
+                </div>
+            </div>
+        </div>
+
+        <div style="display: flex;gap: 10px;flex-wrap: no-wrap;">
+            <div class="card mb-3 box-shadow-concave inset text-gray filtreLostArkSimple" data-filtre="Daily"
+                style="cursor: pointer;flex-grow: 1;">
+                <div class="d-flex">
+                    <div class="card-body">
+                        Daily
+                    </div>
+                </div>
+            </div>
+            <div class="card mb-3 box-shadow-concave inset text-gray filtreLostArkSimple" data-filtre="Weekly"
+                style="cursor: pointer;flex-grow: 1;">
+                <div class="d-flex">
+                    <div class="card-body">
+                        Weekly
+                    </div>
+                </div>
+            </div>
+            <div class="card mb-3 box-shadow-concave inset text-gray filtreLostArkSimple" data-filtre="Paladin"
+                style="cursor: pointer;flex-grow: 1;">
+                <div class="d-flex">
+                    <div class="card-body text-center" style="padding: 4px;">
+                        <img alt="images/class_icons/Paladin.png" src="images/class_icons/Paladin.png" width="50px" />
+                    </div>
+                </div>
+            </div>
+            <div class="card mb-3 box-shadow-concave inset text-gray filtreLostArkSimple" data-filtre="Deathblade"
+                style="cursor: pointer;flex-grow: 1;">
+                <div class="d-flex">
+                    <div class="card-body text-center" style="padding: 4px;">
+                        <img alt="images/class_icons/Deathblade.png" src="images/class_icons/Deathblade.png"
+                            width="50px" />
+                    </div>
+                </div>
+            </div>
+            <div class="card mb-3 box-shadow-concave inset text-gray filtreLostArkSimple" data-filtre="Shadowhunter"
+                style="cursor: pointer;flex-grow: 1;">
+                <div class="d-flex">
+                    <div class="card-body text-center" style="padding: 4px;">
+                        <img alt="images/class_icons/Shadowhunter.png" src="images/class_icons/Shadowhunter.png"
+                            width="50px" />
+                    </div>
+                </div>
+            </div>
+            <div class="card mb-3 box-shadow-concave inset text-gray filtreLostArkSimple" data-filtre="Bard"
+                style="cursor: pointer;flex-grow: 1;">
+                <div class="d-flex">
+                    <div class="card-body text-center" style="padding: 4px;">
+                        <img alt="images/class_icons/Bard.png" src="images/class_icons/Bard.png" width="50px" />
+                    </div>
+                </div>
+            </div>
+            <div class="card mb-3 box-shadow-concave inset text-gray filtreLostArkSimple" data-filtre="Sorceress"
+                style="cursor: pointer;flex-grow: 1;">
+                <div class="d-flex">
+                    <div class="card-body text-center" style="padding: 4px;">
+                        <img alt="images/class_icons/Sorceress.png" src="images/class_icons/Sorceress.png"
+                            width="50px" />
+                    </div>
+                </div>
+            </div>
+            <div class="card mb-3 box-shadow-concave inset text-gray filtreLostArkSimple" data-filtre="Berserker"
+                style="cursor: pointer;flex-grow: 1;">
+                <div class="d-flex">
+                    <div class="card-body text-center" style="padding: 4px;">
+                        <img alt="images/class_icons/Berserker.png" src="images/class_icons/Berserker.png"
+                            width="50px" />
+                    </div>
+                </div>
+            </div>
+            <div class="card mb-3 box-shadow-concave inset text-gray filtreLostArkSimple" data-filtre="Sharpshooter"
+                style="cursor: pointer;flex-grow: 1;">
+                <div class="d-flex">
+                    <div class="card-body text-center" style="padding: 4px;">
+                        <img alt="images/class_icons/Sharpshooter.png" src="images/class_icons/Sharpshooter.png"
+                            width="50px" />
+                    </div>
+                </div>
+            </div>
+            <div class="card mb-3 box-shadow-concave inset text-gray filtreLostArkSimple" data-filtre="Wardancer"
+                style="cursor: pointer;flex-grow: 1;">
+                <div class="d-flex">
+                    <div class="card-body text-center" style="padding: 4px;">
+                        <img alt="images/class_icons/Wardancer.png" src="images/class_icons/Wardancer.png"
+                            width="50px" />
+                    </div>
+                </div>
+            </div>
+            <div class="card mb-3 box-shadow-concave inset text-gray filtreLostArkSimple" data-filtre="Gunlancer"
+                style="cursor: pointer;flex-grow: 1;">
+                <div class="d-flex">
+                    <div class="card-body text-center" style="padding: 4px;">
+                        <img alt="images/class_icons/Gunlancer.png" src="images/class_icons/Gunlancer.png"
+                            width="50px" />
+                    </div>
+                </div>
+            </div>
+            <div class="card mb-3 box-shadow-concave inset text-gray filtreLostArkSimple" data-filtre="Artilerist"
+                style="cursor: pointer;flex-grow: 1;">
+                <div class="d-flex">
+                    <div class="card-body text-center" style="padding: 4px;">
+                        <img alt="images/class_icons/Artilerist.png" src="images/class_icons/Artilerist.png"
+                            width="50px" />
+                    </div>
                 </div>
             </div>
         </div>
@@ -295,6 +440,14 @@
                 </div>
             </div>
         </div>
+    </section>
+
+    <section>
+        <div id="filtresTypeTask" style="display: flex;gap: 10px;flex-wrap: no-wrap;"></div>
+    </section>
+
+    <section>
+        <div id="progress-section" style="display: flex;gap: 10px;flex-wrap: no-wrap;"></div>
     </section>
 
     <div><br></div>

@@ -313,23 +313,23 @@ function getTasksFromImportance(importance) {
     console.log(persosPrincipaux, persosSecondaire, persosTertiaire);
 
     // Récupération des tâches avec une horaire d'ouverture
-    // let eventTasks = getEventTask();
+    let eventTasks = getEventTask();
 
-    // eventTasks.forEach(function (task) {
-    //     db.get("times").value().forEach(function (time) {
-    //         if (task.opening == time.typeEvent) {
-    //             if (moment().isoWeekday() == time.day && !task.statut) {
-    //                 if (!eventTasksDaily.some(t => t.nom === task.nom)) {
-    //                     eventTasksDaily.push(task);
-    //                 }
-    //             }
-    //         }
-    //     });
-    // });
+    eventTasks.forEach(function (task) {
+        db.get("times").value().forEach(function (time) {
+            if (task.opening == time.type) {
+                if (moment().isoWeekday() == time.day && !task.statut) {
+                    if (!eventTasksDaily.some(t => t.nom === task.nom)) {
+                        eventTasksDaily.push(task);
+                    }
+                }
+            }
+        });
+    });
 
-    // eventTasksDaily.forEach(function (task) {
-    //     tasks.push(task);
-    // });
+    eventTasksDaily.forEach(function (task) {
+        tasks.push(task);
+    });
     // console.log(importance)
 
     db.get("tasks").value().forEach(function (task) {
@@ -339,7 +339,7 @@ function getTasksFromImportance(importance) {
         //     console.log(task)
         // }
 
-        if (
+        if (task.opening == '' && (
             (task.importance != '' && task.importance <= importance && (persosPrincipaux.includes(task.perso) || importance >= 8) && !task.statut)
             // Récupération Weekly Una Task
             || (importance >= 3 && task.type == 'Récupération Una Hebdo' && !task.statut)
@@ -348,7 +348,7 @@ function getTasksFromImportance(importance) {
             // More
             || (importance >= 6 && task.prio < 200 && task.reset != 'Hebdomadaire' && !task.statut)
             // Weekly
-            || (importance >= 7 && task.reset == 'Hebdomadaire' && !task.statut && task.type != 'Récupération Una Hebdo')
+            || (importance >= 7 && task.reset == 'Hebdomadaire' && !task.statut && task.type != 'Récupération Una Hebdo'))
         ) tasks.push(task);
     });
 

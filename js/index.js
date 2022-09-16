@@ -61,7 +61,7 @@ function showTasks(importance) {
 
     console.log(tasks);
 
-    tasks.sort((a, b) => a.perso.localeCompare(b.perso) || a.nom.localeCompare(b.nom));
+    tasks.sort((a, b) => a.perso.localeCompare(b.perso) || a.type.localeCompare(b.type) || a.nom.localeCompare(b.nom));
 
     tasks.forEach(function (t) {
         let i = getIndexTask(t);
@@ -155,7 +155,7 @@ function getEventTask() {
     let eventTasks = [];
 
     db.get("tasks").value().forEach(function (task) {
-        if (task.openingTask && task.openingTask.length > 0) eventTasks.push(task);
+        if (task.opening && task.opening.length > 0) eventTasks.push(task);
     });
 
     return eventTasks;
@@ -211,7 +211,7 @@ function getColorFromTask(task) {
         return 'bl-purple';
     } else if (task.type.includes('gardien')) {
         return 'bl-darkred';
-    } else if (task.type.includes('Procyon') || task.type.includes('Event')) {
+    } else if (task.type.includes('Procyon') || task.type.includes('Event') || task.type.includes('Evénement')) {
         return 'bl-orange';
     }
 
@@ -317,6 +317,7 @@ function getTasksFromImportance(importance) {
 
     eventTasks.forEach(function (task) {
         db.get("times").value().forEach(function (time) {
+            // console.log(task.opening, time.type)
             if (task.opening == time.type) {
                 if (moment().isoWeekday() == time.day && !task.statut) {
                     if (!eventTasksDaily.some(t => t.nom === task.nom)) {
@@ -327,7 +328,7 @@ function getTasksFromImportance(importance) {
         });
     });
 
-    console.log(eventTasksDaily)
+    // console.log(eventTasksDaily)
 
     eventTasksDaily.forEach(function (task) {
         tasks.push(task);

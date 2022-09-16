@@ -335,15 +335,15 @@ function showTasks() {
 function showListPersoInModal() {
     console.log('showListPersoInModal')
 
-    let html = `<div class="btn-group w-100" role="group" aria-label="Basic checkbox toggle button group">`;
+    let html = ``;
 
     db.get("persos").value().forEach((perso, index) => {
         html += `
-            <input type="checkbox" class="btn-check persos" id="${perso.nom}Check" data-nom="${perso.nom}" autocomplete="off">
+            <input type="checkbox" class="btn-check persos flex-grow-1" id="${perso.nom}Check" data-nom="${perso.nom}" autocomplete="off">
             <label class="btn btn-outline-success" for="${perso.nom}Check">${perso.nom}</label>`;
     });
 
-    html += `</div>`;
+    html += ``;
 
     $('#listeCaracteresModalGenerationTaches').html(html);
 }

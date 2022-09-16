@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Lost Ark Todo</title>
+
+    <link rel="stylesheet" href="lib/fontawesome/css/all.min.css" />
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.datatables.net/v/bs5/jq-3.6.0/dt-1.12.1/datatables.min.css" />
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.datatables.net/searchpanes/2.0.2/css/searchPanes.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.datatables.net/select/1.4.0/css/select.dataTables.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body class="container-fluid">
+    <div><br></div>
+
+    <!------------------------------------------------------------------------------------------------->
+    <!-- TITRE ---------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+    <div class="card mb-3 box-shadow-concave text-gray">
+        <div class="d-flex">
+            <div class="card-body text-center">
+                LOST ARK
+            </div>
+        </div>
+    </div>
+    <!------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+
+
+
+    <!------------------------------------------------------------------------------------------------->
+    <!-- MENU ---------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+    <section class="d-flex gap-3">
+        <div class="card mb-3 box-shadow-concave text-gray flex-grow-1">
+            <div class="d-flex">
+                <a href="index.html" class="link">
+                    <div class="card-body text-center">
+                        Vue globale
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="card mb-3 box-shadow-concave text-gray flex-grow-1">
+            <div class="d-flex">
+                <a href="caracteres.html" class="link">
+                    <div class="card-body text-center">
+                        Rooster
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="card mb-3 box-shadow-concave text-gray flex-grow-1">
+            <div class="d-flex">
+                <a href="taches.html" class="link">
+                    <div class="card-body text-center">
+                        T&acirc;ches
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="card mb-3 box-shadow-concave text-gray flex-grow-1">
+            <div class="d-flex">
+                <a href="horaires.html" class="link">
+                    <div class="card-body text-center">
+                        Horaires
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+    <!------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+
+
+
+    <!------------------------------------------------------------------------------------------------->
+    <!-- Section d'ajout d'une tâche ------------------------------------------------------------------>
+    <!------------------------------------------------------------------------------------------------->
+    <section>
+        <div class="card mb-3 box-shadow-concave text-gray">
+            <div class="d-flex">
+                <div class="card-body text-center">
+                    AJOUTER UNE TACHES
+                </div>
+            </div>
+
+            <div class="d-flex">
+                <div class="card-body text-center">
+                    <button type="button" class="btn btn-secondary btn-sm" style="float: right;" data-bs-toggle="modal"
+                        data-bs-target="#generationTasksModal">
+                        <i class="fa-solid fa-gears"></i>&nbsp;&nbsp;&nbsp;Générer des tâches
+                    </button>
+                </div>
+            </div>
+
+            <div class="card-body d-flex gap-3">
+                <input class="form-control box-shadow-inset" type="text" id="nom" placeholder="Nom" />
+                <input class="form-control box-shadow-inset" list="listperso" id="perso" placeholder="Nom du caractère associé" />
+                <input class="form-control box-shadow-inset" list="listtype" id="type" placeholder="Type" />
+                <input class="form-control box-shadow-inset" list="listreset" id="reset" placeholder="Reset" />
+                <input class="form-control box-shadow-inset" type="number" id="prio" placeholder="Priorité" />
+                <input class="form-control box-shadow-inset" type="number" id="importance" placeholder="Importance" />
+                <input class="form-control box-shadow-inset" list="listopening" id="opening" placeholder="Ouverture" />
+
+                <button class="btn btn-secondary" id="ajoutTask"><i class="fa-solid fa-plus"></i></button>
+            </div>
+        </div>
+    </section>
+    <!------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+
+
+
+    <!------------------------------------------------------------------------------------------------->
+    <!-- Section des tâches sauvegardées -------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+    <section>
+        <div id="sectionTasks" class="card mb-3 box-shadow-concave text-gray" style="padding: 10px;"></div>
+    </section>
+    <!------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+
+
+
+    <!------------------------------------------------------------------------------------------------->
+    <!-- AIDE ----------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+    <div class="card mb-3 box-shadow-concave text-gray">
+        <div class="d-flex">
+            <div class="card-body text-center">
+                AIDE
+            </div>
+        </div>
+
+        <div class="d-flex">
+            <div class="card-body text-center">
+                <ul class="list-group">
+                    <li class="list-group-item">Ajouter autant de caractères que vous le souhaitez</li>
+                    <li class="list-group-item">Chaque donnée d'un caractère peut être modifiée</li>
+                    <li class="list-group-item">Les caractères peuvent être supprimés dans ce cas les tâches seront
+                        conservées mais plus afficher sur la vue globale</li>
+                    <li class="list-group-item">La vue globale définit les taches à réaliser en fonction de la rotation
+                        des caractères, c'est l'utilisation optimale du repos. Les tâches d'un caractère "Main" seront
+                        affichées tous les jours.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+
+
+
+    <!------------------------------------------------------------------------------------------------->
+    <!-- Définitions des listes ----------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+    <datalist id="listperso">
+
+    </datalist>
+
+    <datalist id="listtype">
+        <option value="Quête Una">
+        <option value="Donjon du chaos">
+        <option value="Raid de gardien">
+        <option value="Activité de guilde">
+        <option value="Qualités de vie">
+        <option value="Evénement">
+        <option value="Récupération Una Hebdo">
+        <option value="Assauts des boss">
+        <option value="Cube">
+        <option value="Raid de légion">
+        <option value="Raid abyssaux">
+    </datalist>
+
+    <datalist id="listreset">
+        <option value="Quotidien">
+        <option value="Hebdomadaire">
+    </datalist>
+
+    <datalist id="listopening">
+        <option value="Porte du chaos">
+        <option value="Boss de terrain">
+        <option value="Alakkir">
+        <option value="Gesbroy">
+        <option value="Ile d'aventure">
+    </datalist>
+    <!------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+
+
+
+    <!------------------------------------------------------------------------------------------------->
+    <!-- Modal de génération de tâches ---------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+    <div class="modal fade" id="generationTasksModal" tabindex="-1" aria-labelledby="generationTasksModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="generationTasksModalLabel">Génération de tâches</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h5 class="text-center">Sélectionné les tâches que vous souhaitez générer</h5>
+                    
+                    <hr>
+                    
+                    <p class="text-center">Tâches quotidiennes</p>
+                    <div class="btn-group w-100" role="group" aria-label="Basic checkbox toggle button group">
+                        <input type="checkbox" class="btn-check tasks" id="chaosCheck" data-nom="Donjons du chaos" data-type="Donjon du chaos" data-reset="Quotidien" data-prio="2" data-importance="3" data-nb="2" autocomplete="off">
+                        <label class="btn btn-outline-success" for="chaosCheck">Donjons du chaos x2</label>
+
+                        <input type="checkbox" class="btn-check tasks" id="raidCheck" data-nom="Raids de gardien" data-type="Raid de gardien" data-reset="Quotidien" data-prio="300" data-importance="4" data-nb="2" autocomplete="off">
+                        <label class="btn btn-outline-success" for="raidCheck">Raids de gardien x2</label>
+
+                        <input type="checkbox" class="btn-check tasks" id="unaCheck" data-nom="Quêtes Una Quotidienne" data-type="Quête Una" data-reset="Quotidien" data-prio="1" data-importance="2" data-nb="3" autocomplete="off">
+                        <label class="btn btn-outline-success" for="unaCheck">Quêtes Una Quotidienne x3</label>
+
+                        <input type="checkbox" class="btn-check tasks" id="guildeCheck" data-nom="Activités de guilde" data-type="Activité de guilde" data-reset="Quotidien" data-prio="3" data-importance="2" data-nb="1" autocomplete="off">
+                        <label class="btn btn-outline-success" for="guildeCheck">Activités de guilde</label>
+
+                        <input type="checkbox" class="btn-check tasks" id="qolCheck" data-nom="Tri de l'inventaire" data-type="Qualités de vie" data-reset="Quotidien" data-prio="4" data-importance="4" data-nb="1" autocomplete="off">
+                        <label class="btn btn-outline-success" for="qolCheck">Tri de l'inventaire</label>
+                    </div>
+
+                    <hr>
+                    
+                    <p class="text-center">Tâches hebdomadaires</p>
+                    <div class="btn-group w-100" role="group" aria-label="Basic checkbox toggle button group">
+                        <input type="checkbox" class="btn-check tasks" id="getUnaWeeklyCheck" data-nom="Récupération quêtes una hebdo" data-type="Récupération Una Hebdo" data-reset="Hebdomadaire" data-prio="1" data-importance="3" data-nb="3" autocomplete="off">
+                        <label class="btn btn-outline-success" for="getUnaWeeklyCheck">Récupération quêtes una hebdo x3</label>
+
+                        <input type="checkbox" class="btn-check tasks" id="bossRushCheck" data-nom="Assauts des boss" data-type="Assauts des boss" data-reset="Hebdomadaire" data-prio="8" data-importance="7" data-nb="2" autocomplete="off">
+                        <label class="btn btn-outline-success" for="bossRushCheck">Assauts des boss x2</label>
+
+                        <input type="checkbox" class="btn-check tasks" id="cubeCheck" data-nom="Cube" data-type="Cube" data-reset="Hebdomadaire" data-prio="9" data-importance="7" data-nb="2" autocomplete="off">
+                        <label class="btn btn-outline-success" for="cubeCheck">Cube x2</label>
+                    </div>
+
+                    <hr>
+                    
+                    <p class="text-center">Raid Abyssaux</p>
+                    <div class="btn-group w-100" role="group" aria-label="Basic checkbox toggle button group">
+                        <input type="checkbox" class="btn-check tasks" id="argosp1Check" data-nom="Argos P1" data-type="Raid abyssaux" data-reset="Hebdomadaire" data-prio="7" data-importance="7" data-nb="1" autocomplete="off">
+                        <label class="btn btn-outline-success" for="argosp1Check">Argos P1</label>
+
+                        <input type="checkbox" class="btn-check tasks" id="argosp2Check" data-nom="Argos P2" data-type="Raid abyssaux" data-reset="Hebdomadaire" data-prio="7" data-importance="7" data-nb="1" autocomplete="off">
+                        <label class="btn btn-outline-success" for="argosp2Check">Argos P2</label>
+
+                        <input type="checkbox" class="btn-check tasks" id="argosp3Check" data-nom="Argos P3" data-type="Raid abyssaux" data-reset="Hebdomadaire" data-prio="7" data-importance="7" data-nb="1" autocomplete="off">
+                        <label class="btn btn-outline-success" for="argosp3Check">Argos P3</label>
+                    </div>
+
+                    <hr>
+                    
+                    <p class="text-center">Raids de legion</p>
+                    <div class="d-flex gap-3">
+                        <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+                            <input type="checkbox" class="btn-check tasks" id="valtannmCheck" data-nom="Valtan NM" data-type="Raid de légion" data-reset="Hebdomadaire" data-prio="5" data-importance="7" data-nb="1" autocomplete="off">
+                            <label class="btn btn-outline-success" for="valtannmCheck">Valtan NM - 1415</label>
+    
+                            <input type="checkbox" class="btn-check tasks" id="valtanhmCheck" data-nom="Valtan HM" data-type="Raid de légion" data-reset="Hebdomadaire" data-prio="3" data-importance="7" data-nb="1" autocomplete="off">
+                            <label class="btn btn-outline-success" for="valtanhmCheck">Valtan HM - 1445</label>
+                        </div>
+
+                        <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+                            <input type="checkbox" class="btn-check tasks" id="vykasnmCheck" data-nom="Vykas NM" data-type="Raid de légion" data-reset="Hebdomadaire" data-prio="4" data-importance="7" data-nb="1" autocomplete="off">
+                            <label class="btn btn-outline-success" for="vykasnmCheck">Vykas NM - 1430</label>
+    
+                            <input type="checkbox" class="btn-check tasks" id="vykashmCheck" data-nom="Vykas HM" data-type="Raid de légion" data-reset="Hebdomadaire" data-prio="2" data-importance="7" data-nb="1" autocomplete="off">
+                            <label class="btn btn-outline-success" for="vykashmCheck">Vykas HM - 1460</label>
+                        </div>
+
+                        <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+                            <input type="checkbox" class="btn-check tasks" id="kakulRehearsalCheck" data-nom="Kakul Rehearsal" data-type="Raid de légion" data-reset="Hebdomadaire" data-prio="6" data-importance="7" data-nb="1" autocomplete="off">
+                            <label class="btn btn-outline-success" for="kakulRehearsalCheck">Kakul Rehearsal - 1385</label>
+    
+                            <input type="checkbox" class="btn-check tasks" id="kakulnmCheck" data-nom="Kakul NM" data-type="Raid de légion" data-reset="Hebdomadaire" data-prio="1" data-importance="7" data-nb="1" autocomplete="off">
+                            <label class="btn btn-outline-success" for="kakulnmCheck">Kakul NM - 1475</label>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <h5 class="text-center">Tâches à générer pour les caractères suivants</h5>
+                    
+                    <hr>
+
+                    <div id="listeCaracteresModalGenerationTaches" class="d-flex gap-3"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                    <button id="generateTasks" type="button" class="btn btn-success" data-bs-dismiss="modal">Confirmer la génération des tâches</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+
+
+
+    <script type="text/javascript" src="js/jquery-3.6.1.min.js"></script>
+    <script type="text/javascript" src="js/StormDB.min.js"></script>
+    <script type="text/javascript" src="js/BrowserEngine.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="js/datatables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/searchpanes/2.0.2/js/dataTables.searchPanes.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/select/1.4.0/js/dataTables.select.min.js"></script>
+    <script type="text/javascript" src="js/moment.js"></script>
+    <script type="text/javascript" src="js/latodo.js"></script>
+    <script type="text/javascript" src="js/task.js"></script>
+</body>
+
+</html>

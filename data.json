@@ -1,0 +1,428 @@
+{
+    "persos": [
+        {
+            "nom": "Skairiper",
+            "classe": "Deathblade",
+            "gearlevel": "1388",
+            "groupe": "1"
+        },
+        {
+            "nom": "Daralys",
+            "classe": "Bard",
+            "gearlevel": "1340",
+            "groupe": "1"
+        },
+        {
+            "nom": "Shadowbreacher",
+            "classe": "Paladin",
+            "gearlevel": "1340",
+            "groupe": "Main"
+        },
+        {
+            "nom": "Drevana",
+            "classe": "Shadowhunter",
+            "gearlevel": "1325",
+            "groupe": "2"
+        },
+        {
+            "nom": "Imanyrae",
+            "classe": "Sorceress",
+            "gearlevel": "1325",
+            "groupe": "3"
+        },
+        {
+            "nom": "Jeres",
+            "classe": "Sharpshooter",
+            "gearlevel": "1016",
+            "groupe": "2"
+        },
+        {
+            "nom": "Rooster",
+            "classe": "Rooster",
+            "gearlevel": "168",
+            "groupe": ""
+        }
+    ],
+    "tasks": [],
+    "times": [
+        {
+            "type": "Ile aventure quotidienne",
+            "day": "1",
+            "hour": "21",
+            "minute": "00"
+        },
+        {
+            "type": "Ile aventure quotidienne",
+            "day": "1",
+            "hour": "23",
+            "minute": "00"
+        },
+        {
+            "type": "Ile aventure quotidienne",
+            "day": "2",
+            "hour": "23",
+            "minute": "00"
+        },
+        {
+            "type": "Ile aventure quotidienne",
+            "day": "2",
+            "hour": "21",
+            "minute": "00"
+        },
+        {
+            "type": "Ile aventure quotidienne",
+            "day": "3",
+            "hour": "21",
+            "minute": "00"
+        },
+        {
+            "type": "Ile aventure quotidienne",
+            "day": "3",
+            "hour": "23",
+            "minute": "00"
+        },
+        {
+            "type": "Ile aventure quotidienne",
+            "day": "4",
+            "hour": "23",
+            "minute": "00"
+        },
+        {
+            "type": "Ile aventure quotidienne",
+            "day": "4",
+            "hour": "21",
+            "minute": "00"
+        },
+        {
+            "type": "Ile aventure quotidienne",
+            "day": "5",
+            "hour": "21",
+            "minute": "00"
+        },
+        {
+            "type": "Ile aventure quotidienne",
+            "day": "5",
+            "hour": "23",
+            "minute": "00"
+        },
+        {
+            "type": "Ile aventure quotidienne",
+            "day": "6",
+            "hour": "23",
+            "minute": "00"
+        },
+        {
+            "type": "Ile aventure quotidienne",
+            "day": "6",
+            "hour": "21",
+            "minute": "00"
+        },
+        {
+            "type": "Ile aventure quotidienne",
+            "day": "7",
+            "hour": "21",
+            "minute": "00"
+        },
+        {
+            "type": "Ile aventure quotidienne",
+            "day": "7",
+            "hour": "23",
+            "minute": "00"
+        },
+        {
+            "type": "Vaisseau fantome",
+            "day": "4",
+            "hour": "21",
+            "minute": "00"
+        },
+        {
+            "type": "Porte du chaos",
+            "day": "4",
+            "hour": "17",
+            "minute": "00"
+        },
+        {
+            "type": "Porte du chaos",
+            "day": "4",
+            "hour": "18",
+            "minute": "00"
+        },
+        {
+            "type": "Porte du chaos",
+            "day": "4",
+            "hour": "19",
+            "minute": "00"
+        },
+        {
+            "type": "Porte du chaos",
+            "day": "4",
+            "hour": "20",
+            "minute": "00"
+        },
+        {
+            "type": "Porte du chaos",
+            "day": "4",
+            "hour": "21",
+            "minute": "00"
+        },
+        {
+            "type": "Porte du chaos",
+            "day": "4",
+            "hour": "22",
+            "minute": "00"
+        },
+        {
+            "type": "Porte du chaos",
+            "day": "4",
+            "hour": "23",
+            "minute": "00"
+        },
+        {
+            "type": "Ile aventure weekend",
+            "day": "7",
+            "hour": "13",
+            "minute": "00"
+        },
+        {
+            "type": "Ile aventure weekend",
+            "day": "7",
+            "hour": "15",
+            "minute": "00"
+        },
+        {
+            "type": "Ile aventure weekend",
+            "day": "7",
+            "hour": "17",
+            "minute": "00"
+        },
+        {
+            "type": "Ile aventure weekend",
+            "day": "6",
+            "hour": "17",
+            "minute": "00"
+        },
+        {
+            "type": "Ile aventure weekend",
+            "day": "6",
+            "hour": "15",
+            "minute": "00"
+        },
+        {
+            "type": "Ile aventure weekend",
+            "day": "6",
+            "hour": "13",
+            "minute": "00"
+        },
+        {
+            "type": "Porte du chaos",
+            "day": "7",
+            "hour": "13",
+            "minute": "00"
+        },
+        {
+            "type": "Porte du chaos",
+            "day": "7",
+            "hour": "14",
+            "minute": "00"
+        },
+        {
+            "type": "Porte du chaos",
+            "day": "7",
+            "hour": "15",
+            "minute": "00"
+        },
+        {
+            "type": "Porte du chaos",
+            "day": "7",
+            "hour": "16",
+            "minute": "00"
+        },
+        {
+            "type": "Porte du chaos",
+            "day": "7",
+            "hour": "17",
+            "minute": "00"
+        },
+        {
+            "type": "Porte du chaos",
+            "day": "7",
+            "hour": "18",
+            "minute": "00"
+        },
+        {
+            "type": "Porte du chaos",
+            "day": "7",
+            "hour": "19",
+            "minute": "00"
+        },
+        {
+            "type": "Porte du chaos",
+            "day": "7",
+            "hour": "20",
+            "minute": "00"
+        },
+        {
+            "type": "Porte du chaos",
+            "day": "7",
+            "hour": "21",
+            "minute": "00"
+        },
+        {
+            "type": "Porte du chaos",
+            "day": "7",
+            "hour": "22",
+            "minute": "00"
+        },
+        {
+            "type": "Porte du chaos",
+            "day": "7",
+            "hour": "23",
+            "minute": "00"
+        },
+        {
+            "type": "Boss de terrain",
+            "day": "7",
+            "hour": "13",
+            "minute": "00"
+        },
+        {
+            "type": "Boss de terrain",
+            "day": "7",
+            "hour": "14",
+            "minute": "00"
+        },
+        {
+            "type": "Boss de terrain",
+            "day": "7",
+            "hour": "15",
+            "minute": "00"
+        },
+        {
+            "type": "Boss de terrain",
+            "day": "7",
+            "hour": "16",
+            "minute": "00"
+        },
+        {
+            "type": "Boss de terrain",
+            "day": "7",
+            "hour": "17",
+            "minute": "00"
+        },
+        {
+            "type": "Boss de terrain",
+            "day": "7",
+            "hour": "18",
+            "minute": "00"
+        },
+        {
+            "type": "Boss de terrain",
+            "day": "7",
+            "hour": "19",
+            "minute": "00"
+        },
+        {
+            "type": "Boss de terrain",
+            "day": "7",
+            "hour": "20",
+            "minute": "00"
+        },
+        {
+            "type": "Boss de terrain",
+            "day": "7",
+            "hour": "21",
+            "minute": "00"
+        },
+        {
+            "type": "Boss de terrain",
+            "day": "7",
+            "hour": "22",
+            "minute": "00"
+        },
+        {
+            "type": "Boss de terrain",
+            "day": "7",
+            "hour": "23",
+            "minute": "00"
+        },
+        {
+            "type": "Vaisseau fantome",
+            "day": "4",
+            "hour": "17",
+            "minute": "00"
+        },
+        {
+            "type": "Vaisseau fantome",
+            "day": "4",
+            "hour": "18",
+            "minute": "00"
+        },
+        {
+            "type": "Vaisseau fantome",
+            "day": "4",
+            "hour": "19",
+            "minute": "00"
+        },
+        {
+            "type": "Vaisseau fantome",
+            "day": "4",
+            "hour": "20",
+            "minute": "00"
+        },
+        {
+            "type": "Vaisseau fantome",
+            "day": "4",
+            "hour": "21",
+            "minute": "00"
+        },
+        {
+            "type": "Vaisseau fantome",
+            "day": "4",
+            "hour": "22",
+            "minute": "00"
+        },
+        {
+            "type": "Vaisseau fantome",
+            "day": "4",
+            "hour": "23",
+            "minute": "00"
+        }
+    ],
+    "resetDaily": "15/09/2022",
+    "resetWeekly": "",
+    "groupeEnCours": 2,
+    "counterUna": 3,
+    "counterChaos": 1,
+    "counterRaid": 0,
+    "counterLegion": 1,
+    "progressBarDaily": [
+        {
+            "type": "chaos",
+            "nb": 0,
+            "max": 12,
+            "reset": "Quotidien",
+            "color": "#1562b9"
+        },
+        {
+            "type": "raid",
+            "nb": 0,
+            "max": 4,
+            "reset": "Quotidien",
+            "color": "#a14949"
+        },
+        {
+            "type": "una",
+            "nb": 0,
+            "max": 24,
+            "reset": "Quotidien",
+            "color": "green"
+        },
+        {
+            "type": "legion",
+            "nb": 0,
+            "max": 25,
+            "reset": "Hebdomadaire",
+            "color": "#fd7e14"
+        }
+    ]
+}

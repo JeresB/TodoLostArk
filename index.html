@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Lost Ark Todo</title>
+
+    <link rel="stylesheet" href="lib/fontawesome/css/all.min.css" />
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body class="container-fluid">
+    <div><br></div>
+
+    <!------------------------------------------------------------------------------------------------->
+    <!-- TITRE ---------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+    <section class="d-flex gap-3">
+        <div class="card mb-3 box-shadow-concave text-gray flex-grow-1">
+            <div class="d-flex">
+                <div class="card-body text-center">
+                    LOST ARK
+                </div>
+            </div>
+        </div>
+        <div class="card mb-3 box-shadow-concave text-gray">
+            <div class="d-flex">
+                <a href="caracteres.html" class="link">
+                    <div class="card-body text-center">
+                        <i class="fa-solid fa-gear"></i>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+    <!------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+
+
+
+    <!------------------------------------------------------------------------------------------------->
+    <!-- Section des statistiques --------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+    <section class="d-flex gap-3">
+        <div class="card mb-3 box-shadow-concave text-darkblue flex-grow-1">
+            <div class="d-flex">
+                <div class="card-body text-center">
+                    <h5><i id="counterChaos"></i></h5>
+                    Chaos
+                </div>
+            </div>
+        </div>
+        <div class="card mb-3 box-shadow-concave text-darkred flex-grow-1">
+            <div class="d-flex">
+                <div class="card-body text-center">
+                    <h5><i id="counterRaid"></i></h5>
+                    Raid
+                </div>
+            </div>
+        </div>
+        <div class="card mb-3 box-shadow-concave text-green flex-grow-1">
+            <div class="d-flex">
+                <div class="card-body text-center">
+                    <h5><i id="counterUna"></i></h5>
+                    Una
+                </div>
+            </div>
+        </div>
+        <div class="card mb-3 box-shadow-concave text-orange flex-grow-1">
+            <div class="d-flex">
+                <div class="card-body text-center">
+                    <h5><i id="counterLegion"></i></h5>
+                    Légion
+                </div>
+            </div>
+        </div>
+    </section>
+    <!------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+
+
+
+    <!------------------------------------------------------------------------------------------------->
+    <!-- Section des progress bars -------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+    <section class="d-flex gap-3">
+        <div class="card mb-3 box-shadow-concave text-gray flex-grow-1">
+            <div class="d-flex">
+                <div class="card-body text-center">
+                    <figure class="highcharts-figure">
+                        <div id="container-graphique"></div>
+                    </figure>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+
+
+
+    <!------------------------------------------------------------------------------------------------->
+    <!-- CHOIX IMPORTANCE ----------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+    <section id="choixImportance" class="card mb-3 box-shadow-concave text-gray pointer" data-importance="4">
+        <div class="d-flex">
+            <div id="choixImportanceLibelle" class="card-body text-center">
+                Importance, les raids c'est le challenge
+            </div>
+        </div>
+    </section>
+    <!------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+
+
+
+    <!------------------------------------------------------------------------------------------------->
+    <!-- LISTE TACHES --------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+    <section id="sectionListeTaches"></section>
+    <!------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+
+
+
+    <script type="text/javascript" src="js/jquery-3.6.1.min.js"></script>
+    <script type="text/javascript" src="js/StormDB.min.js"></script>
+    <script type="text/javascript" src="js/BrowserEngine.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    
+    <script type="text/javascript" src="js/moment.js"></script>
+    <script type="text/javascript" src="js/latodo.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+</body>
+
+</html>

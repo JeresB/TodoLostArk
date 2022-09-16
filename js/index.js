@@ -327,6 +327,8 @@ function getTasksFromImportance(importance) {
         });
     });
 
+    console.log(eventTasksDaily)
+
     eventTasksDaily.forEach(function (task) {
         tasks.push(task);
     });

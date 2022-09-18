@@ -76,7 +76,7 @@ function showTasks(importance) {
 
             htmlModalJournee += `
                 <div class="${t.perso}">
-                    <div class="card mb-3 box-shadow-concave text-gray pointer" data-bs-toggle="collapse" data-bs-target="#collapse${t.perso}">
+                    <div class="card mb-3 box-shadow-concave ${p.groupe == db.get("groupeEnCours").value() ? 'text-lightgray' : 'text-gray'} pointer" data-bs-toggle="collapse" data-bs-target="#collapse${t.perso}">
                         <div class="d-flex">
                             <div class="card-body" style="width: 100%;text-align: center;">
                             ${t.perso} - ${p.gearlevel}
@@ -347,7 +347,7 @@ function getTasksFromImportance(importance) {
             // Récupération Weekly Una Task
             || (importance >= 3 && task.type == 'Récupération Una Hebdo' && !task.statut)
             // Other
-            || (importance >= 5 && persosSecondaire.includes(task.perso) && (task.type == 'Donjon du chaos' || task.type.includes('Una') || task.type.includes('guilde')) && !task.statut)
+            || (importance >= 5 && persosSecondaire.includes(task.perso) && (task.type.includes('Una') || task.type.includes('guilde')) && !task.statut)
             // More
             || (importance >= 6 && task.prio < 200 && task.reset != 'Hebdomadaire' && !task.statut)
             // Weekly

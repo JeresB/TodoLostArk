@@ -65,6 +65,11 @@ body {
     font-weight: 700;
 }
 
+.text-lightgray {
+    color: lightgray;
+    font-weight: 700;
+}
+
 .bl-lightblue {
     border-left: 3px solid cornflowerblue;
     font-weight: 700;

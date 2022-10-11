@@ -62,7 +62,7 @@ function showTasks() {
     typesTasks.forEach(function (t) {
         persos.forEach(function (p) {
             let task = infos.tasks.find((task) => task.perso == p.nom && task.nom == t.nom)
-            
+
             if (task) {
                 all.push(task);
             } else {
@@ -74,13 +74,14 @@ function showTasks() {
     j = 0;
 
     all.forEach(function (t, i) {
+
         if ((i % (persosname.length)) == 0) {
             if (i != 0) {
                 tbody += `</tr>`;
             }
-            
+
             tbody += `<tr><th>${infos.typesTasks[j].nom}</th><th>${infos.typesTasks[j].reset}</th><th>${infos.typesTasks[j].type}</th>`;
-            
+
             j++;
         }
 
@@ -88,7 +89,25 @@ function showTasks() {
             let index = getIndexTask(t);
             let color = getColorFromTask(t);
 
-            tbody += `<td class="td-task pointer" data-id="${index}" style="${t.statut ? 'background-color : lightgreen' : 'background-color : lightcoral;color: white;'}">${t.nom}</td>`;
+            if (t.statut) {
+                color = '#8AF38A';
+            }
+
+            console.log(color);
+
+            let r = hexdec(color.substr(1, 2));
+            let g = hexdec(color.substr(3, 2));
+            let b = hexdec(color.substr(5, 2));
+
+            let style = '';
+
+            if (r + g + b > 382) {
+                style = `background-color: ${color};color: black;`;
+            } else {
+                style = `background-color: ${color};color: white;`;
+            }
+
+            tbody += `<td><span class="badge td-task pointer" data-id="${index}" style="${style}">${t.nom}</span></td>`;
         } else {
             tbody += `<td></td>`;
         }
@@ -152,6 +171,11 @@ function showTasks() {
             }
         }
     });
+}
+
+function hexdec(hexString) {
+    hexString = (hexString + '').replace(/[^a-f0-9]/gi, '')
+    return parseInt(hexString, 16)
 }
 
 /**
@@ -245,26 +269,34 @@ function getPersoFromName(nom) {
  * @returns string : color
  */
 function getColorFromTask(task) {
-console.log(task)
+    console.log(task)
     if (task.type.includes('Una')) {
-        return 'bl-green';
+        // return 'bl-green';
+        return '#008000';
     } else if (task.type.includes('chaos')) {
-        return 'bl-darkblue';
+        // return 'bl-darkblue';
+        return '#1562b9';
     } else if (task.type.includes('guilde')) {
-        return 'bl-purple';
+        // return 'bl-purple';
+        return '#7824d8';
     } else if (task.type.includes('gardien')) {
-        return 'bl-darkred';
+        // return 'bl-darkred';
+        return '#a14949';
     } else if (task.type.includes('Procyon') || task.type.includes('Event') || task.type.includes('Evénement')) {
-        return 'bl-orange';
+        // return 'bl-orange';
+        return '#DAA200';
     }
 
     switch (task.reset) {
         case 'Quotidien':
-            return 'bl-red';
+            // return 'bl-red';
+            return '#c77171';
         case 'Hebdomadaire':
-            return 'bl-blue';
+            // return 'bl-blue';
+            return '#779FF8';
         default:
-            return 'bl-gray';
+            // return 'bl-gray';
+            return '#7c7c7c';
     }
 }
 
@@ -393,7 +425,7 @@ function getInfos() {
 
     // console.log(typesTasks)
 
-    return {tasks: tasks, rooster: rooster, persosPrincipaux: persosPrincipaux, persosSecondaire: persosSecondaire, persosTertiaire: persosTertiaire, typesTasks: typesTasks};
+    return { tasks: tasks, rooster: rooster, persosPrincipaux: persosPrincipaux, persosSecondaire: persosSecondaire, persosTertiaire: persosTertiaire, typesTasks: typesTasks };
 }
 
 function showProgressBar() {

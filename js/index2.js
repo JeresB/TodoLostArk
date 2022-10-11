@@ -35,15 +35,15 @@ function showTasks() {
     thead += '<th></th><th></th><th></th>';
 
     r.forEach(function (p) {
-        thead += `<th>${p.nom} - ${p.gearlevel}</th>`;
+        thead += `<th class="text-lightgray">${p.nom} - ${p.gearlevel}</th>`;
     });
 
     pp.forEach(function (p) {
-        thead += `<th>${p.nom} - ${p.gearlevel}</th>`;
+        thead += `<th class="text-lightgray">${p.nom} - ${p.gearlevel}</th>`;
     });
 
     ps.forEach(function (p) {
-        thead += `<th>${p.nom} - ${p.gearlevel}</th>`;
+        thead += `<th class="text-midgray">${p.nom} - ${p.gearlevel}</th>`;
     });
 
     pt.forEach(function (p) {
@@ -103,9 +103,9 @@ function showTasks() {
     $('#sectionTableTaches').html(htmlModalJournee);
 
     $('.datatable').DataTable({
-        dom: 'lfrtipP',
+        dom: 'Plfrtip',
         searchPanes: {
-            layout: 'columns-4'
+            layout: 'columns-2'
         },
         columnDefs: [
             {

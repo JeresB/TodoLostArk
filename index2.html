@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Lost Ark Todo</title>
+
+    <link rel="stylesheet" href="lib/fontawesome/css/all.min.css" />
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<style>
+    .dataTables_filter,
+    .dataTables_paginate {
+        float: right !important;
+    }
+
+    .dtsp-panes,
+    .dtsp-nameCont {
+        color: #7c7c7c !important;
+    }
+
+    .container-progress-bar {
+        margin: 100px auto;
+        /* width: 500px; */
+        text-align: center;
+    }
+
+    .progress {
+        /* flex-grow: 1; */
+        height: 30px;
+        padding: 6px;
+        border-radius: 6px;
+        background: rgba(0, 0, 0, 0.25);
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25), 0 1px rgba(255, 255, 255, 0.08);
+    }
+
+    .progress-bar {
+        height: 18px;
+        border-radius: 4px;
+        background-image:
+            linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.05));
+        transition: 0.4s linear;
+        transition-property: width, background-color;
+    }
+</style>
+
+<body class="container-fluid">
+    <div><br></div>
+
+    <!------------------------------------------------------------------------------------------------->
+    <!-- TITRE ---------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+    <section class="d-flex gap-3">
+        <div class="card mb-3 box-shadow-concave text-gray flex-grow-1">
+            <div class="d-flex">
+                <div class="card-body text-center">
+                    LOST ARK
+                </div>
+            </div>
+        </div>
+        <div class="card mb-3 box-shadow-concave text-gray">
+            <div class="d-flex">
+                <a href="caracteres.html" class="link">
+                    <div class="card-body text-center">
+                        <i class="fa-solid fa-gear"></i>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+    <!------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+
+
+
+    <!------------------------------------------------------------------------------------------------->
+    <!-- Section des statistiques --------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+    <section class="d-flex gap-3">
+        <div class="card mb-3 box-shadow-concave text-darkblue flex-grow-1">
+            <div class="d-flex">
+                <div class="card-body text-center">
+                    <h5><i id="counterChaos"></i></h5>
+                    Chaos
+                </div>
+            </div>
+        </div>
+        <div class="card mb-3 box-shadow-concave text-darkred flex-grow-1">
+            <div class="d-flex">
+                <div class="card-body text-center">
+                    <h5><i id="counterRaid"></i></h5>
+                    Raid
+                </div>
+            </div>
+        </div>
+        <div class="card mb-3 box-shadow-concave text-green flex-grow-1">
+            <div class="d-flex">
+                <div class="card-body text-center">
+                    <h5><i id="counterUna"></i></h5>
+                    Una
+                </div>
+            </div>
+        </div>
+        <div class="card mb-3 box-shadow-concave text-orange flex-grow-1">
+            <div class="d-flex">
+                <div class="card-body text-center">
+                    <h5><i id="counterLegion"></i></h5>
+                    Légion
+                </div>
+            </div>
+        </div>
+    </section>
+    <!------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+
+
+
+    <!------------------------------------------------------------------------------------------------->
+    <!-- Section des progress bars -------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+    <section>
+        <div id="progress-section" style="display: flex;gap: 10px;flex-wrap: no-wrap;"></div>
+    </section>
+    <!------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+
+
+
+    <!------------------------------------------------------------------------------------------------->
+    <!-- TABLE TACHES --------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+    <section id="sectionTableTaches" class="text-gray"></section>
+    <!------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+
+
+
+    <script type="text/javascript" src="js/jquery-3.6.1.min.js"></script>
+    <script type="text/javascript" src="js/StormDB.min.js"></script>
+    <script type="text/javascript" src="js/BrowserEngine.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+    <script type="text/javascript" src="datatables.min.js"></script>
+
+    <script type="text/javascript" src="js/moment.js"></script>
+    <script type="text/javascript" src="js/latodo.js"></script>
+    <script type="text/javascript" src="js/index2.js"></script>
+</body>
+
+</html>

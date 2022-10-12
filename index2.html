@@ -45,8 +45,31 @@
         transition: 0.4s linear;
         transition-property: width, background-color;
     }
+
     .selected>td>div {
         color: white !important;
+    }
+
+    .badge-task {
+        font-family: cursive;
+        font-size: medium;
+    }
+
+    .text-midgray {
+        color: #a7a7a7;
+        font-weight: 700;
+    }
+
+    .done-task {
+        width: 100%;
+        text-decoration: line-through;
+        font-style: italic;
+    }
+
+    .td-task {
+        width: 100%;
+        padding-top: 10px;
+        padding-bottom: 10px;
     }
 </style>
 
@@ -138,6 +161,7 @@
     <!------------------------------------------------------------------------------------------------->
     <!-- TABLE TACHES --------------------------------------------------------------------------------->
     <!------------------------------------------------------------------------------------------------->
+    <section id="sectionRoosterTaches" class="text-gray"></section>
     <section id="sectionTableTaches" class="text-gray"></section>
     <!------------------------------------------------------------------------------------------------->
     <!------------------------------------------------------------------------------------------------->

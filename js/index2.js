@@ -7,8 +7,11 @@ $(document).ready(function () {
 
 $(document).on('click', '.td-task', function () {
     checkTask($(this).data('id'));
-    $(this).css('background-color', 'lightgreen')
-    $(this).css('color', '#7c7c7c')
+    $(this).addClass('done-task');
+    $(this).removeClass('td-task');
+    $(this).removeClass('pointer');
+    $(this).css('background-color', '');
+    $(this).css('color', '');
 });
 
 /**
@@ -22,6 +25,7 @@ function showTasks() {
     let persos = [];
     let persosname = [];
     let all = [];
+    let allr = [];
 
     let r = infos.rooster;
     let pp = infos.persosPrincipaux;
@@ -35,7 +39,7 @@ function showTasks() {
     thead += '<th></th><th></th><th></th>';
 
     r.forEach(function (p) {
-        thead += `<th class="text-lightgray">${p.nom} - ${p.gearlevel}</th>`;
+        // thead += `<th class="text-lightgray">${p.nom} - ${p.gearlevel}</th>`;
     });
 
     pp.forEach(function (p) {
@@ -50,7 +54,7 @@ function showTasks() {
         thead += `<th>${p.nom} - ${p.gearlevel}</th>`;
     });
 
-    persos = r.concat(pp, ps, pt);
+    persos = pp.concat(ps, pt);
 
     persos.forEach(function (p) {
         persosname.push(p.nom);
@@ -71,6 +75,39 @@ function showTasks() {
         });
     });
 
+    infos.tasks.forEach(function (t) {
+        // let task = infos.tasks.find((task) => task.perso == p.nom)
+
+        if (t.perso == r[0].nom) {
+            allr.push(t);
+        }
+    });
+
+    trooster = '<div class="card mb-3 box-shadow-concave" style="padding: 10px;"><table class="table table-bordered table-dark text-gray" style="width: 100% !important;"><tbody><tr><th>Rooster</th>';
+
+    allr.forEach(function (t, i) {
+        let index = getIndexTask(t);
+        let color = getColorFromTask(t);
+
+        if (!t.statut) {
+            let r = hexdec(color.substr(1, 2));
+            let g = hexdec(color.substr(3, 2));
+            let b = hexdec(color.substr(5, 2));
+    
+            let style = '';
+    
+            if (r + g + b > 382) {
+                style = `background-color: ${color};color: black;`;
+            } else {
+                style = `background-color: ${color};color: white;`;
+            }
+    
+            trooster += `<td><span class="badge badge-task ${t.statut ? '' : 'td-task pointer'}" data-id="${index}" style="${style}">${t.nom}</span></td>`;
+        }
+    });
+
+    trooster += '</tr></tbody></table></div>';
+
     j = 0;
 
     all.forEach(function (t, i) {
@@ -88,26 +125,21 @@ function showTasks() {
         if (typeof t === 'object') {
             let index = getIndexTask(t);
             let color = getColorFromTask(t);
-
-            if (t.statut) {
-                color = '#8AF38A';
-            }
-
-            console.log(color);
-
-            let r = hexdec(color.substr(1, 2));
-            let g = hexdec(color.substr(3, 2));
-            let b = hexdec(color.substr(5, 2));
-
             let style = '';
 
-            if (r + g + b > 382) {
-                style = `background-color: ${color};color: black;`;
-            } else {
-                style = `background-color: ${color};color: white;`;
+            if (!t.statut) {
+                let r = hexdec(color.substr(1, 2));
+                let g = hexdec(color.substr(3, 2));
+                let b = hexdec(color.substr(5, 2));
+    
+                if (r + g + b > 382) {
+                    style = `background-color: ${color};color: black;`;
+                } else {
+                    style = `background-color: ${color};color: white;`;
+                }
             }
 
-            tbody += `<td><span class="badge td-task pointer" data-id="${index}" style="${style}">${t.nom}</span></td>`;
+            tbody += `<td><span class="badge badge-task ${t.statut ? 'done-task' : 'td-task pointer'}" data-id="${index}" style="${style}">${t.nom}</span></td>`;
         } else {
             tbody += `<td></td>`;
         }
@@ -119,6 +151,7 @@ function showTasks() {
     htmlModalJournee += tbody;
     htmlModalJournee += '</table></div>';
 
+    $('#sectionRoosterTaches').html(trooster);
     $('#sectionTableTaches').html(htmlModalJournee);
 
     $('.datatable').DataTable({
@@ -142,7 +175,7 @@ function showTasks() {
                 searchPanes: {
                     show: false
                 },
-                targets: [0, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+                targets: [0, 3, 4, 5, 6, 7, 8, 9, 10]
             }
         ],
         stateSave: false,
@@ -417,7 +450,7 @@ function getInfos() {
     });
 
     db.get("tasks").value().forEach(function (task) {
-        if (!typesTasksName.includes(task.nom)) {
+        if (!typesTasksName.includes(task.nom) && task.perso != 'Rooster') {
             typesTasksName.push(task.nom);
             typesTasks.push(task);
         }

@@ -175,7 +175,7 @@ function showTasks() {
                 searchPanes: {
                     show: false
                 },
-                targets: [0, 3, 4, 5, 6, 7, 8, 9, 10]
+                targets: [0, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
             }
         ],
         stateSave: false,

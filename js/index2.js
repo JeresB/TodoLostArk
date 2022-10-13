@@ -78,9 +78,28 @@ function showTasks() {
     infos.tasks.forEach(function (t) {
         // let task = infos.tasks.find((task) => task.perso == p.nom)
 
-        if (t.perso == r[0].nom) {
+        if (t.perso == r[0].nom && t.opening == '') {
             allr.push(t);
         }
+    });
+
+    let eventTasks = getEventTask();
+    let eventTasksDaily = [];
+    
+    eventTasks.forEach(function (task) {
+        db.get("times").value().forEach(function (time) {
+            if (task.opening == time.type) {
+                if (moment().isoWeekday() == time.day && !task.statut) {
+                    if (!eventTasksDaily.some(t => t.nom === task.nom)) {
+                        eventTasksDaily.push(task);
+                    }
+                }
+            }
+        });
+    });
+
+    eventTasksDaily.forEach(function (task) {
+        allr.push(task);
     });
 
     trooster = '<div class="card mb-3 box-shadow-concave" style="padding: 10px;"><table class="table table-bordered table-dark text-gray" style="width: 100% !important;"><tbody><tr><th>Rooster</th>';

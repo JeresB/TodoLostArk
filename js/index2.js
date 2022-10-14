@@ -180,7 +180,7 @@ function showTasks() {
         },
         columnDefs: [
             {
-                target: [1, 2],
+                target: [0, 1, 2],
                 visible: false,
                 searchable: true,
             },

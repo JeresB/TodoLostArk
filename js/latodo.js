@@ -19,7 +19,7 @@ $(document).ready(function () {
 });
 
 function resetQuotidien() {
-    if (db.get('resetDaily').value() != moment().format('DD/MM/YYYY') && moment().format("HH") > 11) {
+    if (db.get('resetDaily').value() != moment().format('DD/MM/YYYY') && moment().format("HH") > 10) {
         db.get('resetDaily').set(moment().format('DD/MM/YYYY'));
         db.save();
 
@@ -95,7 +95,7 @@ function forceResetQuotidien() {
 }
 
 function resetHebdomadaire() {
-    if (db.get('resetWeekly').value() != moment().format('DD/MM/YYYY') && moment().format('E') == 3) {
+    if (db.get('resetWeekly').value() != moment().format('DD/MM/YYYY') && moment().format('E') == 3 && moment().format("HH") > 10) {
         db.get('resetWeekly').set(moment().format('DD/MM/YYYY'));
         db.save();
 

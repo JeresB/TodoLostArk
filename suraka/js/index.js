@@ -59,7 +59,7 @@ function showTaches() {
             });
         }
         
-        console.log(task);
+        // console.log(task);
 
         let r = hexdec(task.color.substr(1, 2));
         let g = hexdec(task.color.substr(3, 2));
@@ -102,8 +102,14 @@ function showTaches() {
                 body += `<td colspan="${nbperso}" class="text-gray"></td>`;
             } else {
                 checklist = findChecklistByIndex(indexchecklist);
+
+                // console.log(task, checklist, findTimeForTask(task), task.opening.length);
                 
-                if (checklist.done >= task.repetition) {
+                if (!checklist.tracking) {
+                    body += `<td colspan="${nbperso}" class="text-gray"></td>`;
+                } else if (task.opening.length > 0 && !findTimeForTask(task)) {
+                    body += `<td colspan="${nbperso}" class="text-gray"><span class="badge badge-color done-task">Pas aujourd'hui</span></td>`;
+                } if (checklist.done >= task.repetition) {
                     body += `<td colspan="${nbperso}" class="text-gray"><span class="badge badge-color done-task">Done</span></td>`;
                 } else {
                     body += `<td colspan="${nbperso}" class="text-gray"><span class="badge badge-color pointer updateChecklist" data-index="${indexchecklist}" data-champ="done" data-rep="${task.repetition}" data-type="${task.type}" style="${style}">${checklist.done} / ${task.repetition}</span></td>`;
@@ -147,7 +153,7 @@ function showProgressBar() {
 }
 
 function rangeSlide(value) {
-    console.log(value);
+    // console.log(value);
     // document.getElementById('rangeValue').innerHTML = value;
 
     $('.tdborder-task').removeClass('selected-border');
@@ -163,7 +169,7 @@ function rangeSlide(value) {
 }
 
 function incrementeCounter(type) {
-    console.log(type)
+    // console.log(type)
     switch (type) {
         case 'chaos':
             counter = 'counterChaos';
@@ -214,4 +220,16 @@ function incrementerProgressBar(type) {
     }
 
     showProgressBar();
+}
+
+function findTimeForTask(task) {
+    let result = false;
+    
+    db.get("horaires").value().forEach(function (time, i) {
+        if (time.type == task.opening && moment().isoWeekday() == time.day) {
+            result = true;
+        }
+    });
+
+    return result;
 }

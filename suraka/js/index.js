@@ -109,7 +109,7 @@ function showTaches() {
                     body += `<td colspan="${nbperso}" class="text-gray"></td>`;
                 } else if (task.opening.length > 0 && !findTimeForTask(task)) {
                     body += `<td colspan="${nbperso}" class="text-gray"><span class="badge badge-color done-task">Pas aujourd'hui</span></td>`;
-                } if (checklist.done >= task.repetition) {
+                } else if (checklist.done >= task.repetition) {
                     body += `<td colspan="${nbperso}" class="text-gray"><span class="badge badge-color done-task">Done</span></td>`;
                 } else {
                     body += `<td colspan="${nbperso}" class="text-gray"><span class="badge badge-color pointer updateChecklist" data-index="${indexchecklist}" data-champ="done" data-rep="${task.repetition}" data-type="${task.type}" style="${style}">${checklist.done} / ${task.repetition}</span></td>`;

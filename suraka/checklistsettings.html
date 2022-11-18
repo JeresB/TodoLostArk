@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Lost Ark Todo</title>
+
+    <link rel="stylesheet" href="../lib/fontawesome/css/all.min.css" />
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.datatables.net/v/bs5/jq-3.6.0/dt-1.12.1/datatables.min.css" />
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.datatables.net/searchpanes/2.0.2/css/searchPanes.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.datatables.net/select/1.4.0/css/select.dataTables.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body class="container-fluid">
+    <div><br></div>
+
+    <!------------------------------------------------------------------------------------------------->
+    <!-- TITRE ---------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+    <div class="card mb-3 box-shadow-concave text-gray">
+        <div class="d-flex">
+            <div class="card-body text-center">
+                LOST ARK
+            </div>
+        </div>
+    </div>
+    <!------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+
+
+
+    <!------------------------------------------------------------------------------------------------->
+    <!-- MENU ---------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+    <section class="d-flex gap-3">
+        <div class="card mb-3 box-shadow-concave text-gray flex-grow-1">
+            <div class="d-flex">
+                <a href="index.html" class="link">
+                    <div class="card-body text-center">
+                        Vue globale
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="card mb-3 box-shadow-concave text-gray flex-grow-1">
+            <div class="d-flex">
+                <a href="perso.html" class="link">
+                    <div class="card-body text-center">
+                        Rooster
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="card mb-3 box-shadow-concave text-gray flex-grow-1">
+            <div class="d-flex">
+                <a href="taches.html" class="link">
+                    <div class="card-body text-center">
+                        T&acirc;ches
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="card mb-3 box-shadow-concave text-gray flex-grow-1">
+            <div class="d-flex">
+                <a href="checklistsettings.html" class="link">
+                    <div class="card-body text-center">
+                        Checklist settings
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="card mb-3 box-shadow-concave text-gray flex-grow-1">
+            <div class="d-flex">
+                <a href="horaires.html" class="link">
+                    <div class="card-body text-center">
+                        Horaires
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+    <!------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+
+
+
+    <!------------------------------------------------------------------------------------------------->
+    <!-- Section des settings de la checklist sauvegardées -------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+    <section>
+        <div id="sectionChecklistRest" class="card mb-3 box-shadow-concave text-gray" style="padding: 10px;"></div>
+    </section>
+    <section>
+        <div id="sectionChecklistTracking" class="card mb-3 box-shadow-concave text-gray" style="padding: 10px;"></div>
+    </section>
+    <section>
+        <div id="sectionChecklistPrio" class="card mb-3 box-shadow-concave text-gray" style="padding: 10px;"></div>
+    </section>
+    <!------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+
+
+
+    <script type="text/javascript" src="js/jquery-3.6.1.min.js"></script>
+    <script type="text/javascript" src="js/StormDB.min.js"></script>
+    <script type="text/javascript" src="js/BrowserEngine.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="js/datatables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/searchpanes/2.0.2/js/dataTables.searchPanes.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/select/1.4.0/js/dataTables.select.min.js"></script>
+    <script type="text/javascript" src="js/moment.js"></script>
+    <script type="text/javascript" src="js/latodo.js"></script>
+    <script type="text/javascript" src="js/checklistsettings.js"></script>
+
+    <script>
+        // Affichage des tâches
+        showChecklistRest();
+        showChecklistTracking();
+        showChecklistPrio();
+    </script>
+</body>
+
+</html>

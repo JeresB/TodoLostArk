@@ -1,0 +1,253 @@
+body {
+    background-color: #272727 !important;
+}
+
+.box-shadow-concave {
+    border-radius: 5px !important;
+    background: linear-gradient(145deg, #232323, #2a2a2a) !important;
+    box-shadow: 5px 5px 6px #1e1e1e,
+        -5px -5px 6px #303030 !important;
+}
+
+.box-shadow-task {
+    border-radius: 100px !important;
+    background: #272727 !important;
+    /* box-shadow: 5px 5px 4px #181818,
+        -5px -5px 4px #363636 !important; */
+}
+
+.divtask {
+    margin: 6px!important;
+}
+
+.text-lightblue {
+    color: cornflowerblue;
+    font-weight: 700;
+}
+
+.text-darkmagenta {
+    color: #ca65e3;
+    font-weight: 700;
+}
+
+.text-green {
+    color: green;
+    font-weight: 700;
+}
+
+.text-blue {
+    color: #779FF8;
+    font-weight: 700;
+}
+
+.text-darkblue {
+    color: #1562b9;
+    font-weight: 700;
+}
+
+.text-purple {
+    color: #7824d8;
+    font-weight: 700;
+}
+
+.text-red {
+    color: #c77171;
+    font-weight: 700;
+}
+
+.text-darkred {
+    color: #a14949;
+    font-weight: 700;
+}
+
+.text-orange {
+    color: #DAA200;
+    font-weight: 700;
+}
+
+.text-lightgray {
+    color: lightgray;
+    font-weight: 700;
+}
+
+.bl-lightblue {
+    border-left: 3px solid cornflowerblue;
+    font-weight: 700;
+}
+
+.bl-darkmagenta {
+    border-left: 3px solid #ca65e3;
+    font-weight: 700;
+}
+
+.bl-green {
+    border-left: 3px solid green;
+    font-weight: 700;
+}
+
+.bl-blue {
+    border-left: 3px solid #779FF8;
+    font-weight: 700;
+}
+
+.bl-darkblue {
+    border-left: 3px solid #1562b9;
+    font-weight: 700;
+}
+
+.bl-purple {
+    border-left: 3px solid #7824d8;
+    font-weight: 700;
+}
+
+.bl-red {
+    border-left: 3px solid #c77171;
+    font-weight: 700;
+}
+
+.bl-darkred {
+    border-left: 3px solid #a14949;
+    font-weight: 700;
+}
+
+.bl-orange {
+    border-left: 3px solid #DAA200;
+    font-weight: 700;
+}
+
+.bl-gray {
+    border-left: 3px solid #7c7c7c;
+    font-weight: 700;
+}
+
+.box-shadow-inset {
+    border-radius: 5px;
+    background: #272727;
+    color: #fff;
+    box-shadow: inset 12px 12px 22px #191919,
+        inset -12px -12px 22px #353535;
+    border: none;
+}
+
+.box-shadow-inset:focus {
+    border-radius: 5px;
+    color: #fff;
+    background: #454545;
+    box-shadow: inset 12px 12px 22px #2b2b2b,
+        inset -12px -12px 22px #5f5f5f;
+    border: none;
+}
+
+.text-gray {
+    color: #7c7c7c;
+    font-weight: 700;
+}
+
+.link {
+    color: #7c7c7c;
+    width: 100%;
+    text-decoration: none;
+}
+
+.link:hover {
+    color: #d8d8d8;
+}
+
+.list-group-item {
+    background-color: #272727 !important;
+    color: #7c7c7c;
+    font-weight: 700;
+    border: 1px solid #7c7c7c;
+}
+
+.w-100 {
+    width: 100% !important;
+}
+
+table {
+    border-color: gray !important;
+}
+
+.dtsp-subRowsContainer {
+    display: none !important;
+}
+
+.dataTables_scrollBody {
+    background: #272727 !important;
+    color: #7c7c7c !important;
+}
+
+div.dtsp-panesContainer div.dataTables_wrapper div.dataTables_scrollBody {
+    border-color: gray !important;
+    background: #272727 !important;
+    color: #7c7c7c !important;
+}
+
+div.dtsp-panesContainer div.dtsp-searchPanes div.dtsp-searchPane div.dataTables_wrapper {
+    border: none !important;
+}
+
+.dtsp-titleRow button {
+    color: gray !important;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+
+
+/* ------------------------------------------------------------------------ */
+/* ------------------------------------------------------------------------ */
+/* ------------------------------------------------------------------------ */
+#container-graphique {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.highcharts-figure,
+.highcharts-data-table table {
+    min-width: 380px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.highcharts-data-table table {
+    font-family: Verdana, sans-serif;
+    border-collapse: collapse;
+    border: 1px solid #ebebeb;
+    margin: 10px auto;
+    text-align: center;
+    width: 100%;
+    max-width: 500px;
+}
+
+.highcharts-data-table caption {
+    padding: 1em 0;
+    font-size: 1.2em;
+    color: #555;
+}
+
+.highcharts-data-table th {
+    font-weight: 600;
+    padding: 0.5em;
+}
+
+.highcharts-data-table td,
+.highcharts-data-table th,
+.highcharts-data-table caption {
+    padding: 0.5em;
+}
+
+.highcharts-data-table thead tr,
+.highcharts-data-table tr:nth-child(even) {
+    background: #f8f8f8;
+}
+
+.highcharts-data-table tr:hover {
+    background: #f1f7ff;
+}
+
+/* ------------------------------------------------------------------------ */
+/* ------------------------------------------------------------------------ */
+/* ------------------------------------------------------------------------ */

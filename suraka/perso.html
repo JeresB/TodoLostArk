@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Lost Ark Todo</title>
+
+    <link rel="stylesheet" href="../lib/fontawesome/css/all.min.css" />
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.datatables.net/v/bs5/jq-3.6.0/dt-1.12.1/datatables.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body class="container">
+    <div><br></div>
+
+    <!------------------------------------------------------------------------------------------------->
+    <!-- TITRE ---------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+    <div class="card mb-3 box-shadow-concave text-gray">
+        <div class="d-flex">
+            <div class="card-body text-center">
+                LOST ARK
+            </div>
+        </div>
+    </div>
+    <!------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+
+
+
+    <!------------------------------------------------------------------------------------------------->
+    <!-- MENU ---------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+    <section class="d-flex gap-3">
+        <div class="card mb-3 box-shadow-concave text-gray flex-grow-1">
+            <div class="d-flex">
+                <a href="index.html" class="link">
+                    <div class="card-body text-center">
+                        Vue globale
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="card mb-3 box-shadow-concave text-gray flex-grow-1">
+            <div class="d-flex">
+                <a href="perso.html" class="link">
+                    <div class="card-body text-center">
+                        Rooster
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="card mb-3 box-shadow-concave text-gray flex-grow-1">
+            <div class="d-flex">
+                <a href="taches.html" class="link">
+                    <div class="card-body text-center">
+                        T&acirc;ches
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="card mb-3 box-shadow-concave text-gray flex-grow-1">
+            <div class="d-flex">
+                <a href="checklistsettings.html" class="link">
+                    <div class="card-body text-center">
+                        Checklist settings
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="card mb-3 box-shadow-concave text-gray flex-grow-1">
+            <div class="d-flex">
+                <a href="horaires.html" class="link">
+                    <div class="card-body text-center">
+                        Horaires
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+    <!------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+
+
+
+    <!------------------------------------------------------------------------------------------------->
+    <!-- Section d'ajout d'un caractère --------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+    <section>
+        <div class="card mb-3 box-shadow-concave text-gray">
+            <div class="d-flex">
+                <div class="card-body text-center">
+                    AJOUTER UN CARACTERE
+                </div>
+            </div>
+
+            <div class="card-body d-flex gap-3">
+                <input class="form-control box-shadow-inset" type="text" id="nom" placeholder="Nom">
+                <input class="form-control box-shadow-inset" list="listclasses" id="classe" placeholder="Classe">
+                <input class="form-control box-shadow-inset" type="number" id="gearlevel" placeholder="Niveau d'&eacute;quipement">
+                <input class="form-control box-shadow-inset" type="text" id="icone" placeholder="Icone">
+                <input class="form-control box-shadow-inset" list="listgroupes" id="groupe" placeholder="Rotation">
+                <button class="btn btn-secondary" id="ajoutCaractere"><i class="fa-solid fa-plus"></i></button>
+            </div>
+        </div>
+    </section>
+    <!------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+
+
+
+    <!------------------------------------------------------------------------------------------------->
+    <!-- Section des caractères sauvegardés ----------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+    <section>
+        <div id="sectionCaracteres" class="card mb-3 box-shadow-concave text-gray" style="padding: 10px;"></div>
+    </section>
+    <!------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+
+
+
+    <!------------------------------------------------------------------------------------------------->
+    <!-- EXPORT / IMPORT ----------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+    <div class="card mb-3 box-shadow-concave text-gray">
+        <div class="d-flex">
+            <div class="card-body text-center">
+                <h5>IMPORT / EXPORT</h5>
+                <div class="d-flex gap-3">
+                    <input class="form-control" type="file" id="importFile">
+                    <button id="btnExportJson" class="btn btn-secondary">Export</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+
+
+
+    <!------------------------------------------------------------------------------------------------->
+    <!-- Définitions des listes ----------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+    <datalist id="listclasses">
+        <option value="Rooster">
+        <option value="Berserker">
+        <option value="Paladin">
+        <option value="Pistolancier - Gunlancer">
+        <option value="Ravageur - Destroyer">
+        <option value="Essentialiste - Striker">
+        <option value="Elémentaliste - Wardancer">
+        <option value="Pugiliste - Scrapper">
+        <option value="Spirite - Soulfist">
+        <option value="Lancière - Glavier">
+        <option value="Fusilière - Gunslinger">
+        <option value="Artilleur - Artillerist">
+        <option value="Franc-tireur - Deadeye">
+        <option value="Sagittaire - Sharpshooter">
+        <option value="Barde - Bard">
+        <option value="Sorcière - Sorceress">
+        <option value="Arcaniste - Arcana">
+        <option value="Démoniste - Shadowhunter">
+        <option value="Sanguelame - Deathblade">
+        <option value="Reaper">
+    </datalist>
+
+    <datalist id="listgroupes">
+        <option value="Main">
+        <option value="1">
+        <option value="2">
+        <option value="3">
+        <option value="4">
+    </datalist>
+
+    <!------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+
+
+
+    <script type="text/javascript" src="js/jquery-3.6.1.min.js"></script>
+    <script type="text/javascript" src="js/StormDB.min.js"></script>
+    <script type="text/javascript" src="js/BrowserEngine.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="js/datatables.min.js"></script>
+    <script type="text/javascript" src="js/moment.js"></script>
+    <script type="text/javascript" src="js/latodo.js"></script>
+    <script type="text/javascript" src="js/caractere.js"></script>
+</body>
+
+</html>

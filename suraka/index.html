@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Lost Ark Todo</title>
+
+    <link rel="stylesheet" href="../lib/fontawesome/css/all.min.css" />
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/searchpanes/2.0.2/css/searchPanes.dataTables.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/select/1.4.0/css/select.dataTables.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<style>
+    .dataTables_filter,
+    .dataTables_paginate {
+        float: right !important;
+    }
+
+    .dtsp-panes,
+    .dtsp-nameCont {
+        color: #7c7c7c !important;
+    }
+
+    .container-progress-bar {
+        margin: 100px auto;
+        /* width: 500px; */
+        text-align: center;
+    }
+
+    .progress {
+        /* flex-grow: 1; */
+        height: 30px;
+        padding: 6px;
+        border-radius: 6px;
+        background: rgba(0, 0, 0, 0.25);
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25), 0 1px rgba(255, 255, 255, 0.08);
+    }
+
+    .progress-bar {
+        height: 18px;
+        border-radius: 4px;
+        background-image:
+            linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.05));
+        transition: 0.4s linear;
+        transition-property: width, background-color;
+    }
+
+    .selected>td>div {
+        color: white !important;
+    }
+
+    .badge-task {
+        font-family: cursive;
+        font-size: medium;
+    }
+
+    .badge-color {
+        font-family: cursive;
+        font-size: medium;
+        width: 100%;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    .text-midgray {
+        color: #a7a7a7;
+        font-weight: 700;
+    }
+
+    .done-task {
+        width: 100%;
+        text-decoration: line-through;
+        font-style: italic;
+    }
+
+    .td-task {
+        /* width: 100%; */
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    .range {
+        width: 50%;
+        height: 15px;
+        -webkit-appearance: none;
+        background: #111;
+        outline: none;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: inset 0 0 5px rgba(0, 0, 0, 1);
+    }
+
+    .range::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        background: #1562b9;
+        cursor: pointer;
+        border: 4px solid #333;
+        box-shadow: -1207px 0 0 1200px #1562b9;
+    }
+
+    .selected-border {
+        /* border: 3px dashed #CA0B00 !important; */
+        border: 3px dashed black !important;
+    }
+</style>
+
+<body class="container-fluid">
+    <div><br></div>
+
+    <!------------------------------------------------------------------------------------------------->
+    <!-- TITRE ---------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+    <section class="d-flex gap-3">
+        <div class="card mb-3 box-shadow-concave text-gray flex-grow-1">
+            <div class="d-flex">
+                <div class="card-body text-center">
+                    LOST ARK
+                </div>
+            </div>
+        </div>
+        <div class="card mb-3 box-shadow-concave text-gray">
+            <div class="d-flex">
+                <a href="perso.html" class="link">
+                    <div class="card-body text-center">
+                        <i class="fa-solid fa-gear"></i>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+    <!------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+
+
+
+    <!------------------------------------------------------------------------------------------------->
+    <!-- Section des statistiques --------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+    <section class="d-flex gap-3">
+        <div class="card mb-3 box-shadow-concave text-darkblue flex-grow-1">
+            <div class="d-flex">
+                <div class="card-body text-center">
+                    <h5><i id="counterChaos"></i></h5>
+                    Chaos
+                    <div><br></div>
+                    <div id="progresschaos" class="progress progress-moved"></div>
+                </div>
+            </div>
+        </div>
+        <div class="card mb-3 box-shadow-concave text-darkred flex-grow-1">
+            <div class="d-flex">
+                <div class="card-body text-center">
+                    <h5><i id="counterRaid"></i></h5>
+                    Raid
+                    <div><br></div>
+                    <div id="progressraid" class="progress progress-moved"></div>
+                </div>
+            </div>
+        </div>
+        <div class="card mb-3 box-shadow-concave text-green flex-grow-1">
+            <div class="d-flex">
+                <div class="card-body text-center">
+                    <h5><i id="counterUna"></i></h5>
+                    Una
+                    <div><br></div>
+                    <div id="progressuna" class="progress progress-moved"></div>
+                </div>
+            </div>
+        </div>
+        <div class="card mb-3 box-shadow-concave text-orange flex-grow-1">
+            <div class="d-flex">
+                <div class="card-body text-center">
+                    <h5><i id="counterLegion"></i></h5>
+                    Légion
+                    <div><br></div>
+                    <div id="progresslegion" class="progress progress-moved"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+
+
+
+    <!------------------------------------------------------------------------------------------------->
+    <!-- TABLE TACHES --------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+    <section id="sectionTaches" class="text-gray card p-3 box-shadow-concave"></section>
+
+    <section class="d-flex text-gray m-4" style="justify-content: center;">
+        <input class="range" type="range" name="" value="0" min="0" max="100" onChange="rangeSlide(this.value)" onmousemove="rangeSlide(this.value)"></input>
+    </section>
+    <!------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------->
+
+
+
+    <script type="text/javascript" src="js/jquery-3.6.1.min.js"></script>
+    <script type="text/javascript" src="js/StormDB.min.js"></script>
+    <script type="text/javascript" src="js/BrowserEngine.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+    <script type="text/javascript" src="js/datatables.min.js"></script>
+
+    <script type="text/javascript" src="js/moment.js"></script>
+    <script type="text/javascript" src="js/latodo.js"></script>
+    <script type="text/javascript" src="js/checklistsettings.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+</body>
+
+</html>

@@ -47,7 +47,7 @@ function showTaches() {
 
     let tasks = db.get("taches").value();
 
-    tasks.sort((a, b) => b.reset.localeCompare(a.reset) || a.scope.localeCompare(b.scope) || a.ordre.localeCompare(b.ordre) || a.nom.localeCompare(b.nom));
+    tasks.sort((a, b) => b.reset.localeCompare(a.reset) || a.scope.localeCompare(b.scope) || a.ordre - b.ordre || a.nom.localeCompare(b.nom));
 
     tasks.forEach((task, i) => {
         

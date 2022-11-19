@@ -11,6 +11,7 @@ $('#ajoutTask').on('click', function () {
     let icone = $('#icone').val();
     let scope = $('#scope').val();
     let repetition = $('#repetition').val();
+    let ordre = $('#ordre').val();
     let minilevel = $('#minilevel').val();
     let maxilevel = $('#maxilevel').val();
     let reset = $('#reset').val();
@@ -24,6 +25,7 @@ $('#ajoutTask').on('click', function () {
         'icone': icone,
         'scope': scope,
         'repetition': repetition,
+        'ordre': ordre,
         'minilevel': minilevel,
         'maxilevel': maxilevel,
         'reset': reset,
@@ -97,6 +99,7 @@ function showTasks() {
                         <th class="text-gray" scope="col">Icone</th>
                         <th class="text-gray" scope="col">Scope</th>
                         <th class="text-gray" scope="col">Repetition</th>
+                        <th class="text-gray" scope="col">Ordre</th>
                         <th class="text-gray" scope="col">Min iLevel</th>
                         <th class="text-gray" scope="col">Max iLevel</th>
                         <th class="text-gray" scope="col">Reset</th>
@@ -110,6 +113,7 @@ function showTasks() {
                         <th class="text-gray" scope="col">hiddenicone</th>
                         <th class="text-gray" scope="col">hiddenscope</th>
                         <th class="text-gray" scope="col">hiddenrepetition</th>
+                        <th class="text-gray" scope="col">hiddenordre</th>
                         <th class="text-gray" scope="col">hiddenminilevel</th>
                         <th class="text-gray" scope="col">hiddenmaxilevel</th>
                         <th class="text-gray" scope="col">hiddenreset</th>
@@ -138,6 +142,7 @@ function showTasks() {
                 <td><input class="form-control box-shadow-inset updateTask" type="text" data-index="${index}" data-champ="icone" value="${task.icone}" /></td>
                 <td><input class="form-control box-shadow-inset updateTask" list="listscope" data-index="${index}" data-champ="scope" value="${task.scope}" /></td>
                 <td><input class="form-control box-shadow-inset updateTask" type="number" data-index="${index}" data-champ="repetition" value="${task.repetition}" /></td>
+                <td><input class="form-control box-shadow-inset updateTask" type="number" data-index="${index}" data-champ="ordre" value="${task.ordre}" /></td>
                 <td><input class="form-control box-shadow-inset updateTask" type="number" data-index="${index}" data-champ="minilevel" value="${task.minilevel}" /></td>
                 <td><input class="form-control box-shadow-inset updateTask" type="number" data-index="${index}" data-champ="maxilevel" value="${task.maxilevel}" /></td>
                 <td><input class="form-control box-shadow-inset updateTask" list="listreset" data-index="${index}" data-champ="reset" value="${task.reset}" /></td>
@@ -155,6 +160,7 @@ function showTasks() {
                 <td>${task.icone}</td>
                 <td>${task.scope}</td>
                 <td>${task.repetition}</td>
+                <td>${task.ordre}</td>
                 <td>${task.minilevel}</td>
                 <td>${task.maxilevel}</td>
                 <td>${task.reset}</td>
@@ -171,7 +177,7 @@ function showTasks() {
         dom: 'Plfrtip',
         columnDefs: [
             {
-                targets: [13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23],
+                targets: [14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25],
                 visible: false,
                 searchable: true
             }

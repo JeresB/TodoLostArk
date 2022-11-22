@@ -104,7 +104,10 @@
 
     .selected-border {
         /* border: 3px dashed #CA0B00 !important; */
-        border: 3px dashed black !important;
+        /* border: 3px dashed black !important; */
+        border-color: white;
+        outline: 0;
+        box-shadow: 0 0 0 0.25rem white;
     }
 
     .updateChecklist {
@@ -199,7 +202,7 @@
     <section id="sectionTaches" class="text-gray card p-3 box-shadow-concave"></section>
 
     <section class="d-flex text-gray m-4" style="justify-content: center;">
-        <input class="range" type="range" name="" value="0" min="0" max="100" onChange="rangeSlide(this.value)" onmousemove="rangeSlide(this.value)"></input>
+        <input class="range" type="range" name="" value="1" min="1" max="15" onChange="rangeSlide(this.value)" onmousemove="rangeSlide(this.value)"></input>
     </section>
     <!------------------------------------------------------------------------------------------------->
     <!------------------------------------------------------------------------------------------------->

@@ -1,6 +1,3 @@
-// TODO
-// Reset quotidien hebdo -> gerer le repos
-
 $(document).ready(function () {
     showCounter();
     showProgressBar();

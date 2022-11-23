@@ -1,11 +1,10 @@
 const engine = new BrowserEngine("db");
 const db = new StormDB(engine);
 
-jQuery(function() {
-    if (db.get("personnages").value() === undefined) db.set("personnages", []).save();
-    if (db.get("taches").value() === undefined) db.set("taches", []).save();
-    if (db.get("checklist").value() === undefined) db.set("checklist", []).save();
-    if (db.get("horaires").value() === undefined) db.set("horaires", []).save();
+$(document).ready(function () {
+    if (db.get("persos").value() === undefined) db.set("persos", []).save();
+    if (db.get("tasks").value() === undefined) db.set("tasks", []).save();
+    if (db.get("times").value() === undefined) db.set("times", []).save();
     if (db.get("resetDaily").value() === undefined) db.set("resetDaily", '').save();
     if (db.get("resetWeekly").value() === undefined) db.set("resetWeekly", '').save();
     if (db.get("groupeEnCours").value() === undefined) db.set("groupeEnCours", 1).save();
@@ -13,41 +12,23 @@ jQuery(function() {
     if (db.get("counterChaos").value() === undefined || db.get("counterChaos").value() == null) db.set("counterChaos", 0).save();
     if (db.get("counterRaid").value() === undefined || db.get("counterRaid").value() == null) db.set("counterRaid", 0).save();
     if (db.get("counterLegion").value() === undefined || db.get("counterLegion").value() == null) db.set("counterLegion", 0).save();
-    if (db.get("progressBarDaily").value() === undefined || db.get("progressBarDaily").value() == null) db.set("progressBarDaily", [{ type: 'chaos', nb: 0, max: 6, reset: 'Quotidien', color: '#1562b9' }, { type: 'raid', nb: 0, max: 4, reset: 'Quotidien', color: '#a14949' }, { type: 'una', nb: 0, max: 18, reset: 'Quotidien', color: 'green' }, { type: 'legion', nb: 0, max: 25, reset: 'Hebdomadaire', color: '#fd7e14' }]).save();
+    if (db.get("progressBarDaily").value() === undefined || db.get("progressBarDaily").value() == null) db.set("progressBarDaily", [{ type: 'chaos', nb: 0, max: 12, reset: 'Quotidien', color: '#1562b9' }, { type: 'raid', nb: 0, max: 4, reset: 'Quotidien', color: '#a14949' }, { type: 'una', nb: 0, max: 24, reset: 'Quotidien', color: 'green' }, { type: 'legion', nb: 0, max: 25, reset: 'Hebdomadaire', color: '#fd7e14' }]).save();
 
-    reset();
+    resetHebdomadaire();
+    resetQuotidien();
 });
 
-function reset() {
-    let reload = false;
-    
-    // Reset quotidien
+function resetQuotidien() {
     if (db.get('resetDaily').value() != moment().format('DD/MM/YYYY') && moment().format("HH") > 10) {
         db.get('resetDaily').set(moment().format('DD/MM/YYYY'));
         db.save();
 
-        db.get("taches").value().forEach(function (task, i) {
+        db.get("tasks").value().forEach(function (task, i) {
             if (task.reset == 'Quotidien') {
-                findIndexChecklistByTask(task).forEach(function (j) {
-                    if (task.id == 'chaosdonjon' || task.id == 'unadaily' || task.id == 'raidguardian') {
-                        let checklist = db.get("checklist").get(j).value();
-                        let notdone = parseInt(task.repetition) - parseInt(checklist.done);
-                        let newrest = parseInt(checklist.rest) + (notdone * 10);
-                        if (newrest > 100) newrest = 100;
-    
-                        if (notdone > 0) {
-                            db.get("checklist")
-                                .get(j)
-                                .get('rest')
-                                .set(newrest);
-                        }
-                    }
-                    
-                    db.get("checklist")
-                        .get(j)
-                        .get('done')
-                        .set(0);
-                });
+                db.get("tasks")
+                    .get(i)
+                    .get('statut')
+                    .set(false);
 
                 db.save();
             }
@@ -72,39 +53,6 @@ function reset() {
 
         db.save();
 
-        reload = true;
-    }
-
-    // Reset weekly
-    if (db.get('resetWeekly').value() != moment().format('DD/MM/YYYY') && moment().format('E') == 3 && moment().format("HH") > 10) {
-        db.get('resetWeekly').set(moment().format('DD/MM/YYYY'));
-        db.save();
-
-        db.get("taches").value().forEach(function (task, i) {
-            if (task.reset == 'Hebdomadaire') {
-                findIndexChecklistByTask(task).forEach(function (j) {
-                    db.get("checklist")
-                        .get(j)
-                        .get('done')
-                        .set(0);
-                });
-
-                db.save();
-            }
-        });
-
-        db.get("progressBarDaily").value().forEach(function (bar, i) {
-            if (bar.reset == 'Hebdomadaire') {
-                db.get("progressBarDaily").get(i).get('nb').set(0);
-            }
-        });
-    
-        db.save();
-
-        reload = true;
-    }
-
-    if (reload) {
         window.location.reload();
     }
 }
@@ -113,28 +61,12 @@ function forceResetQuotidien() {
     db.get('resetDaily').set(moment().format('DD/MM/YYYY'));
     db.save();
 
-    db.get("taches").value().forEach(function (task, i) {
+    db.get("tasks").value().forEach(function (task, i) {
         if (task.reset == 'Quotidien') {
-            findIndexChecklistByTask(task).forEach(function (j) {
-                if (task.id == 'chaosdonjon' || task.id == 'unadaily' || task.id == 'raidguardian') {
-                    let checklist = db.get("checklist").get(j).value();
-                    let notdone = parseInt(task.repetition) - parseInt(checklist.done);
-                    let newrest = parseInt(checklist.rest) + (notdone * 10);
-                    if (newrest > 100) newrest = 100;
-
-                    if (notdone > 0) {
-                        db.get("checklist")
-                            .get(j)
-                            .get('rest')
-                            .set(newrest);
-                    }
-                }
-
-                db.get("checklist")
-                    .get(j)
-                    .get('done')
-                    .set(0);
-            });
+            db.get("tasks")
+                .get(i)
+                .get('statut')
+                .set(false);
 
             db.save();
         }
@@ -162,18 +94,42 @@ function forceResetQuotidien() {
     window.location.reload();
 }
 
+function resetHebdomadaire() {
+    if (db.get('resetWeekly').value() != moment().format('DD/MM/YYYY') && moment().format('E') == 3 && moment().format("HH") > 10) {
+        db.get('resetWeekly').set(moment().format('DD/MM/YYYY'));
+        db.save();
+
+        db.get("tasks").value().forEach(function (task, i) {
+            if (task.reset == 'Hebdomadaire') {
+                db.get("tasks")
+                    .get(i)
+                    .get('statut')
+                    .set(false);
+
+                db.save();
+            }
+        });
+
+        db.get("progressBarDaily").value().forEach(function (bar, i) {
+            if (bar.reset == 'Hebdomadaire') {
+                db.get("progressBarDaily").get(i).get('nb').set(0);
+            }
+        });
+    
+        db.save();
+    }
+}
+
 function forceResetHebdomadaire() {
     db.get('resetWeekly').set(moment().format('DD/MM/YYYY'));
     db.save();
 
-    db.get("taches").value().forEach(function (task, i) {
+    db.get("tasks").value().forEach(function (task, i) {
         if (task.reset == 'Hebdomadaire') {
-            findIndexChecklistByTask(task).forEach(function (j) {
-                db.get("checklist")
-                    .get(j)
-                    .get('done')
-                    .set(0);
-            });
+            db.get("tasks")
+                .get(i)
+                .get('statut')
+                .set(false);
 
             db.save();
         }
@@ -186,18 +142,4 @@ function forceResetHebdomadaire() {
     });
 
     db.save();
-
-    window.location.reload();
-}
-
-function findIndexChecklistByTask(task) {
-    let checklists = []
-
-    db.get("checklist").value().forEach(function (checklist, i) {
-        if (checklist.task == task.id) {
-            checklists.push(i);
-        }
-    });
-
-    return checklists;
 }

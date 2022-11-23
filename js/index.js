@@ -1,155 +1,244 @@
-// TODO
-// Reset quotidien hebdo -> gerer le repos
-
-$(document).ready(function () {
-    showCounter();
-    showProgressBar();
-    showTaches();
-});
-
-$(document).on('click', '.updateChecklist', function () {
-    let index = $(this).data('index');
-    let repetion = $(this).data('rep');
-    let type = $(this).data('type');
-    let champ = $(this).data('champ');
-    let rest = parseInt($(this).data('rest'));
-
-    let checklist = findChecklistByIndex(index);
-
-    let done = parseInt(checklist.done) + 1
-
-    db.get("checklist")
-        .get(index)
-        .get(champ)
-        .set(done);
-    db.save();
-    
-    if (rest && rest >= 20) {
-        db.get("checklist")
-            .get(index)
-            .get('rest')
-            .set(rest - 20);
-        db.save();
-        
-        $(this).data('rest', rest - 20);
-    }
-
-    if (done == repetion) {
-        $(this).addClass('done-task');
-        $(this).removeClass('td-task');
-        $(this).removeClass('pointer'); 
-        $(this).removeClass('updateChecklist');
-        $(this).removeClass('selected-border');
-        $(this).css('background-color', '');
-        $(this).css('color', '');
-        $(this).html('Done');
-    } else {
-        if (rest && rest >= 20) {
-            $(this).html(`${done} / ${repetion} (${rest - 20})`);
-        } else {
-            $(this).html(`${done} / ${repetion}`);
-        }
-    }
-
-
-    incrementeCounter(type);
-    incrementerProgressBar(type);
-});
-
-function showTaches() {
-    let body = `<tbody>`;
-    let header = `<thead><tr>`;
-    let nbperso = 0;
-    let groupeEnCours = db.get('groupeEnCours').value();
-
-    let tasks = db.get("taches").value();
-
-    tasks.sort((a, b) => b.reset.localeCompare(a.reset) || a.scope.localeCompare(b.scope) || a.ordre - b.ordre || a.nom.localeCompare(b.nom));
-
-    tasks.forEach((task, i) => {
-        
-        if (i == 0) {
-            header += `<th colspan="2" class="text-gray"><span class="badge badge-color" style="background-color: gray;color: black;">TODO</span></th>`;
-            db.get("personnages").value().forEach((perso, j) => {
-                header += `<th class="text-gray" style="text-align: center;"><img src="${perso.icone}" /><span class="badge badge-color" style="background-color: ${groupeEnCours == perso.groupe ? 'ivory' : 'gray'};color: black;">${perso.nom} [${perso.gearlevel}]</span></th>`;
-                nbperso++;
-            });
-        }
-        
-        // console.log(task);
-
-        let r = hexdec(task.color.substr(1, 2));
-        let g = hexdec(task.color.substr(3, 2));
-        let b = hexdec(task.color.substr(5, 2));
-
-        let style = '';
-
-        if (r + g + b > 382) {
-            style = `background-color: ${task.color};color: black;`;
-        } else {
-            style = `background-color: ${task.color};color: white;`;
-        }
-
-        body += `<tr><td class="text-gray"><span class="badge badge-color" style="${style}">${task.nom}</span></td><td><img style="width: 36px;" src="${task.icone}"/></td>`;
-
-        if (task.scope == 'Personnage') {
-            db.get("personnages").value().forEach((perso, j) => {
-                let indexchecklist = findIndexChecklistRestBonusByTaskAndPersonnage(task, perso);
-                let checklist = null;
-                
-                if (indexchecklist < 0) {
-                    body += `<td class="text-gray"></td>`;
-                } else {
-                    checklist = findChecklistByIndex(indexchecklist);
-                    
-                    if (!checklist.tracking) {
-                        body += `<td class="text-gray"></td>`;
-                    } else if (checklist.done >= task.repetition) {
-                        body += `<td class="text-gray"><span class="badge badge-color done-task">Done</span></td>`;
-                    } else {
-                        body += `<td class="text-gray"><span class="badge badge-color pointer updateChecklist" data-index="${indexchecklist}" data-champ="done" data-rep="${task.repetition}" data-type="${task.type}" data-prio="${checklist.prio}" data-rest="${checklist.rest}" style="${style}">${checklist.done} / ${task.repetition} ${checklist.rest > 0 ? `(${checklist.rest})` : ''}</span></td>`;
-                    }
-                }
-            });
-        } else {
-            let indexchecklist = findIndexChecklistRestBonusByTaskAndPersonnage(task, { nom: 'rooster' });
-            let checklist = null;
-
-            if (indexchecklist < 0) {
-                body += `<td colspan="${nbperso}" class="text-gray"></td>`;
-            } else {
-                checklist = findChecklistByIndex(indexchecklist);
-
-                // console.log(task, checklist, findTimeForTask(task), task.opening.length);
-                
-                if (!checklist.tracking) {
-                    body += `<td colspan="${nbperso}" class="text-gray"></td>`;
-                } else if (task.opening.length > 0 && !findTimeForTask(task)) {
-                    body += `<td colspan="${nbperso}" class="text-gray"><span class="badge badge-color done-task">Pas aujourd'hui</span></td>`;
-                } else if (checklist.done >= task.repetition) {
-                    body += `<td colspan="${nbperso}" class="text-gray"><span class="badge badge-color done-task">Done</span></td>`;
-                } else {
-                    body += `<td colspan="${nbperso}" class="text-gray"><span class="badge badge-color pointer updateChecklist" data-index="${indexchecklist}" data-champ="done" data-rep="${task.repetition}" data-type="${task.type}" data-prio="${checklist.prio}" style="${style}">${checklist.done} / ${task.repetition}</span></td>`;
-                }
+if (!Highcharts.theme) {
+    Highcharts.setOptions({
+        chart: {
+            backgroundColor: '#272727'
+        },
+        colors: ['#fd7e14', '#1562b9', '#a14949', '#198754'],
+        title: {
+            style: {
+                color: 'silver'
+            }
+        },
+        tooltip: {
+            style: {
+                color: 'silver'
             }
         }
+    });
+}
 
-        body += `</tr>`;
+$(document).ready(function () {
+    let importanceLibelle = [
+        "Importance, je n'ai pas le temps",
+        "Importance, les quetes unas c'est bien",
+        "Importance, les chaos c'est la vie",
+        "Importance, les raids c'est le challenge",
+        "Importance, le rooster complet",
+        "Importance, les alts poubelles",
+        "Importance, les quetes hebdo c'est le plus fun",
+        "Importance, toutes les quetes pour les chomeurs"
+    ];
+
+    $('#choixImportance').on('click', function () {
+        let importance = $(this).data('importance');
+        importance = (importance + 1) > 8 ? 1 : importance + 1;
+
+        $(this).data('importance', importance);
+        $('#choixImportanceLibelle').text(importanceLibelle[importance - 1]);
+
+        showTasks($('#choixImportance').data('importance'));
     });
 
-    header += `</tr></thead>`;
-    body += `</tbody>`;
+    $(document).on('click', '.divtask', function () {
+        checkTask($(this).data('id'));
+        $(`.task${$(this).data('id')}`).remove();
+    });
 
-    let html = `<table id="" class="table table-bordered table-condensed">${header}${body}</table>`;
+    showTasks($('#choixImportance').data('importance'));
+    showCounter();
+    loadCharts();
+});
 
-    $('#sectionTaches').html(html);
+/**
+ * Affichage des tâches en fonction de l'importance
+ * 
+ * @param {*} importance 
+ */
+function showTasks(importance) {
+    let tasks = getTasksFromImportance(importance);
+    let perso = '';
+    let htmlModalJournee = '';
+
+    console.log(tasks);
+
+    tasks.sort((a, b) => a.perso.localeCompare(b.perso) || a.type.localeCompare(b.type) || a.nom.localeCompare(b.nom));
+
+    tasks.forEach(function (t) {
+        let i = getIndexTask(t);
+        let color = getColorFromTask(t);
+
+        if (perso != t.perso) {
+            if (perso != '') {
+                htmlModalJournee += `</div></div>`;
+            }
+
+            let p = getPersoFromName(t.perso);
+
+            htmlModalJournee += `
+                <div class="${t.perso}">
+                    <div class="card mb-3 box-shadow-concave ${p.groupe == db.get("groupeEnCours").value() ? 'text-lightgray' : 'text-gray'} pointer" data-bs-toggle="collapse" data-bs-target="#collapse${t.perso}">
+                        <div class="d-flex">
+                            <div class="card-body" style="width: 100%;text-align: center;">
+                            ${t.perso} - ${p.gearlevel}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-3 box-shadow-concave text-gray collapse show" id="collapse${t.perso}">
+                    `;
+
+            perso = t.perso;
+        }
+
+        // if (prio > t.prioTask) {
+        //     prio = t.prioTask;
+        //     id = i;
+        // }
+
+        // if (t.type == "Procyon's compass") {
+        //     t.type = "Event";
+        // }
+
+        htmlModalJournee += `
+        <div id="task${i}" class="divtask pointer flex-grow-1 ${t.reset} ${t.type.replace(/ /g, "_")} ${color} task${i}" data-id="${i}" data-prio="${t.prio}">
+            <div class="d-flex">
+                <div class="card-body">
+                    ${t.nom}
+                </div>
+            </div>
+        </div>`;
+    });
+
+    $('#sectionListeTaches').html(htmlModalJournee);
 }
 
-function hexdec(hexString) {
-    hexString = (hexString + '').replace(/[^a-f0-9]/gi, '')
-    return parseInt(hexString, 16)
+/**
+ * Validation d'une tâche
+ * 
+ * @param {*} index 
+ */
+function checkTask(index) {
+
+    if (db.get('tasks').get(index).get('reset').value() == 'Unique') {
+        db.get("tasks").get(index).delete(true);
+        db.save();
+    } else {
+        db.get("tasks")
+            .get(index)
+            .get('statut')
+            .set(true);
+        db.save();
+
+        let task = db.get("tasks").get(index).value();
+
+        if (task.type.includes('Una') && task.reset == 'Quotidien') {
+            incrementeCounter('counterUna');
+            incrementerProgressBar('una');
+        } else if (task.type.includes('chaos')) {
+            incrementeCounter('counterChaos');
+            incrementerProgressBar('chaos');
+        } else if (task.type.includes('gardien')) {
+            incrementeCounter('counterRaid');
+            incrementerProgressBar('raid');
+        } else if (task.type.includes('légion')) {
+            incrementeCounter('counterLegion');
+            incrementerProgressBar('legion');
+        }
+    }
 }
 
+/**
+ * Récupération des tâches qui ont une horaire d'ouverture
+ * 
+ * @returns Tasks[]
+ */
+function getEventTask() {
+    let eventTasks = [];
+
+    db.get("tasks").value().forEach(function (task) {
+        if (task.opening && task.opening.length > 0) eventTasks.push(task);
+    });
+
+    return eventTasks;
+}
+
+/**
+ * Récupération de l'id d'une tâche
+ * 
+ * @param {*} task 
+ * 
+ * @returns int
+ */
+function getIndexTask(task) {
+    let index = 0;
+
+    db.get("tasks").value().forEach(function (t, i) {
+        if (task == t) index = i;
+    });
+
+    return index;
+}
+
+/**
+ * Récupération d'un caractère en fonction du nom
+ * @param {*} nom
+ * 
+ * @returns 
+ */
+function getPersoFromName(nom) {
+    let perso = null;
+
+    db.get("persos").value().forEach(function (p) {
+        if (p.nom == nom) perso = p;
+    });
+
+    return perso;
+}
+
+/**
+ * Récupération d'une couleur en fonction du type de tâche
+ * 
+ * @param {*} task 
+ * 
+ * @returns string : color
+ */
+function getColorFromTask(task) {
+
+    if (task.type.includes('Una')) {
+        return 'bl-green';
+    } else if (task.type.includes('chaos')) {
+        return 'bl-darkblue';
+    } else if (task.type.includes('guilde')) {
+        return 'bl-purple';
+    } else if (task.type.includes('gardien')) {
+        return 'bl-darkred';
+    } else if (task.type.includes('Procyon') || task.type.includes('Event') || task.type.includes('Evénement')) {
+        return 'bl-orange';
+    }
+
+    switch (task.reset) {
+        case 'Quotidien':
+            return 'bl-red';
+        case 'Hebdomadaire':
+            return 'bl-blue';
+        default:
+            return 'bl-gray';
+    }
+}
+
+/**
+ * Incrémentation d'un compteur
+ * @param {*} counter 
+ */
+function incrementeCounter(counter) {
+    db.get(counter).set(parseInt(db.get(counter).value()) + 1);
+    db.save();
+
+    showCounter();
+}
+
+/**
+ * Affichage des compteurs
+ */
 function showCounter() {
     $('#counterUna').html(db.get('counterUna').value());
     $('#counterChaos').html(db.get('counterChaos').value());
@@ -157,68 +246,10 @@ function showCounter() {
     $('#counterLegion').html(db.get('counterLegion').value());
 }
 
-function showProgressBar() {
-    db.get("progressBarDaily").value().forEach(function (bar) {
-        let width = (bar.nb * 100) / bar.max;
-
-        if (width > 100) {
-            width = 100;
-        }
-
-        $(`#progress${bar.type}`).html(`<div class="progress-bar" style="width: ${width}%; background-color: ${bar.color};"></div>`);
-    });
-}
-
-function rangeSlide(value) {
-    console.log(value);
-    // document.getElementById('rangeValue').innerHTML = value;
-
-    if (value > 0) {
-        $('.updateChecklist').removeClass('selected-border');
-    
-        $('.updateChecklist').each(function (index) {
-            let prio = $(this).data('prio')
-            // console.log(index + ": " + $(this).data('prio'));
-    
-            if (value >= prio) {
-                $(this).addClass('selected-border');
-            }
-        });
-    }
-}
-
-function incrementeCounter(type) {
-    // console.log(type)
-    switch (type) {
-        case 'chaos':
-            counter = 'counterChaos';
-            break;
-
-        case 'raid':
-            counter = 'counterRaid';
-            break;
-
-        case 'una':
-            counter = 'counterUna';
-            break;
-
-        case 'legion':
-            counter = 'counterLegion';
-            break;
-    
-        default:
-            break;
-    }
-    
-    db.get(counter).set(parseInt(db.get(counter).value()) + 1);
-    db.save();
-
-    $('#counterUna').html(db.get('counterUna').value());
-    $('#counterChaos').html(db.get('counterChaos').value());
-    $('#counterRaid').html(db.get('counterRaid').value());
-    $('#counterLegion').html(db.get('counterLegion').value());
-}
-
+/**
+ * Incrémentation des progress bars
+ * @param {*} type 
+ */
 function incrementerProgressBar(type) {
     let index = -1;
     let nb = 0
@@ -238,17 +269,216 @@ function incrementerProgressBar(type) {
         db.save();
     }
 
-    showProgressBar();
+    loadCharts();
 }
 
-function findTimeForTask(task) {
-    let result = false;
-    
-    db.get("horaires").value().forEach(function (time, i) {
-        if (time.type == task.opening && moment().isoWeekday() == time.day) {
-            result = true;
+function getValueProgress(type) {
+    let bar = null;
+
+    db.get("progressBarDaily").value().forEach(function (b) {
+        if (b.type == type) bar = b;
+    });
+
+    return parseInt(((((bar.nb * 100) / bar.max) > 100) ? 100 : ((bar.nb * 100) / bar.max)).toFixed(0));
+}
+
+/**
+ * Récupération de la liste des tâches en fonction de l'importance choisi
+ * 
+ * @param {*} importance 
+ * 
+ * @returns Tasks[]
+ */
+function getTasksFromImportance(importance) {
+    let persosPrincipaux = [];
+    let persosSecondaire = [];
+    let persosTertiaire = [];
+    let eventTasksDaily = [];
+    let tasks = [];
+
+    // On catégorise les caractères par importance
+    // Principaux : Main / Rooster / Rotation en cours
+    // Secondaire : Alts du rooster qui ne font pas parti de la rotation en cours
+    // Tertiaire : Alt en dehors du rooster, ex : alts lopang
+    db.get("persos").value().forEach(function (p) {
+        if (p.classe == 'Rooster' || p.groupe == 'Main' || p.groupe == db.get("groupeEnCours").value()) {
+            persosPrincipaux.push(p.nom);
+        } else if (p.groupe <= 3) {
+            persosSecondaire.push(p.nom);
+        } else {
+            persosTertiaire.push(p.nom);
         }
     });
 
-    return result;
+    console.log(persosPrincipaux, persosSecondaire, persosTertiaire);
+
+    // Récupération des tâches avec une horaire d'ouverture
+    let eventTasks = getEventTask();
+
+    eventTasks.forEach(function (task) {
+        db.get("times").value().forEach(function (time) {
+            // console.log(task.opening, time.type)
+            if (task.opening == time.type) {
+                if (moment().isoWeekday() == time.day && !task.statut) {
+                    if (!eventTasksDaily.some(t => t.nom === task.nom)) {
+                        eventTasksDaily.push(task);
+                    }
+                }
+            }
+        });
+    });
+
+    // console.log(eventTasksDaily)
+
+    eventTasksDaily.forEach(function (task) {
+        tasks.push(task);
+    });
+    // console.log(importance)
+
+    db.get("tasks").value().forEach(function (task) {
+        // console.log(task)
+
+        // if ((task.importance != '' && task.importance <= importance && (persosPrincipaux.includes(task.perso) || importance >= 8) && !task.statut)) {
+        //     console.log(task)
+        // }
+
+        if (task.opening == '' && (
+            (task.importance != '' && task.importance <= importance && (persosPrincipaux.includes(task.perso) || importance >= 8) && !task.statut)
+            // Récupération Weekly Una Task
+            || (importance >= 3 && task.type == 'Récupération Una Hebdo' && !task.statut)
+            // Other
+            || (importance >= 5 && persosSecondaire.includes(task.perso) && (task.type.includes('Una') || task.type.includes('guilde')) && !task.statut)
+            // More
+            || (importance >= 6 && task.prio < 200 && task.reset != 'Hebdomadaire' && !task.statut)
+            // Weekly
+            || (importance >= 7 && task.reset == 'Hebdomadaire' && !task.statut && task.type != 'Récupération Una Hebdo'))
+        ) tasks.push(task);
+    });
+
+    return tasks;
+}
+
+function loadCharts() {
+    Highcharts.chart('container-graphique', {
+
+        chart: {
+            type: 'solidgauge',
+            height: '60%'
+        },
+
+        exporting: {
+            enabled: false
+        },
+
+        title: {
+            text: 'Daily Stuff',
+            style: {
+                fontSize: '14px',
+                color: '#7c7c7c'
+            }
+        },
+
+        tooltip: {
+            borderWidth: 0,
+            backgroundColor: 'none',
+            shadow: false,
+            style: {
+                fontSize: '10px'
+            },
+            valueSuffix: '%',
+            pointFormat: '{series.name}<br><span style="font-size:2em; color: {point.color}; font-weight: bold">{point.y}</span>',
+            positioner: function (labelWidth) {
+                return {
+                    x: (this.chart.chartWidth - labelWidth) / 2,
+                    y: (this.chart.plotHeight / 2) + 15
+                };
+            }
+        },
+
+        pane: {
+            startAngle: 0,
+            endAngle: 360,
+            background: [{ // Track for Move
+                outerRadius: '113%',
+                innerRadius: '95%',
+                backgroundColor: Highcharts.color(Highcharts.getOptions().colors[0])
+                    .setOpacity(0.3)
+                    .get(),
+                borderWidth: 0
+            }, { // Track for Move
+                outerRadius: '94%',
+                innerRadius: '76%',
+                backgroundColor: Highcharts.color(Highcharts.getOptions().colors[1])
+                    .setOpacity(0.3)
+                    .get(),
+                borderWidth: 0
+            }, { // Track for Exercise
+                outerRadius: '75%',
+                innerRadius: '57%',
+                backgroundColor: Highcharts.color(Highcharts.getOptions().colors[2])
+                    .setOpacity(0.3)
+                    .get(),
+                borderWidth: 0
+            }, { // Track for Stand
+                outerRadius: '56%',
+                innerRadius: '38%',
+                backgroundColor: Highcharts.color(Highcharts.getOptions().colors[3])
+                    .setOpacity(0.3)
+                    .get(),
+                borderWidth: 0
+            }]
+        },
+
+        yAxis: {
+            min: 0,
+            max: 100,
+            lineWidth: 0,
+            tickPositions: []
+        },
+
+        plotOptions: {
+            solidgauge: {
+                dataLabels: {
+                    enabled: false
+                },
+                linecap: 'round',
+                stickyTracking: false,
+                rounded: true
+            }
+        },
+
+        series: [{
+            name: 'Legion Raid',
+            data: [{
+                color: Highcharts.getOptions().colors[0],
+                radius: '113%',
+                innerRadius: '95%',
+                y: getValueProgress('legion')
+            }]
+        }, {
+            name: 'Chaos',
+            data: [{
+                color: Highcharts.getOptions().colors[1],
+                radius: '94%',
+                innerRadius: '76%',
+                y: getValueProgress('chaos')
+            }]
+        }, {
+            name: 'Raid',
+            data: [{
+                color: Highcharts.getOptions().colors[2],
+                radius: '75%',
+                innerRadius: '57%',
+                y: getValueProgress('raid')
+            }]
+        }, {
+            name: 'Una',
+            data: [{
+                color: Highcharts.getOptions().colors[3],
+                radius: '56%',
+                innerRadius: '38%',
+                y: getValueProgress('una')
+            }]
+        }]
+    });
 }

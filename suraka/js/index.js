@@ -12,6 +12,7 @@ $(document).on('click', '.updateChecklist', function () {
     let repetion = $(this).data('rep');
     let type = $(this).data('type');
     let champ = $(this).data('champ');
+    let rest = parseInt($(this).data('rest'));
 
     let checklist = findChecklistByIndex(index);
 
@@ -22,18 +23,34 @@ $(document).on('click', '.updateChecklist', function () {
         .get(champ)
         .set(done);
     db.save();
+    
+    if (rest && rest >= 20) {
+        db.get("checklist")
+            .get(index)
+            .get('rest')
+            .set(rest - 20);
+        db.save();
+        
+        $(this).data('rest', rest - 20);
+    }
 
     if (done == repetion) {
         $(this).addClass('done-task');
         $(this).removeClass('td-task');
         $(this).removeClass('pointer'); 
-        $(this).removeClass('updateChecklist'); 
+        $(this).removeClass('updateChecklist');
+        $(this).removeClass('selected-border');
         $(this).css('background-color', '');
         $(this).css('color', '');
         $(this).html('Done');
     } else {
-        $(this).html(`${done} / ${repetion}`);
+        if (rest && rest >= 20) {
+            $(this).html(`${done} / ${repetion} (${rest - 20})`);
+        } else {
+            $(this).html(`${done} / ${repetion}`);
+        }
     }
+
 
     incrementeCounter(type);
     incrementerProgressBar(type);
@@ -90,7 +107,7 @@ function showTaches() {
                     } else if (checklist.done >= task.repetition) {
                         body += `<td class="text-gray"><span class="badge badge-color done-task">Done</span></td>`;
                     } else {
-                        body += `<td class="text-gray"><span class="badge badge-color pointer updateChecklist" data-index="${indexchecklist}" data-champ="done" data-rep="${task.repetition}" data-type="${task.type}" style="${style}">${checklist.done} / ${task.repetition}</span></td>`;
+                        body += `<td class="text-gray"><span class="badge badge-color pointer updateChecklist" data-index="${indexchecklist}" data-champ="done" data-rep="${task.repetition}" data-type="${task.type}" data-prio="${checklist.prio}" data-rest="${checklist.rest}" style="${style}">${checklist.done} / ${task.repetition} ${checklist.rest > 0 ? `(${checklist.rest})` : ''}</span></td>`;
                     }
                 }
             });
@@ -112,7 +129,7 @@ function showTaches() {
                 } else if (checklist.done >= task.repetition) {
                     body += `<td colspan="${nbperso}" class="text-gray"><span class="badge badge-color done-task">Done</span></td>`;
                 } else {
-                    body += `<td colspan="${nbperso}" class="text-gray"><span class="badge badge-color pointer updateChecklist" data-index="${indexchecklist}" data-champ="done" data-rep="${task.repetition}" data-type="${task.type}" style="${style}">${checklist.done} / ${task.repetition}</span></td>`;
+                    body += `<td colspan="${nbperso}" class="text-gray"><span class="badge badge-color pointer updateChecklist" data-index="${indexchecklist}" data-champ="done" data-rep="${task.repetition}" data-type="${task.type}" data-prio="${checklist.prio}" style="${style}">${checklist.done} / ${task.repetition}</span></td>`;
                 }
             }
         }
@@ -153,19 +170,21 @@ function showProgressBar() {
 }
 
 function rangeSlide(value) {
-    // console.log(value);
+    console.log(value);
     // document.getElementById('rangeValue').innerHTML = value;
 
-    $('.tdborder-task').removeClass('selected-border');
-
-    $('.tdborder-task').each(function (index) {
-        let prio = $(this).data('prio')
-        // console.log(index + ": " + $(this).data('prio'));
-
-        if (value > prio) {
-            $(this).addClass('selected-border');
-        }
-    });
+    if (value > 0) {
+        $('.updateChecklist').removeClass('selected-border');
+    
+        $('.updateChecklist').each(function (index) {
+            let prio = $(this).data('prio')
+            // console.log(index + ": " + $(this).data('prio'));
+    
+            if (value >= prio) {
+                $(this).addClass('selected-border');
+            }
+        });
+    }
 }
 
 function incrementeCounter(type) {

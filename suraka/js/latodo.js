@@ -29,6 +29,20 @@ function reset() {
         db.get("taches").value().forEach(function (task, i) {
             if (task.reset == 'Quotidien') {
                 findIndexChecklistByTask(task).forEach(function (j) {
+                    if (task.id == 'chaosdonjon' || task.id == 'unadaily' || task.id == 'raidguardian') {
+                        let checklist = db.get("checklist").get(j).value();
+                        let notdone = parseInt(task.repetition) - parseInt(checklist.done);
+                        let newrest = parseInt(checklist.rest) + (notdone * 10);
+                        if (newrest > 100) newrest = 100;
+    
+                        if (notdone > 0) {
+                            db.get("checklist")
+                                .get(j)
+                                .get('rest')
+                                .set(newrest);
+                        }
+                    }
+                    
                     db.get("checklist")
                         .get(j)
                         .get('done')
@@ -102,6 +116,20 @@ function forceResetQuotidien() {
     db.get("taches").value().forEach(function (task, i) {
         if (task.reset == 'Quotidien') {
             findIndexChecklistByTask(task).forEach(function (j) {
+                if (task.id == 'chaosdonjon' || task.id == 'unadaily' || task.id == 'raidguardian') {
+                    let checklist = db.get("checklist").get(j).value();
+                    let notdone = parseInt(task.repetition) - parseInt(checklist.done);
+                    let newrest = parseInt(checklist.rest) + (notdone * 10);
+                    if (newrest > 100) newrest = 100;
+
+                    if (notdone > 0) {
+                        db.get("checklist")
+                            .get(j)
+                            .get('rest')
+                            .set(newrest);
+                    }
+                }
+
                 db.get("checklist")
                     .get(j)
                     .get('done')
